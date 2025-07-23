@@ -6,7 +6,7 @@ export default {
     theme: {
         extend: {
             colors: {
-                heading: '#00a264',
+                primary: '#00a264',
             },
             fontFamily: {
                 montserrat: 'Montserrat, sans-serif',
