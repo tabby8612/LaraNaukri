@@ -1,0 +1,25 @@
+import { SVGProps } from 'react';
+
+export function Job(props: SVGProps<SVGSVGElement>) {
+    return (
+        <svg
+            fill="#00a264"
+            width="1em"
+            height="1em"
+            viewBox="0 0 512.00 512.00"
+            id="_x30_1"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="#00a264"
+            strokeWidth="0.00512"
+            transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)"
+            {...props}
+        >
+            <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="1.024"></g>
+            <g id="SVGRepo_iconCarrier">
+                <path d="M452,120h-76C376,53.726,322.274,0,256,0h0c-66.274,0-120,53.726-120,120H60c-33.137,0-60,26.863-60,60v272 c0,33.137,26.863,60,60,60h392c33.137,0,60-26.863,60-60V180C512,146.863,485.137,120,452,120z M256,60c33.137,0,60,26.863,60,60 H196C196,86.863,222.863,60,256,60z M402,260v20c0,16.569-13.431,30-30,30h0c-16.569,0-30-13.431-30-30v-20H170v20 c0,16.569-13.431,30-30,30h0c-16.569,0-30-13.431-30-30v-20c-16.569,0-30-13.431-30-30s13.431-30,30-30h292 c16.569,0,30,13.431,30,30S418.569,260,402,260z"></path>
+            </g>
+        </svg>
+    );
+}

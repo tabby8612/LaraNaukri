@@ -1,4 +1,5 @@
-import { BadgeDollarSign, MapPin } from 'lucide-react';
+import { Job } from '@/SVGs/Job';
+import { MapPin } from 'lucide-react';
 
 type Props = {
     imageUrl: string;
@@ -11,7 +12,7 @@ export default function Companycard({ imageUrl, name, location, openJobs }: Prop
     return (
         <div
             id="companycard"
-            className="hover:border-primary cursor-pointer rounded-lg border-2 p-3 transition-all delay-75 duration-300 hover:-translate-y-2"
+            className="cursor-pointer rounded-lg border-2 p-3 transition-all delay-75 duration-300 hover:-translate-y-2 hover:border-primary hover:shadow-lg"
         >
             <div className="flex gap-5">
                 <div>
@@ -24,8 +25,8 @@ export default function Companycard({ imageUrl, name, location, openJobs }: Prop
                     </p>
                 </div>
             </div>
-            <div className="mt-4 flex gap-1 text-gray-800/50">
-                <BadgeDollarSign />
+            <div className="mt-4 flex items-center gap-1 text-gray-800/50">
+                <Job />
                 <p>{`${openJobs} Open Jobs`}</p>
             </div>
         </div>
