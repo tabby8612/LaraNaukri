@@ -13,7 +13,7 @@ export default function Latestjobs() {
         {
             id: 2,
             imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/company_logos/no-image.png',
-            title: 'Officer/Senior Officer Supply Chain',
+            title: 'Senior Officer Supply Chain',
             company: 'Lucky Cement',
             type: 'Contract',
             city: 'Fairbanks',

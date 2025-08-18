@@ -63,7 +63,7 @@ export default function JobCatgorySlider() {
             jobs: 3,
         },
         {
-            id: 1,
+            id: 9,
             imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/functional_area/logo-design_755.png',
             name: 'Logo Design',
             jobs: 3,
@@ -75,7 +75,7 @@ export default function JobCatgorySlider() {
             <div className="relative mx-auto w-11/12">
                 <Swiper slidesPerView={7} loop={true} spaceBetween={15} modules={[Navigation]} className="mySwiper" navigation={true}>
                     {categories.map((category) => (
-                        <SwiperSlide>
+                        <SwiperSlide key={category.id}>
                             {
                                 <JobCategoryCard
                                     key={category.id}

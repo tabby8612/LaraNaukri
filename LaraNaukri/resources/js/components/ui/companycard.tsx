@@ -12,20 +12,20 @@ export default function Companycard({ imageUrl, name, location, openJobs }: Prop
     return (
         <div
             id="companycard"
-            className="cursor-pointer rounded-lg border-2 p-3 transition-all delay-75 duration-300 hover:-translate-y-2 hover:border-primary hover:shadow-lg"
+            className="cursor-pointer rounded-lg border-2 px-3 py-4 transition-all delay-75 duration-300 hover:-translate-y-2 hover:border-primary hover:shadow-lg"
         >
             <div className="flex gap-5">
                 <div>
                     <img src={imageUrl} alt={name} className="size-16 rounded-full" />
                 </div>
                 <div>
-                    <h1 className="font-montserrat text-lg font-bold">{name}</h1>
-                    <p className="text-primary">
+                    <h1 className="text-md h-8 py-2 font-montserrat leading-4 font-semibold">{name}</h1>
+                    <p className="my-3 text-sm text-primary">
                         <MapPin className="inline-block size-5" /> {location}
                     </p>
                 </div>
             </div>
-            <div className="mt-4 flex items-center gap-1 text-gray-800/50">
+            <div className="mt-5 flex items-center gap-1 text-gray-800/50">
                 <Job />
                 <p>{`${openJobs} Open Jobs`}</p>
             </div>
