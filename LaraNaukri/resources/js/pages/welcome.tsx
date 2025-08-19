@@ -1,24 +1,26 @@
-import BlogPostSection from '@/components/BlogPostSection';
-import Calltoaction from '@/components/calltoaction';
-import JobCategories from '@/components/categoriesSection';
-import FeaturedCandidateSection from '@/components/FeaturedCandidateSection';
-import Footer from '@/components/Footer';
-import Hero from '@/components/hero';
-import HowItWork from '@/components/HowItWork';
-import JobsByCities from '@/components/JobsByCities';
-import JobsByCountrySection from '@/components/JobsByCountrySection';
-import Latestjobs from '@/components/latestjobs';
-import Nav from '@/components/nav';
-import SuccessStorySection from '@/components/SuccessStorySection';
-import Topcompanies from '@/components/topcompanies';
+import BlogPostSection from '@/components/sections/BlogPostSection';
+import Calltoaction from '@/components/sections/calltoaction';
+import JobCategories from '@/components/sections/categoriesSection';
+import FeaturedCandidateSection from '@/components/sections/FeaturedCandidateSection';
+import FeaturedJobsSection from '@/components/sections/FeaturedJobsSection';
+import Hero from '@/components/sections/hero';
+import HowItWork from '@/components/sections/HowItWork';
+import JobsByCities from '@/components/sections/JobsByCities';
+import JobsByCountrySection from '@/components/sections/JobsByCountrySection';
+import JobsByIndustrySection from '@/components/sections/JobsByIndustrySection';
+import Latestjobs from '@/components/sections/latestjobs';
+import SuccessStorySection from '@/components/sections/SuccessStorySection';
+import Topcompanies from '@/components/sections/topcompanies';
+import AppLayout from '@/layouts/app/app-layout';
 
 export default function Welcome() {
     return (
-        <>
-            <Nav />
+        <AppLayout>
             <Hero />
             <Calltoaction />
             <Topcompanies />
+            <JobsByIndustrySection />
+            <FeaturedJobsSection />
             <JobCategories />
             <Latestjobs />
             <JobsByCities />
@@ -27,7 +29,6 @@ export default function Welcome() {
             <SuccessStorySection />
             <JobsByCountrySection />
             <BlogPostSection />
-            <Footer />
-        </>
+        </AppLayout>
     );
 }

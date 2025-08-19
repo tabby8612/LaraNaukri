@@ -16,6 +16,18 @@
     --color-primary: oklch(62.7% 0.194 149.214);
 }
 
+/* transition-colors delay-100 duration-500 hover:bg-primary hover:text-white */
+@layer components {
+    .hoverEffect {
+        @apply cursor-pointer bg-white transition-colors delay-100 duration-500 hover:bg-primary hover:text-white;
+    }
+
+    /* after:absolute after:bottom-[-10px] after:left-0 after:h-1 after:w-full after:bg-primary */
+    .activeNav {
+        @apply text-primary after:absolute after:bottom-[-10px] after:left-0 after:h-1 after:w-full after:rounded-full after:bg-primary;
+    }
+}
+
 .swiper-button-prev,
 .swiper-button-next {
     color: red !important;
