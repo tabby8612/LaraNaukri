@@ -2,10 +2,15 @@ export default function PostJobCTA() {
     return (
         <div
             id="postjobctr"
-            className="group flex w-1/2 cursor-pointer justify-between rounded-lg border bg-gray-300/50 px-5 py-6 transition-colors delay-75 duration-500 hover:bg-white"
+            className="group flex cursor-pointer justify-between rounded-lg border bg-gray-300/50 px-5 py-6 transition-colors delay-75 duration-500 hover:bg-white"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="radix-«r9»"
+            data-state="closed"
+            data-slot="dialog-trigger"
         >
             <div>
-                <h1 className="group-hover:text-primary font-montserrat text-3xl font-bold transition-colors delay-75 duration-500">
+                <h1 className="font-montserrat text-3xl font-bold transition-colors delay-75 duration-500 group-hover:text-primary">
                     Post a Job Today
                 </h1>
                 <p className="text-lg text-gray-500/80">Discover ideal candidate for your team</p>

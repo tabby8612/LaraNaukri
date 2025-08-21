@@ -10,7 +10,7 @@ export default function Hero() {
                     job you've always wanted!
                 </p>
                 <h2 className="mt-20 font-montserrat text-lg font-bold">Search Jobs</h2>
-                <div id="jobsearch" className="border-primary flex w-11/12 items-center rounded-lg border-2 px-2">
+                <div id="jobsearch" className="flex w-11/12 items-center rounded-lg border-2 border-primary px-2">
                     <form className="flex gap-4">
                         <div className="group relative my-auto w-5/12">
                             <input
@@ -18,8 +18,13 @@ export default function Hero() {
                                 name="jobtitle"
                                 className="w-full px-2 py-3 outline-0 hover:outline-0"
                                 placeholder="Enter Skill or Job Title"
+                                onChange={(e) => {
+                                    if (e.target.value.length > 2) {
+                                        console.log(e.target.value);
+                                    }
+                                }}
                             />
-                            <div className="absolute right-0 top-1/2 h-10 w-[1px] -translate-y-1/2 bg-gray-400 transition-opacity duration-300 group-focus-within:opacity-0" />
+                            <div className="absolute top-1/2 right-0 h-10 w-[1px] -translate-y-1/2 bg-gray-400 transition-opacity duration-300 group-focus-within:opacity-0" />
                         </div>
 
                         <select name="job categories" id="categories" className="w-5/12 px-4 outline-0 active:outline-0">
@@ -27,7 +32,7 @@ export default function Hero() {
                             <option value="option2">Option 2</option>
                             <option value="option3">Option 3 Option 3 Option 3 Option 4 Option 4</option>
                         </select>
-                        <button className="bg-primary my-2 ml-4 rounded-r-lg px-4 py-3 text-white">{<SearchIcon />}</button>
+                        <button className="my-2 ml-4 rounded-r-lg bg-primary px-4 py-3 text-white">{<SearchIcon />}</button>
                     </form>
                 </div>
             </div>

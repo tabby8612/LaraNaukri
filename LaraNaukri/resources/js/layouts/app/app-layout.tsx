@@ -2,10 +2,10 @@ import Nav from '@/components/nav';
 import Footer from '@/components/sections/Footer';
 import { PropsWithChildren } from 'react';
 
-export default function AppLayout({ children }: PropsWithChildren) {
+export default function AppLayout({ page, children }: PropsWithChildren<{ page: string }>) {
     return (
         <>
-            <Nav />
+            <Nav page={page} />
             {children}
             <Footer />
         </>

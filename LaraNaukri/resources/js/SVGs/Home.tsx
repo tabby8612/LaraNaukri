@@ -1,0 +1,9 @@
+import { SVGProps } from 'react';
+
+export function Home(props: SVGProps<SVGSVGElement>) {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="1em" height="1em" {...props}>
+            <path fill="currentColor" d="m16 9.226l-8-6.21l-8 6.21V6.694l8-6.21l8 6.21zM14 9v6h-4v-4H6v4H2V9l6-4.5z"></path>
+        </svg>
+    );
+}

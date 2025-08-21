@@ -3,14 +3,14 @@ import { SVGProps } from 'react';
 export function Job(props: SVGProps<SVGSVGElement>) {
     return (
         <svg
-            fill="#00a264"
+            fill="currentColor"
             width="1em"
             height="1em"
             viewBox="0 0 512.00 512.00"
             id="_x30_1"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
-            stroke="#00a264"
+            stroke="currentColor"
             strokeWidth="0.00512"
             transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)"
             {...props}

@@ -15,7 +15,7 @@ import AppLayout from '@/layouts/app/app-layout';
 
 export default function Welcome() {
     return (
-        <AppLayout>
+        <AppLayout page="home">
             <Hero />
             <Calltoaction />
             <Topcompanies />
