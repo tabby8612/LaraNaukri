@@ -84,6 +84,7 @@ export default function Topcompanies() {
                         location={company.location}
                         name={company.name}
                         openJobs={company.openJobs}
+                        id={company.id}
                     />
                 ))}
             </div>

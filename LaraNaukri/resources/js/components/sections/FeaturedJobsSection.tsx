@@ -68,9 +68,14 @@ export default function FeaturedJobsSection() {
             </div>
 
             <div className="my-10 flex justify-center">
-                <button className="rounded-lg bg-primary px-5 py-3 text-center font-sans text-xl font-semibold tracking-wider text-white transition-colors duration-500 hover:bg-black">
+                <a
+                    href={route('search.jobs', {
+                        is_featured: 1,
+                    })}
+                    className="cursor-pointer rounded-lg bg-primary px-5 py-3 text-center font-sans text-xl font-semibold tracking-wider text-white transition-colors duration-500 hover:bg-black"
+                >
                     View All Featured Jobs
-                </button>
+                </a>
             </div>
         </section>
     );

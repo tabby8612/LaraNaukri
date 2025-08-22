@@ -7,9 +7,13 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-Route::get("/search-jobs", function () {
+Route::get("/search-jobs", function (Request $request) {
     return Inertia::render("search-jobs");
 })->name("search.jobs");
+
+Route::get("/job/{name}-{id}", function (Request $request) {
+    return Inertia::render("job-view");
+})->name("job.view");
 
 Route::get("/companies", function () {
     return Inertia::render("companies");
@@ -38,6 +42,19 @@ Route::get("/company-login", function () {
 Route::get("/company-register", function () {
     return Inertia::render("company-register");
 })->name("company.register");
+
+Route::get("/company/{name}-{id}", function () {
+    return Inertia::render("company-view");
+})->name("company.view");
+
+Route::get("/email-to-friend/{name}-{id}", function () {
+    return Inertia::render("email-to-friend");
+})->name("email.friend");
+
+Route::get("/report-abuse/{name}-{id}", function () {
+    return Inertia::render("report-abuse");
+})->name("report.abuse");
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {

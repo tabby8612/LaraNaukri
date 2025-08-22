@@ -1,4 +1,5 @@
 import { Job } from '@/SVGs/Job';
+import { router } from '@inertiajs/react';
 
 type Props = {
     imageUrl: string;
@@ -10,6 +11,12 @@ type Props = {
 export default function JobCategoryCard({ imageUrl, name, jobs, id }: Props) {
     function categoryHandler(id: string) {
         console.log(id);
+
+        return router.get(
+            route('search.jobs', {
+                functional_area_id: id,
+            }),
+        );
     }
 
     return (

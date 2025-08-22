@@ -9,24 +9,46 @@ type JobsProps = {
     location: string;
     postedDate: string;
     companyName: string;
+    companyID?: string;
     companyImageURL: string;
     salary?: string | number;
     featured?: boolean;
+    JobID?: string;
 };
 
-export default function FeaturedJobCard({ title, type, location, postedDate, companyName, companyImageURL, salary, featured }: JobsProps) {
+export default function FeaturedJobCard({
+    title,
+    type,
+    location,
+    postedDate,
+    companyName,
+    companyImageURL,
+    salary,
+    featured,
+    companyID = '1',
+    JobID = '1',
+}: JobsProps) {
     return (
-        <Card className="relative gap-0 rounded-4xl border-gray-300 p-5 shadow-2xs transition-all delay-100 duration-300 hover:translate-y-[-12px] hover:border-primary hover:shadow-xl">
+        <Card className="relative gap-0 rounded-4xl border-gray-300 p-5 shadow-2xs transition-all delay-100 duration-300 hover:translate-y-[-7px] hover:border-primary hover:shadow-xl">
             {featured && (
                 <div className="bg-transparent before:absolute before:top-0 before:right-0 before:rounded-tr-4xl before:border-t-[50px] before:border-l-[50px] before:border-t-red-500 before:border-l-transparent">
                     <LightningBolt className="absolute top-2 right-3 text-white" />
                 </div>
             )}
             <div className="flex items-center gap-2">
-                <Job className="size-5.5 p-1 text-white" />
+                <Job className="size-5.5 p-1 text-primary" />
                 <p className="">{type}</p>
             </div>
-            <h1 className="mt-4 font-montserrat text-lg font-semibold">{title}</h1>
+            <h1 className="mt-4 font-montserrat text-lg font-semibold transition-colors delay-100 duration-300 hover:text-primary">
+                <a
+                    href={route('job.view', {
+                        name: title.toLowerCase().replaceAll(' ', '-'),
+                        id: JobID,
+                    })}
+                >
+                    {title}
+                </a>
+            </h1>
 
             {salary && (
                 <div className="mt-3 flex items-center gap-2">
@@ -43,7 +65,14 @@ export default function FeaturedJobCard({ title, type, location, postedDate, com
             <div className="mt-4 flex items-center justify-between rounded-xl bg-gray-200/60 px-3 py-3">
                 <div>
                     <p>{postedDate}</p>
-                    <p className="font-montserrat font-bold">{companyName}</p>
+                    <a
+                        href={route('company.view', {
+                            name: companyName.toLowerCase().replaceAll(' ', '-'),
+                            id: companyID,
+                        })}
+                    >
+                        <p className="font-montserrat font-bold transition-colors delay-100 duration-300 hover:text-primary">{companyName}</p>
+                    </a>
                 </div>
                 <img src={companyImageURL} alt={companyName} className="size-16 rounded-full border-4 border-white" />
             </div>
