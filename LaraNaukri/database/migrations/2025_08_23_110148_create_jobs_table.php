@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Company;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->enum("gender", ["male", "female"]);
             $table->string("degree");
             $table->timestamp("apply_before");
+            $table->foreignIdFor(Company::class);
             $table->boolean("is_open");
             $table->string("description");
             $table->string("benefits");

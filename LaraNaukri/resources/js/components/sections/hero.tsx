@@ -1,8 +1,12 @@
 import { SearchIcon } from 'lucide-react';
+import { useEffect } from 'react';
 import HeroImg from '/public/storage/HeroImage.jpg';
 
 export default function Hero() {
-    console.log(HeroImg);
+    useEffect(() => {
+        const promise = fetch(route('get-categories')).then((data) => console.log(data));
+        console.log(promise);
+    }, []);
 
     return (
         <section id="hero" className="mt-16 flex px-14 py-10">

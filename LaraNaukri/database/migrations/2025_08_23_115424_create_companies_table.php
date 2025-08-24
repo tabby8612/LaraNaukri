@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Industry;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,10 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string("name");
+            $table->string("email")->unique();
+            $table->string("password");
             $table->string("location");
+            $table->foreignIdFor(Industry::class);
             $table->string("image_path");
             $table->string("description");
             $table->timestamp("founded");
