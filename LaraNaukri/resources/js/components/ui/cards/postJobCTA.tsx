@@ -1,3 +1,5 @@
+import postJobImg from '/public/storage/postjob.png';
+
 export default function PostJobCTA() {
     return (
         <div
@@ -16,7 +18,7 @@ export default function PostJobCTA() {
                 <p className="text-lg text-gray-500/80">Discover ideal candidate for your team</p>
             </div>
             <div>
-                <img src="https://www.sharjeelanjum.com/demos/jobsportal-update/images/postjob.png" alt="post job" className="size-16" />
+                <img src={postJobImg} alt="post job" className="size-16" />
             </div>
         </div>
     );

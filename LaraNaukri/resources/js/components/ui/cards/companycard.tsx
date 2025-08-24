@@ -10,6 +10,7 @@ type Props = {
 };
 
 export default function Companycard({ id, imageUrl, name, location, openJobs }: Props) {
+    const baseURL = 'http://127.0.0.1:5173/storage/app/public';
     return (
         <a
             href={route('company.view', {
@@ -21,7 +22,7 @@ export default function Companycard({ id, imageUrl, name, location, openJobs }: 
         >
             <div className="flex gap-5">
                 <div>
-                    <img src={imageUrl} alt={name} className="size-16 rounded-full" />
+                    <img src={`${baseURL + imageUrl}`} alt={name} className="size-16 rounded-full" />
                 </div>
                 <div>
                     <h1 className="text-md h-8 py-2 font-montserrat leading-4 font-semibold">{name}</h1>

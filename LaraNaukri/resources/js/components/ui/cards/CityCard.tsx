@@ -17,7 +17,12 @@ export default function CityCard({ imageUrl, cityName, jobs, id }: Props) {
                 <h2 className="text-4xl transition-transform duration-500 group-hover:translate-y-[-20px]">{cityName}</h2>
                 <div className="opacity-0 transition-all duration-500 group-hover:opacity-100">
                     <p className="border-2 border-white px-5 py-3 text-center">({jobs}) Open Jobs</p>
-                    <a href={`http://google.com/${id}`} className="absolute top-0 left-0 block h-full w-full text-[0px] opacity-100">
+                    <a
+                        href={route('search.jobs', {
+                            city_id: id,
+                        })}
+                        className="absolute top-0 left-0 block h-full w-full text-[0px] opacity-100"
+                    >
                         View Jobs
                     </a>
                 </div>

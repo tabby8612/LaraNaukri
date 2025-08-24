@@ -13,7 +13,7 @@ export default function FeaturedCandidateCard({ imageUrl, name, profession, loca
     return (
         <div
             id="featuredProfileCard"
-            className="relative flex flex-col items-center justify-center gap-4 overflow-x-visible overflow-y-hidden rounded-lg border-2 border-gray-200 p-3 transition-all delay-75 duration-300 hover:border-green-800 hover:bg-gradient-to-r hover:from-gray-100 hover:to-green-100 hover:shadow-xl"
+            className="relative flex h-fit flex-col items-center justify-center gap-4 overflow-x-visible overflow-y-hidden rounded-lg border-2 border-gray-200 p-3 transition-all delay-75 duration-300 hover:border-green-800 hover:bg-gradient-to-r hover:from-gray-100 hover:to-green-100 hover:shadow-xl"
         >
             <div
                 id="featuredRibbon"

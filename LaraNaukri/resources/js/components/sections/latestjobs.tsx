@@ -85,9 +85,12 @@ export default function Latestjobs() {
                 ))}
             </div>
             <div className="my-10 flex justify-center">
-                <button className="rounded-lg bg-primary px-5 py-3 text-center font-sans text-xl font-semibold tracking-wider text-white transition-colors duration-500 hover:bg-black">
+                <a
+                    href={route('search.jobs')}
+                    className="rounded-lg bg-primary px-5 py-3 text-center font-sans text-xl font-semibold tracking-wider text-white transition-colors duration-500 hover:bg-black"
+                >
                     View All Latest Jobs
-                </button>
+                </a>
             </div>
         </section>
     );

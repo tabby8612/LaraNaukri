@@ -1,6 +1,9 @@
 import { SearchIcon } from 'lucide-react';
+import HeroImg from '/public/storage/HeroImage.jpg';
 
 export default function Hero() {
+    console.log(HeroImg);
+
     return (
         <section id="hero" className="mt-16 flex px-14 py-10">
             <div id="herotext" className="w-10/12 overflow-hidden">
@@ -37,7 +40,7 @@ export default function Hero() {
                 </div>
             </div>
             <div id="heroimage" className="">
-                <img src="https://www.sharjeelanjum.com/demos/jobsportal-update/images/search-bg_1741804553.jpg" alt="search job" />
+                <img src={HeroImg} alt="search job" />
             </div>
         </section>
     );

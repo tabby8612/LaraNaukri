@@ -1,3 +1,4 @@
+import SearchImg from '/public/storage/search-job-icon.png';
 export default function SearchJobCTA() {
     return (
         <div
@@ -11,7 +12,7 @@ export default function SearchJobCTA() {
                 <p className="text-lg text-gray-500/80">Discover a career you are passionate about</p>
             </div>
             <div>
-                <img src="https://www.sharjeelanjum.com/demos/jobsportal-update/images/search-job-icon.png" alt="Search job" className="size-16" />
+                <img src={SearchImg} alt="Search job" className="size-16" />
             </div>
         </div>
     );

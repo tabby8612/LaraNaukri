@@ -83,9 +83,12 @@ export default function FeaturedCandidateSection() {
                 </Swiper>
             </div>
             <div className="mt-15 flex justify-center">
-                <button className="rounded-lg bg-primary px-5 py-3 text-center font-sans text-xl font-semibold tracking-wider text-white transition-colors duration-500 hover:bg-black">
+                <a
+                    href={route('job.seekers')}
+                    className="rounded-lg bg-primary px-5 py-3 text-center font-sans text-xl font-semibold tracking-wider text-white transition-colors duration-500 hover:bg-black"
+                >
                     View All Candidates
-                </button>
+                </a>
             </div>
         </section>
     );

@@ -55,6 +55,18 @@ Route::get("/report-abuse/{name}-{id}", function () {
     return Inertia::render("report-abuse");
 })->name("report.abuse");
 
+Route::get("/featured-companies", function() {
+    return Inertia::render("featured-companies");
+})->name("featured.companies");
+
+Route::get("/all-categories", function() {
+    return Inertia::render("all-categories");
+})->name("all.categories");
+
+Route::get("/job-seekers", function() {
+    return Inertia::render("job-seekers");
+})->name("job.seekers");
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {

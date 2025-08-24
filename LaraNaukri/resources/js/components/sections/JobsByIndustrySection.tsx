@@ -63,7 +63,7 @@ export default function JobsByIndustrySection() {
             <div className="mx-auto size-10/12">
                 <ul className="flex flex-wrap items-center justify-center gap-3">
                     {industries.map((industry) => (
-                        <li className="hoverEffect rounded-md border-l border-l-primary px-3 py-1.5">
+                        <li className="hoverEffect rounded-md border-l border-l-primary px-3 py-1.5" key={industry.id}>
                             <a
                                 href={route('search.jobs', {
                                     industry_id: industry.id,
@@ -73,15 +73,6 @@ export default function JobsByIndustrySection() {
                             </a>
                         </li>
                     ))}
-                    <li className="hoverEffect rounded-md border-l border-l-primary px-3 py-1.5">
-                        <a
-                            href={route('search.jobs', {
-                                industry_id: 2,
-                            })}
-                        >
-                            Fashion (3)
-                        </a>
-                    </li>
                 </ul>
             </div>
         </section>
