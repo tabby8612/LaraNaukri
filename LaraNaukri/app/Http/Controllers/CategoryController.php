@@ -14,9 +14,20 @@ class CategoryController extends Controller
     {
         //
         
-        $categories = Category::all("name");
-        dd($categories);
+        $categories = Category::all("name");        
+        
+        $categoriesClean = [];
 
-        return json_encode($categories);
+        foreach ($categories->values() as $value) {
+            # code...
+            $categoriesClean[] = $value;
+        }
+
+        
+        
+
+        return response()->json([
+            "categories" => $categoriesClean
+        ]);
     }
 }

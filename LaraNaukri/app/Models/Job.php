@@ -15,7 +15,7 @@ class Job extends Model
     protected $table = "jobs_listings";
 
     public function companies():BelongsTo {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class, "company_id");
     }
 
     public function skills(): HasMany {

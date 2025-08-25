@@ -41,3 +41,11 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export type Company = {
+    id: number;
+    image_path: string;
+    location: string;
+    name: string;
+    open_jobs: number;
+};
