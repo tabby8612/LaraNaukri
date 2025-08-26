@@ -49,3 +49,56 @@ export type Company = {
     name: string;
     open_jobs: number;
 };
+
+type Job = {
+    title: string;
+    type: string;
+    location: string;
+    postedDate: string;
+    companyName: string;
+    companyID?: string;
+    companyImageURL: string;
+    salary?: string | number;
+    featured?: boolean;
+    JobID?: string;
+};
+
+type Category = {
+    id: string;
+    name: string;
+    image_path: string;
+    jobs_count: number;
+};
+
+type City = {
+    id: number;
+    name: string;
+    image_path: string;
+    jobs_count: number;
+};
+
+type Country = {
+    id: string;
+    name: string;
+    jobs_count: number;
+};
+
+type Candidate = {
+    id: string;
+    name: string;
+    image_path: string;
+    profession: string;
+    city: string;
+    career_level: string;
+    is_featured: number;
+};
+
+type BlogPost = {
+    id: string;
+    title: string;
+    slug: string;
+    featured_image_path: string;
+    description: string;
+    category: string;
+    posted_at: string;
+};

@@ -7,10 +7,10 @@ type Props = {
     city: string;
 };
 
-export default function Latestjobcard({ imageUrl, title, company, type, city, id = '1' }: Props) {
+export default function Latestjobcard({ imageUrl, title, company, type, city, id }: Props) {
     return (
         <div className="flex cursor-pointer gap-5 rounded-xl border p-3 transition-all duration-300 hover:border-primary hover:shadow-xl">
-            <img src={imageUrl} alt="" className="size-24 rounded-lg" />
+            <img src={`/storage/${imageUrl}`} alt="" className="size-24 rounded-lg" />
             <div className="w-full">
                 <a
                     href={route('job.view', {

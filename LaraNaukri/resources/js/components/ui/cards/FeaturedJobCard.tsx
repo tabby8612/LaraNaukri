@@ -74,7 +74,7 @@ export default function FeaturedJobCard({
                         <p className="font-montserrat font-bold transition-colors delay-100 duration-300 hover:text-primary">{companyName}</p>
                     </a>
                 </div>
-                <img src={companyImageURL} alt={companyName} className="size-16 rounded-full border-4 border-white" />
+                <img src={`/storage/${companyImageURL}`} alt={companyName} className="size-16 rounded-full border-4 border-white" />
             </div>
         </Card>
     );

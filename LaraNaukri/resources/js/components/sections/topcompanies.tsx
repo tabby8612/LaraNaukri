@@ -3,18 +3,17 @@ import { useEffect, useState } from 'react';
 import Companycard from '../ui/cards/companycard';
 
 export default function Topcompanies() {
-    const url = route('top.companies');
     const [companiesData, setCompaniesData] = useState<Company[] | null>(null);
 
     useEffect(() => {
         async function topCompanies() {
-            const response = await fetch(url);
+            const response = await fetch(route('top.companies'));
             const data = await response.json();
             setCompaniesData(data.data);
         }
 
         topCompanies();
-    });
+    }, []);
 
     return (
         <section id="topcompanies" className="px-14 py-10">

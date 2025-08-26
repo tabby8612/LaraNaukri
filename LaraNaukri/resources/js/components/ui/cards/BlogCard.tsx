@@ -9,7 +9,7 @@ type Props = {
 export default function BlogCard({ imageUrl, date, title }: Props) {
     return (
         <div className="p-7">
-            <img src={imageUrl} alt={title} />
+            <img src={`/storage/${imageUrl}`} alt={title} />
             <div className="my-3 flex gap-2">
                 <CalendarCheck />
                 <p>{date}</p>

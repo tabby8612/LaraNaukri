@@ -1,33 +1,31 @@
+import { useEffect, useState } from 'react';
 import BlogCard from '../ui/cards/BlogCard';
+import { BlogPost } from '@/types';
 
-const BlogPosts = [
-    {
-        id: 1,
-        imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/blogs/balancing-1868051_1280_465.jpg',
-        date: '08-Aug-2024',
-        title: 'Balancing Work and Well-Being',
-    },
-    {
-        id: 2,
-        imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/blogs/post-it-notes-3233653_1280_441.jpg',
-        date: '08-Aug-2024',
-        title: 'Employee Retention Strategies That Work',
-    },
-    {
-        id: 3,
-        imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/blogs/laptop-8499942_1280_661.jpg',
-        date: '08-Aug-2024',
-        title: 'Remote Work Productivity Hacks',
-    },
-];
+
 
 export default function BlogPostSection() {
+    const [blogPostData, setblogPostData] = useState<BlogPost[] | null>(null);
+
+    useEffect(() => {
+        async function getBlogPostData() {
+            const response = await fetch(route("latest.blogposts"));
+
+            if (!response.ok) throw new Error(`Can't fetch blog posts ${response.status}`)
+
+            const data = await response.json();
+
+            setblogPostData(data.slice(0, 3));
+        }
+
+        getBlogPostData();
+    }, []);
     return (
         <section id="customerTestimonials" className="px-14 py-10">
             <h1 className="my-7 gap-3 text-center font-montserrat text-4xl font-semibold">Latest Blog Posts</h1>
             <div className="grid grid-cols-3">
-                {BlogPosts.map((blogpost) => (
-                    <BlogCard title={blogpost.title} date={blogpost.date} imageUrl={blogpost.imageUrl} key={blogpost.id} />
+                {blogPostData && blogPostData.map((blogpost) => (
+                    <BlogCard title={blogpost.title} date={blogpost.posted_at} imageUrl={blogpost.featured_image_path} key={blogpost.id} />
                 ))}
             </div>
             <div className="my-10 flex justify-center">

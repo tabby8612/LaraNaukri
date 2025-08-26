@@ -14,11 +14,23 @@ class Job extends Model
 
     protected $table = "jobs_listings";
 
-    public function companies():BelongsTo {
+    public function companies(): BelongsTo
+    {
         return $this->belongsTo(Company::class, "company_id");
     }
 
-    public function skills(): HasMany {
+    public function skills(): HasMany
+    {
         return $this->hasMany(Skill::class);
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
     }
 }

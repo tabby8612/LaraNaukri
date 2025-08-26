@@ -11,64 +11,10 @@ import { Navigation } from 'swiper/modules';
 
 import JobCategoryCard from '../ui/cards/jobCategoryCard';
 import '/resources/css/app.css';
+import { Category } from '@/types';
 
-export default function JobCatgorySlider() {
-    const categories = [
-        {
-            id: 1,
-            imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/functional_area/creativity_128.png',
-            name: 'Creative Design',
-            jobs: 3,
-        },
-        {
-            id: 2,
-            imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/functional_area/admin_26.png',
-            name: 'Admin',
-            jobs: 1,
-        },
-        {
-            id: 3,
-            imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/functional_area/coding%20(1)_153.png',
-            name: 'Web Developer',
-            jobs: 3,
-        },
-        {
-            id: 4,
-            imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/functional_area/bank_241.png',
-            name: 'Bank Operations',
-            jobs: 1,
-        },
-        {
-            id: 5,
-            imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/functional_area/logo-design_755.png',
-            name: 'Graphic Design',
-            jobs: 10,
-        },
-        {
-            id: 6,
-            imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/functional_area/drugs_384.png',
-            name: 'Medicine',
-            jobs: 3,
-        },
-        {
-            id: 7,
-            imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/functional_area/admin_26.png',
-            name: 'Admin',
-            jobs: 3,
-        },
-        {
-            id: 8,
-            imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/functional_area/coding%20(1)_153.png',
-            name: 'Developer',
-            jobs: 3,
-        },
-        {
-            id: 9,
-            imageUrl: 'https://www.sharjeelanjum.com/demos/jobsportal-update/uploads/functional_area/logo-design_755.png',
-            name: 'Logo Design',
-            jobs: 3,
-        },
-    ];
+export default function JobCatgorySlider({ categories }: { categories: Category[] }) {
+
 
     return (
         <>
@@ -80,9 +26,9 @@ export default function JobCatgorySlider() {
                                 <JobCategoryCard
                                     key={category.id}
                                     id={`${category.id}`}
-                                    imageUrl={category.imageUrl}
+                                    imageUrl={category.image_path}
                                     name={category.name}
-                                    jobs={category.jobs}
+                                    jobs={category.jobs_count}
                                 />
                             }
                         </SwiperSlide>

@@ -22,7 +22,7 @@ export default function FeaturedCandidateCard({ imageUrl, name, profession, loca
                 <Star className="size-4" />
                 <p className="font-montserrat font-semibold tracking-wide">Featured</p>
             </div>
-            <img src={imageUrl} alt={name} className="mt-6 size-28 rounded-full border-8 border-white shadow-lg shadow-gray-600/50" />
+            <img src={`/storage/${imageUrl}`} alt={name} className="mt-6 size-28 rounded-full border-8 border-white shadow-lg shadow-gray-600/50" />
             <h2 className="font-montserrat text-2xl font-semibold">{name}</h2>
             <p className="text-gray-600">{profession}</p>
 

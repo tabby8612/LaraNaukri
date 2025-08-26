@@ -9,7 +9,7 @@ export default function CityCard({ imageUrl, cityName, jobs, id }: Props) {
     return (
         <figure className="group relative float-left w-[100%] max-w-md min-w-xs cursor-pointer overflow-hidden bg-green-800 text-center">
             <img
-                src={imageUrl}
+                src={imageUrl ? `/storage/${imageUrl}` : `/storage/city_images/default.png`}
                 alt={cityName}
                 className="relative block min-h-full w-full transition-transform duration-500 ease-in-out group-hover:scale-110"
             />
