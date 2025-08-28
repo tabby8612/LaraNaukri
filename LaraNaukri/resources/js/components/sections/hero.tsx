@@ -29,8 +29,8 @@ export default function Hero() {
         e.preventDefault();
         router.get(
             route('search.jobs', {
-                searchText,
-                selectedCategory,
+                title: searchText,
+                category_id: selectedCategory,
             }),
         );
     }
@@ -53,7 +53,8 @@ export default function Hero() {
                         <div className="group relative my-auto w-6/12">
                             <input
                                 type="text"
-                                name="jobtitle"
+                                name="title"
+                                id='title'
                                 className="w-11/12 px-2 py-3 outline-0 hover:outline-0"
                                 ref={searchInputText}
                                 value={searchText}

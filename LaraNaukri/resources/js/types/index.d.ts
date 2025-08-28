@@ -58,9 +58,29 @@ type Job = {
     companyName: string;
     companyID?: string;
     companyImageURL: string;
-    salary?: string | number;
+    salary_from?: string | number;
+    salary_to?: string | number;
     featured?: boolean;
     JobID?: string;
+};
+
+type FilteredJobs = {
+    id?: string;
+    title: string;
+    type: string;
+    shift: string;
+    career_level: string;
+    gender: string;
+    degree: string;
+    company: string;
+    category_id: string;
+    category: string;
+    country: string;
+    created_at: string;
+    featured: boolean;
+    companies?: Country;
+    salary_to?: number;
+    city: City;
 };
 
 type Category = {
@@ -80,6 +100,7 @@ type City = {
 type Country = {
     id: string;
     name: string;
+    image_path: string;
     jobs_count: number;
 };
 

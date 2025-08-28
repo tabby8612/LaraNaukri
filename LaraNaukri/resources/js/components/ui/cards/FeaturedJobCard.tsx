@@ -42,8 +42,7 @@ export default function FeaturedJobCard({
             <h1 className="mt-4 font-montserrat text-lg font-semibold transition-colors delay-100 duration-300 hover:text-primary">
                 <a
                     href={route('job.view', {
-                        name: title.toLowerCase().replaceAll(' ', '-'),
-                        id: JobID,
+                        slug: `${title.toLowerCase().replaceAll(' ', '-')}-${JobID}`,
                     })}
                 >
                     {title}

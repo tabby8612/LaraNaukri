@@ -19,6 +19,8 @@ Route::get('/user', function (Request $request) {
 
 Route::get("/all-categories", [CategoryController::class, "all"])->name("all.categories.api");
 
+Route::get("/all-jobs", [JobController::class, "all"])->name("all.jobs.api");
+
 Route::get("/find-jobs/{text}", [JobController::class, "findJobs"])->name("find.jobs.api");
 
 Route::get("top-companies", [CompanyController::class, "topCompanies"])->name("top.companies");
@@ -37,3 +39,4 @@ Route::get("featured-candidates", [CandidateController::class, "featuredCandidat
 
 Route::get("latest-blogposts", [BlogpostController::class, "latestBlogPosts"])->name("latest.blogposts");
 
+Route::post("filter-jobs", [JobController::class, "filterJobs"])->name("filter.jobs");

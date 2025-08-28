@@ -15,56 +15,58 @@ import {
 } from 'lucide-react';
 import { Card, CardContent } from '../card';
 import Characteristic from './Characteristic';
+import { FilteredJobs } from '@/types';
 
-const JobCharacteristics = [
-    {
-        icon: MapPin,
-        name: 'Location',
-        value: 'Barrington, New Hampshire, United States of America',
-    },
-    {
-        icon: Monitor,
-        name: 'Job Type',
-        value: 'Full Time/Permanent',
-    },
-    {
-        icon: Clock1,
-        name: 'Shift',
-        value: 'Third Shift (Night)',
-    },
-    {
-        icon: ChartBar,
-        name: 'Career Level',
-        value: 'Experienced Professional',
-    },
-    {
-        icon: Users2Icon,
-        name: 'Positions',
-        value: '4',
-    },
-    {
-        icon: RectangleEllipsis,
-        name: 'Experience',
-        value: '5 Years',
-    },
-    {
-        icon: Mars,
-        name: 'Gender',
-        value: 'Male',
-    },
-    {
-        icon: GraduationCap,
-        name: 'Degree',
-        value: 'Certification',
-    },
-    {
-        icon: Calendar,
-        name: 'Apply Before',
-        value: 'Nov 30, 2026',
-    },
-];
+export default function JobIntroCard({ jobData }: { jobData: FilteredJobs }) {
 
-export default function JobIntroCard() {
+    const JobCharacteristics = [
+        {
+            icon: MapPin,
+            name: 'Location',
+            value: jobData.location,
+        },
+        {
+            icon: Monitor,
+            name: 'Job Type',
+            value: jobData.type,
+        },
+        {
+            icon: Clock1,
+            name: 'Shift',
+            value: jobData.shift,
+        },
+        {
+            icon: ChartBar,
+            name: 'Career Level',
+            value: jobData.career_level,
+        },
+        {
+            icon: Users2Icon,
+            name: 'Positions',
+            value: jobData.positions,
+        },
+        {
+            icon: RectangleEllipsis,
+            name: 'Experience',
+            value: `${jobData.experience} years`,
+        },
+        {
+            icon: Mars,
+            name: 'Gender',
+            value: jobData.gender,
+        },
+        {
+            icon: GraduationCap,
+            name: 'Degree',
+            value: jobData.degree,
+        },
+        {
+            icon: Calendar,
+            name: 'Apply Before',
+            value: 'Nov 30, 2026',
+        },
+    ];
+
     return (
         <Card className="border border-gray-200 py-0 shadow-transparent">
             <CardContent className="my-0">

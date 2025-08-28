@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -7,13 +8,9 @@ Route::get('/', function () {
     return Inertia::render('welcome');
 })->name('home');
 
-Route::get("/search-jobs", function (Request $request) {
-    return Inertia::render("search-jobs");
-})->name("search.jobs");
+Route::get("/search-jobs", [JobController::class, "searchJobs"])->name("search.jobs");
 
-Route::get("/job/{name}-{id}", function (Request $request) {
-    return Inertia::render("job-view");
-})->name("job.view");
+Route::get("/job/{slug}", [JobController::class, "show"])->name("job.view");
 
 Route::get("/companies", function () {
     return Inertia::render("companies");
@@ -55,15 +52,15 @@ Route::get("/report-abuse/{name}-{id}", function () {
     return Inertia::render("report-abuse");
 })->name("report.abuse");
 
-Route::get("/featured-companies", function() {
+Route::get("/featured-companies", function () {
     return Inertia::render("featured-companies");
 })->name("featured.companies");
 
-Route::get("/all-categories", function() {
+Route::get("/all-categories", function () {
     return Inertia::render("all-categories");
 })->name("all.categories");
 
-Route::get("/job-seekers", function() {
+Route::get("/job-seekers", function () {
     return Inertia::render("job-seekers");
 })->name("job.seekers");
 
@@ -75,5 +72,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';

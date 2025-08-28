@@ -3,88 +3,64 @@ import Searchjobhero from '@/components/sections/searchjobhero';
 import SearchFilter from '@/components/ui/cards/SearchFilter';
 import AppLayout from '@/layouts/app/app-layout';
 import { DocumentText } from '@/SVGs/Document';
+import { FilteredJobs } from '@/types';
+import { router, usePage } from '@inertiajs/react';
 import { SearchCheckIcon } from 'lucide-react';
+import { FormEvent, useEffect, useState } from 'react';
 
-const JobsByTitle = [
-    {
-        id: 'job_title_0',
-        name: 'UI/UX Designer',
-        count: 1,
-    },
-    {
-        id: 'job_title_1',
-        name: 'IOS Developer',
-        count: 1,
-    },
-    {
-        id: 'job_title_2',
-        name: 'Electrical Engineer',
-        count: 1,
-    },
-    {
-        id: 'job_title_3',
-        name: 'PHP Developer Required',
-        count: 2,
-    },
-    {
-        id: 'job_title_4',
-        name: 'Frontend Developer',
-        count: 1,
-    },
-    {
-        id: 'job_title_5',
-        name: 'Senior Php Programer',
-        count: 1,
-    },
-];
-
-const JobsByCountry = [
-    {
-        id: 'country_166',
-        name: 'Pakistan',
-        count: 2,
-    },
-    {
-        id: 'country_231',
-        name: 'United States of America',
-        count: 16,
-    },
-];
-
-const JobsByState = [
-    {
-        id: 'state_1',
-        name: 'Islamabad - Federal Capital Area',
-        count: 2,
-    },
-    {
-        id: 'state_2',
-        name: 'Georgia',
-        count: 2,
-    },
-    {
-        id: 'country_3',
-        name: 'Florida',
-        count: 1,
-    },
-    {
-        id: 'country_4',
-        name: 'Alabama',
-        count: 3,
-    },
-    {
-        id: 'country_5',
-        name: 'Delware',
-        count: 5,
-    },
-    {
-        id: 'country_6',
-        name: 'Indiana',
-        count: 1,
-    },
-];
+type CustomPageProps = {
+    filteredJobs: FilteredJobs[] | undefined;
+}
 
 export default function SearchJobs() {
+    const props = usePage<CustomPageProps>().props;
+    const { filteredJobs } = props;
+    const [allJobs, setAllJobs] = useState<FilteredJobs[] | null>(null);
+
+
+    useEffect(() => {
+        async function getAllJobs() {
+            const response = await fetch(route('all.jobs.api'));
+
+            if (!response.ok) throw new Error('Unable to fetch data');
+
+            const data = await response.json();
+
+            console.log(data);
+
+            setAllJobs(data);
+        }
+
+        getAllJobs();
+    }, []);
+
+
+
+    /**
+     * this function is responible for sending POST request to ask for filtered data
+     * @param e FormEvent
+     * @returns null
+     *
+     */
+
+    function handleSubmit(e: FormEvent) {
+        e.preventDefault();
+
+        const buttons = document.querySelectorAll<HTMLButtonElement>("button[role='checkbox'][data-state='checked']");
+
+        const selectedItems: Record<string, string[]> = {}
+        buttons.forEach(item => {
+            if (!selectedItems[item.dataset.filter!]) {
+                selectedItems[item.dataset.filter!] = [item.value];
+            } else {
+                selectedItems[item.dataset.filter!].push(item.value);
+            }
+        });
+
+        router.post(route("filter.jobs"), selectedItems);
+
+    }
+
     return (
         <AppLayout page="jobs">
             <Searchjobhero />
@@ -94,28 +70,27 @@ export default function SearchJobs() {
                         <DocumentText />
                         <p className="">Upload Your Document</p>
                     </div>
+                    <form onSubmit={e => handleSubmit(e)}>
+                        {allJobs && <SearchFilter widgetTitle="title" data={allJobs} filterKey="title" />}
+                        {allJobs && <SearchFilter widgetTitle="type" data={allJobs} filterKey="type" />}
+                        {allJobs && <SearchFilter widgetTitle="shift" data={allJobs} filterKey="shift" />}
+                        {allJobs && <SearchFilter widgetTitle="Functional Area" data={allJobs} filterKey="category" />}
+                        {allJobs && <SearchFilter widgetTitle="gender" data={allJobs} filterKey="gender" />}
+                        {allJobs && <SearchFilter widgetTitle="degree" data={allJobs} filterKey="degree" />}
+                        {allJobs && <SearchFilter widgetTitle="country" data={allJobs} filterKey="country" />}
+                        {allJobs && <SearchFilter widgetTitle="company" data={allJobs} filterKey="company" />}
+                        {allJobs && <SearchFilter widgetTitle="city" data={allJobs} filterKey="city" />}
+                        {allJobs && <SearchFilter widgetTitle="career_level" data={allJobs} filterKey="career_level" />}
 
-                    <SearchFilter title="Jobs By Title" filterItems={JobsByTitle} />
-                    <SearchFilter title="Jobs By Country" filterItems={JobsByCountry} />
-                    <SearchFilter title="Jobs By State" filterItems={JobsByState} />
-                    <SearchFilter title="Jobs By City" filterItems={JobsByTitle} />
-                    <SearchFilter title="Jobs By Experience" filterItems={JobsByTitle} />
-                    <SearchFilter title="Jobs By Job Type" filterItems={JobsByTitle} />
-                    <SearchFilter title="Jobs By Job Shift" filterItems={JobsByTitle} />
-                    <SearchFilter title="Jobs By Career Level" filterItems={JobsByTitle} />
-                    <SearchFilter title="Jobs By Degree Level" filterItems={JobsByTitle} />
-                    <SearchFilter title="Jobs By Gender" filterItems={JobsByTitle} />
-                    <SearchFilter title="Jobs By Industry" filterItems={JobsByTitle} />
-                    <SearchFilter title="Jobs By Skills" filterItems={JobsByTitle} />
-                    <SearchFilter title="Jobs By Functional Area" filterItems={JobsByTitle} />
-                    <SearchFilter title="Jobs By Company" filterItems={JobsByTitle} />
+                        {allJobs && (<button className="flex cursor-pointer items-center justify-center gap-3 bg-primary px-3 py-3 text-lg font-semibold text-white">
+                            <SearchCheckIcon />
+                            <p className="">Search Job</p>
+                        </button>)}
 
-                    <div className="flex cursor-pointer items-center justify-center gap-3 bg-primary px-3 py-3 text-lg font-semibold text-white">
-                        <SearchCheckIcon />
-                        <p className="">Search Job</p>
-                    </div>
+
+                    </form>
                 </div>
-                <JobSearchResults />
+                <JobSearchResults jobs={filteredJobs} />
             </section>
         </AppLayout>
     );
