@@ -43,7 +43,7 @@ export default function JobIntroCard({ jobData }: { jobData: FilteredJobs }) {
         {
             icon: Users2Icon,
             name: 'Positions',
-            value: jobData.positions,
+            value: `${jobData.positions}`,
         },
         {
             icon: RectangleEllipsis,
@@ -63,7 +63,7 @@ export default function JobIntroCard({ jobData }: { jobData: FilteredJobs }) {
         {
             icon: Calendar,
             name: 'Apply Before',
-            value: 'Nov 30, 2026',
+            value: jobData.apply_before,
         },
     ];
 
@@ -83,8 +83,7 @@ export default function JobIntroCard({ jobData }: { jobData: FilteredJobs }) {
             <div className="mt-2 flex gap-5 rounded-b-xl bg-stone-100 px-6 py-4">
                 <a
                     href={route('email.friend', {
-                        name: 'title',
-                        id: '1',
+                        slug: jobData.slug,
                     })}
                 >
                     <Button className="group h-fit cursor-pointer rounded-2xl border border-primary bg-transparent px-7 py-3 transition-colors delay-75 duration-300 hover:bg-primary">
@@ -101,8 +100,7 @@ export default function JobIntroCard({ jobData }: { jobData: FilteredJobs }) {
                 </Button>
                 <a
                     href={route('report.abuse', {
-                        name: 'title',
-                        id: '1',
+                        slug: jobData.slug
                     })}
                 >
                     <Button className="group h-fit cursor-pointer rounded-2xl border border-red-500 bg-transparent px-7 py-3 transition-colors delay-75 duration-300 hover:bg-red-500">

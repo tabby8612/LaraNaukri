@@ -1,20 +1,19 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+Route::get('/', [HomeController::class, "index"])->name('home');
 
 Route::get("/search-jobs", [JobController::class, "searchJobs"])->name("search.jobs");
 
 Route::get("/job/{slug}", [JobController::class, "show"])->name("job.view");
 
-Route::get("/companies", function () {
-    return Inertia::render("companies");
-})->name("companies");
+Route::get("/companies", [CompanyController::class, "index"])->name("companies");
 
 Route::get("/blog", function () {
     return Inertia::render("blog");
@@ -40,15 +39,13 @@ Route::get("/company-register", function () {
     return Inertia::render("company-register");
 })->name("company.register");
 
-Route::get("/company/{name}-{id}", function () {
-    return Inertia::render("company-view");
-})->name("company.view");
+Route::get("/company/{slug}", [CompanyController::class, "show"])->name("company.view");
 
-Route::get("/email-to-friend/{name}-{id}", function () {
+Route::get("/email-to-friend/{slug}", function () {
     return Inertia::render("email-to-friend");
 })->name("email.friend");
 
-Route::get("/report-abuse/{name}-{id}", function () {
+Route::get("/report-abuse/{slug}", function () {
     return Inertia::render("report-abuse");
 })->name("report.abuse");
 
@@ -56,9 +53,7 @@ Route::get("/featured-companies", function () {
     return Inertia::render("featured-companies");
 })->name("featured.companies");
 
-Route::get("/all-categories", function () {
-    return Inertia::render("all-categories");
-})->name("all.categories");
+Route::get("/all-categories", [CategoryController::class, "index"])->name("all.categories");
 
 Route::get("/job-seekers", function () {
     return Inertia::render("job-seekers");

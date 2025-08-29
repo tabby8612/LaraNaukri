@@ -4,6 +4,7 @@ import FeaturedJobCard from '../ui/cards/FeaturedJobCard';
 
 
 export default function JobSearchResults({ jobs }: { jobs: FilteredJobs[] | undefined }) {
+    console.log(jobs);
     return (
         <div id="job-results" className="w-3/4">
             {
@@ -28,7 +29,7 @@ export default function JobSearchResults({ jobs }: { jobs: FilteredJobs[] | unde
                         JobID={job.id}
                         companyName={job.companies!.name}
                         companyImageURL={job.companies!.image_path}
-                        location={job.city.name}
+                        location={job.location}
                         postedDate={job.created_at}
                         title={job.title}
                         type={job.type}

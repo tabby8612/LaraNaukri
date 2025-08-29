@@ -30,7 +30,7 @@ export default function Hero() {
         router.get(
             route('search.jobs', {
                 title: searchText,
-                category_id: selectedCategory,
+                category: selectedCategory,
             }),
         );
     }

@@ -9,6 +9,7 @@ export default function Topcompanies() {
         async function topCompanies() {
             const response = await fetch(route('top.companies'));
             const data = await response.json();
+            console.log(data);
             setCompaniesData(data.data);
         }
 
@@ -28,6 +29,7 @@ export default function Topcompanies() {
                             name={company.name}
                             openJobs={company.open_jobs}
                             id={company.id}
+                            slug={company.slug}
                         />
                     ))}
             </div>

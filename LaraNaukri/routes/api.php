@@ -40,3 +40,5 @@ Route::get("featured-candidates", [CandidateController::class, "featuredCandidat
 Route::get("latest-blogposts", [BlogpostController::class, "latestBlogPosts"])->name("latest.blogposts");
 
 Route::post("filter-jobs", [JobController::class, "filterJobs"])->name("filter.jobs");
+
+Route::get("related-jobs", [JobController::class, "relatedJobs"])->name("related.jobs.api");

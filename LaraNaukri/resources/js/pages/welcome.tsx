@@ -12,27 +12,18 @@ import Latestjobs from '@/components/sections/latestjobs';
 import SuccessStorySection from '@/components/sections/SuccessStorySection';
 import Topcompanies from '@/components/sections/topcompanies';
 import AppLayout from '@/layouts/app/app-layout';
-import { Job } from '@/types';
-import { useEffect, useState } from 'react';
+import { FilteredJobs } from '@/types';
+import { usePage } from '@inertiajs/react';
+
+
+type HomeProps = {
+    jobs: FilteredJobs[]
+}
 
 export default function Welcome() {
-    const [latestJobs, setLatestJobs] = useState<Job[] | null>(null);
-    const [featuredJobs, setFeaturedJobs] = useState<Job[] | null>(null);
+    const props = usePage<HomeProps>().props;
+    const { jobs } = props;
 
-    useEffect(() => {
-        async function getLatestJobs() {
-            const response = await fetch(route('latest.jobs'));
-
-            if (!response.ok) throw new Error('Unable to fetch data');
-
-            const data = await response.json();
-
-            setLatestJobs(data.results.slice(0, 9));
-            setFeaturedJobs(data.results.filter((job: Job) => job.featured).slice(0, 8));
-        }
-
-        getLatestJobs();
-    }, []);
 
     return (
         <AppLayout page="home">
@@ -40,9 +31,9 @@ export default function Welcome() {
             <Calltoaction />
             <Topcompanies />
             <JobsByIndustrySection />
-            {featuredJobs && <FeaturedJobsSection jobs={featuredJobs} />}
+            {jobs && <FeaturedJobsSection jobs={jobs} />}
             <JobCategories />
-            {latestJobs && <Latestjobs jobs={latestJobs} />}
+            {jobs && <Latestjobs jobs={jobs} />}
             <JobsByCities />
             <FeaturedCandidateSection />
             <HowItWork />

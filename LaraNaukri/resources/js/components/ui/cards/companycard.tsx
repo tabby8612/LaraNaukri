@@ -7,14 +7,14 @@ type Props = {
     location: string;
     openJobs: number;
     id: number;
+    slug: string
 };
 
-export default function Companycard({ id, imageUrl, name, location, openJobs }: Props) {
+export default function Companycard({ imageUrl, name, location, openJobs, slug }: Props) {
     return (
         <a
             href={route('company.view', {
-                name: name.toLowerCase().replaceAll(' ', '-'),
-                id: id,
+                slug: slug
             })}
             id="companycard"
             className="cursor-pointer rounded-lg border-2 px-3 py-4 transition-all delay-75 duration-300 hover:-translate-y-2 hover:border-primary hover:shadow-lg"
@@ -31,7 +31,7 @@ export default function Companycard({ id, imageUrl, name, location, openJobs }: 
                     </p>
                 </div>
             </div>
-            <div className="flex items-center gap-1 text-gray-800/50">
+            <div className="flex items-center gap-2 text-gray-800/50 mt-3">
                 <Job />
                 <p>{`${openJobs} Open Jobs`}</p>
             </div>

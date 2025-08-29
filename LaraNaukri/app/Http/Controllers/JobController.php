@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Country;
 use App\Models\Job;
 use Carbon\Carbon;
@@ -13,7 +14,7 @@ use Termwind\Components\Raw;
 
 class JobController extends Controller
 {
-    //
+    // ------------------ <API CALLS> -----------------------
 
     public function findJobs(Request $request)
     {
@@ -31,25 +32,9 @@ class JobController extends Controller
         $latestJobs = Job::with("companies")
             ->where("is_open", "=", 1)
             ->latest()
-            ->get()
-            ->mapWithKeys(function ($job, $index) {
-                $dt = $job->created_at;
-                return [
-                    $index => [
-                        "JobID" => $job->id,
-                        "title" => $job->title,
-                        "type" => $job->type,
-                        "location" => $job->location,
-                        "postedDate" => "{$dt->day}/{$dt->month}/{$dt->year}",
-                        "companyName" => $job->companies->name,
-                        "companyID" => $job->companies->id,
-                        "companyImageURL" => $job->companies->image_path,
-                        "salaryFrom" => $job->salary_from,
-                        "salaryTo" => $job->salary_to,
-                        "featured" => $job->is_featured,
-                    ]
-                ];
-            });
+            ->get();
+
+
 
         return response()->json([
             "results" => $latestJobs
@@ -58,21 +43,41 @@ class JobController extends Controller
 
     public function searchJobs(Request $request)
     {
-        $filters = $request->only(["title", "category_id"]);
+
+        $filters = $request->only(["title", "category", "industry_id", "is_featured", "city_id", "country_id"]);
 
         $query = Job::with(["city", "companies:id,name,image_path"]);
 
-        foreach ($filters as $key => $value) {
-            switch ($key) {
-                case 'title':
-                    $query->where($key, "like", "%$value%");
-                    break;
-                default:
-                    $query->where($key, "=", $value);
-                    break;
-            }
 
+        if ($request->title) {
+            $query->where("title", "like", "%$request->title%");
         }
+
+        if ($request->category) {
+            $categoryID = Category::where("name", "=", $request->category)->firstOrFail()->id;
+            $query->where("category_id", "=", $categoryID);
+        }
+
+        if ($request->industry_id) {
+            $query->join("companies", "jobs_listings.company_id", "=", "companies.id")
+                ->join("industries", "companies.industry_id", "=", "industries.id")
+                ->where("industries.id", "=", $request->industry_id);
+        }
+
+        if ($request->is_featured) {
+            $query->where("is_featured", "=", $request->is_featured);
+        }
+
+        if ($request->city_id) {
+            $query->where("city_id", "=", $request->city_id);
+        }
+
+        if ($request->country_id) {
+            $query->join("cities", "cities.id", "=", "jobs_listings.city_id")
+                ->join("countries", "countries.id", "=", "cities.country_id")
+                ->where("country_id", "=", $request->country_id);
+        }
+
 
         $data = $query->get()->toArray();
 
@@ -151,6 +156,24 @@ class JobController extends Controller
 
     }
 
+    public function relatedJobs(Request $request)
+    {
+
+        $relatedJobs = Job::with("city", "companies:name,id,image_path")
+            ->where("category_id", "=", $request->categoryID)->get()->toArray();
+
+
+        return response()->json([
+            "results" => count($relatedJobs) ? $relatedJobs : []
+        ], 200);
+
+
+    }
+
+    // ------------------ </API CALLS> -----------------------
+
+
+    // ------------------ <WEB CALLS> -----------------------
 
     public function show(Request $request)
     {
@@ -167,5 +190,7 @@ class JobController extends Controller
 
     }
 
+
+    // ------------------ <WEB CALLS> -----------------------
 
 }

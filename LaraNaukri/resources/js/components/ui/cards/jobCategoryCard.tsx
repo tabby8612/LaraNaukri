@@ -14,7 +14,7 @@ export default function JobCategoryCard({ imageUrl, name, jobs, id }: Props) {
 
         return router.get(
             route('search.jobs', {
-                functional_area_id: id,
+                category: name,
             }),
         );
     }

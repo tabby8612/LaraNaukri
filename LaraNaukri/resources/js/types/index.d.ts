@@ -44,10 +44,17 @@ export interface User {
 
 export type Company = {
     id: number;
-    image_path: string;
-    location: string;
     name: string;
-    open_jobs: number;
+    image_path: string;
+    location?: string;
+    open_jobs?: number;
+    description?: string;
+    founded?: string;
+    company_size?: string;
+    organization_type?: string;
+    total_offices?: number;
+    slug?: string;
+    industry?: Industry;
 };
 
 type Job = {
@@ -65,8 +72,10 @@ type Job = {
 };
 
 type FilteredJobs = {
-    id?: string;
+    id: string;
     title: string;
+    salary_from: number;
+    salary_to: number;
     type: string;
     shift: string;
     career_level: string;
@@ -78,9 +87,16 @@ type FilteredJobs = {
     country: string;
     created_at: string;
     featured: boolean;
-    companies?: Country;
+    is_featured: boolean;
+    companies: Company;
     salary_to?: number;
     city: City;
+    location: string;
+    positions: number;
+    experience: number;
+    apply_before: string;
+    slug: string;
+    description: string;
 };
 
 type Category = {
@@ -102,6 +118,11 @@ type Country = {
     name: string;
     image_path: string;
     jobs_count: number;
+};
+
+type Industry = {
+    id: string;
+    name: string;
 };
 
 type Candidate = {

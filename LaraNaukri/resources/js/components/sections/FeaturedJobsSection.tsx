@@ -1,21 +1,27 @@
-import { Job } from '@/types';
+import { FilteredJobs } from '@/types';
 import FeaturedJobCard from '../ui/cards/FeaturedJobCard';
 
-export default function FeaturedJobsSection({ jobs }: { jobs: Job[] }) {
+export default function FeaturedJobsSection({ jobs }: { jobs: FilteredJobs[] }) {
+    const featuredJobs = jobs.filter(job => job.is_featured).slice(0, 8);
+
     return (
         <section id="featuredJobsSection" className="px-14 py-10">
             <h1 className="my-7 text-center font-montserrat text-4xl font-semibold">Featured Jobs</h1>
 
             <div className="grid grid-cols-4 gap-6">
-                {jobs.map((job) => (
+                {featuredJobs.map((job) => (
                     <FeaturedJobCard
                         title={job.title}
-                        companyImageURL={job.companyImageURL}
-                        companyName={job.companyName}
+                        companyImageURL={job.companies.image_path}
+                        companyName={job.companies.name}
                         location={job.location}
-                        postedDate={job.postedDate}
+                        postedDate={job.created_at}
                         type={job.type}
-                        key={job.JobID}
+                        key={job.id}
+                        JobID={job.id}
+                        featured={job.featured}
+                        salary={job.salary_to}
+                        companyID={`${job.companies.id}`}
                     />
                 ))}
             </div>

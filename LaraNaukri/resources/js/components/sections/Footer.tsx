@@ -2,6 +2,7 @@ import { Location } from '@/SVGs/Location';
 import { Email } from '@/SVGs/Mail';
 import { Facebook, Instagram, Linkedin, X, Youtube } from 'lucide-react';
 
+
 export default function Footer() {
     return (
         <>
@@ -65,14 +66,14 @@ export default function Footer() {
                     </div>
                 </div>
             </section>
-            <footer className="flex items-center justify-between p-6">
+            <footer className="flex items-center justify-between px-8 py-2">
                 <p className="text-gray-500">
                     Copyright © 2025 LaraNaukri. All Rights Reserved. Design by:{' '}
                     <a href="http://tabishsajwani.com" className="text-primary">
                         Tabish Sajwani
                     </a>
                 </p>
-                <img src="https://www.sharjeelanjum.com/demos/jobsportal-update/images/payment-icons.png" alt="payment icons" />
+                <img src={`/storage/payment_icons.png`} alt="payment icons" className='h-10' />
             </footer>
         </>
     );

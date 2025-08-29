@@ -24,8 +24,7 @@ export default function CompanyOverviewCard({ imageURL, name, companyID, locatio
                         <p className="text-primary">{location}</p>
                         <a
                             href={route('company.view', {
-                                name: name,
-                                id: companyID,
+                                slug: `${name.toLowerCase().replaceAll(' ', '-')}-${companyID}`,
                             })}
                             className="text-primary"
                         >
@@ -39,8 +38,7 @@ export default function CompanyOverviewCard({ imageURL, name, companyID, locatio
                     {description}{' '}
                     <a
                         href={route('company.view', {
-                            name: name,
-                            id: companyID,
+                            slug: `${name.toLowerCase().replaceAll(' ', '-')}-${companyID}`,
                         })}
                         className="text-primary"
                     >
@@ -48,6 +46,6 @@ export default function CompanyOverviewCard({ imageURL, name, companyID, locatio
                     </a>
                 </p>
             </CardContent>
-        </Card>
+        </Card >
     );
 }
