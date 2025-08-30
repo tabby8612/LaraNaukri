@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Industry;
 use App\Models\Job;
-use DB;
 use Barryvdh\Debugbar\Facades\Debugbar;
 
 use Illuminate\Http\Request;
@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\DB as FacadesDB;
 use Inertia\Inertia;
 use Storage;
 
-class CompanyController extends Controller
-{
+use function PHPUnit\Framework\arrayHasKey;
+
+class CompanyController extends Controller {
     //
 
     //---- API CALLS
@@ -23,8 +24,7 @@ class CompanyController extends Controller
      * api calls to retrieve top companies
      * @return \Illuminate\Http\JsonResponse
      */
-    public function topCompanies()
-    {
+    public function topCompanies() {
         $topCompanies = Job::select('company_id', FacadesDB::raw('count(*) as open_jobs'))
             ->where('is_open', 1)
             ->groupBy('company_id')
@@ -50,8 +50,7 @@ class CompanyController extends Controller
     }
 
 
-    public function show(Request $request)
-    {
+    public function show(Request $request) {
         $company = Company::with("industry")
             ->where("slug", "=", $request->slug)
             ->firstOrFail()
@@ -68,16 +67,53 @@ class CompanyController extends Controller
             "companyData" => $company,
             "openJobs" => $openJobs
         ]);
-
     }
 
-    //---- / API CALLS
-
-    //---- WEB VIEW CALLS
-    public function view()
-    {
+    //---- WEB VIEW CALLS //
 
 
+    public function index(Request $request) {
+        $filters = $request->only(["name", "country", "city", "industries"]);
+
+        $companiesQuery = Company::with("industry")->withCount("jobs");
+
+        if (isset($filters['name'])) {
+            $companiesQuery->where("name", "like", "%{$filters['name']}%");
+        }
+
+        if (isset($filters['country']) && isset($filters['city'])) {
+            $companiesQuery->where("location", "like", "%{$filters['city']}, {$filters['country']}%");
+        }
+
+        if (isset($filters['country'])) {
+            $companiesQuery->where("location", "like", "%{$filters['country']}%");
+        }
+
+        if (isset($filters['industries'])) {
+            $industries = $filters['industries'];
+
+            foreach ($industries as $key => $value) {
+                $selectedIndustryID = Industry::where("name", "like", "%$value%")->first("id")->id;
+                $companiesQuery->orwhere("industry_id", "=", $selectedIndustryID);
+            }
+        }
+
+        $companies = $companiesQuery->get()->toArray();
+
+        $industries = FacadesDB::table("jobs_listings")
+            ->select("industries.id", "industries.name", FacadesDB::raw("COUNT(*) as jobs_count"))
+            ->join("companies", "jobs_listings.company_id", "=", "companies.id")
+            ->join("industries", "industries.id", "=", "companies.industry_id")
+            ->groupBy(["industries.id", "industries.name"])
+            ->get()
+            ->toArray();
+
+        return Inertia::render("companies", [
+            "companiesData" => count($companies) ? $companies : [],
+            "industriesData" => count($industries) ? $industries : []
+        ]);
     }
+
+
 
 }

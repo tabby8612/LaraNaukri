@@ -42,3 +42,9 @@ Route::get("latest-blogposts", [BlogpostController::class, "latestBlogPosts"])->
 Route::post("filter-jobs", [JobController::class, "filterJobs"])->name("filter.jobs");
 
 Route::get("related-jobs", [JobController::class, "relatedJobs"])->name("related.jobs.api");
+
+Route::get("all-countries", [CountryController::class, "allCountries"])->name("all.countries.api");
+
+Route::get("related-cities", [CityController::class, "relatedCities"])->name("related.cities");
+
+Route::get("filtered-companies", [CompanyController::class, "filterCompanies"])->name("filter.companies.api");

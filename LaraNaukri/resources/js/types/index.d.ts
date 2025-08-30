@@ -46,15 +46,16 @@ export type Company = {
     id: number;
     name: string;
     image_path: string;
-    location?: string;
-    open_jobs?: number;
-    description?: string;
+    location: string;
+    open_jobs: number;
+    description: string;
     founded?: string;
-    company_size?: string;
-    organization_type?: string;
-    total_offices?: number;
-    slug?: string;
-    industry?: Industry;
+    company_size: string;
+    organization_type: string;
+    total_offices: number;
+    slug: string;
+    industry: Industry;
+    jobs_count: number;
 };
 
 type Job = {
@@ -123,6 +124,7 @@ type Country = {
 type Industry = {
     id: string;
     name: string;
+    jobs_count: number;
 };
 
 type Candidate = {

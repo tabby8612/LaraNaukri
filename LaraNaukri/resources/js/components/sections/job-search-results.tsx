@@ -35,6 +35,7 @@ export default function JobSearchResults({ jobs }: { jobs: FilteredJobs[] | unde
                         type={job.type}
                         featured={job.featured}
                         salary={job.salary_to}
+                        companySlug={job.companies.slug}
                     />
                 ))}
             </div>

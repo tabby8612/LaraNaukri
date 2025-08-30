@@ -4,7 +4,7 @@ import { Checkbox } from '../UnusedUI/checkbox';
 type filterItemProps = {
     name: string;
     count: number;
-    columnName: string
+    columnName: string;
 };
 
 export default function FilterItem({ name, count, columnName }: filterItemProps) {
@@ -12,9 +12,9 @@ export default function FilterItem({ name, count, columnName }: filterItemProps)
 
     function handleCheck(name: string) {
         if (!checkedItems.includes(name)) {
-            setCheckedItems(prevItems => [...prevItems, name]);
+            setCheckedItems((prevItems) => [...prevItems, name]);
         } else {
-            setCheckedItems(checkedItems.filter(item => item !== name));
+            setCheckedItems(checkedItems.filter((item) => item !== name));
         }
     }
 
@@ -22,7 +22,7 @@ export default function FilterItem({ name, count, columnName }: filterItemProps)
         <div className="my-2 flex justify-between">
             <div className="flex items-center gap-3">
                 {/* <input type="checkbox" name='job_title[]' id='job_title_0' value={name} /> */}
-                <Checkbox id={name} name={name} value={name} onCheckedChange={() => handleCheck(name)} data-filter={columnName} />
+                <Checkbox id={name} name={columnName} value={name} onCheckedChange={() => handleCheck(name)} data-filter={name} />
                 <label htmlFor={name}>{name}</label>
             </div>
             <p>{count}</p>

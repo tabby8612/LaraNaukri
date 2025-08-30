@@ -11,23 +11,17 @@ import { BriefcaseBusinessIcon, Building2Icon, CakeIcon, Landmark, Users, Verifi
 type Props = {
     companyData: Company;
     openJobs: FilteredJobs[];
-}
+};
 export default function CompanyView() {
     const props = usePage<Props>().props;
     const { companyData, openJobs } = props;
-    console.log(companyData);
-    console.log(openJobs);
-
 
     return (
         <AppLayout page="">
             <section className="mx-auto mt-18 flex w-10/12 gap-10">
                 <div className="w-7/12">
                     <CompanyIntro companyData={companyData} />
-                    <DescriptionCard
-                        type="Company"
-                        description={companyData.description}
-                    />
+                    <DescriptionCard type="Company" description={companyData.description} />
                 </div>
 
                 <div className="w-5/12">
@@ -37,7 +31,7 @@ export default function CompanyView() {
                             <div className="grid grid-cols-3 gap-3">
                                 <CompanyCharacteristic Icon={VerifiedIcon} name="Verified" value="Yes" />
                                 <CompanyCharacteristic Icon={Users} name="Company Size" value={companyData.company_size} />
-                                <CompanyCharacteristic Icon={CakeIcon} name="Founded In" value={companyData.founded.split("-")[0]} />
+                                <CompanyCharacteristic Icon={CakeIcon} name="Founded In" value={companyData.founded!.split('-')[0]} />
                                 <CompanyCharacteristic Icon={Building2Icon} name="Organization Type" value={companyData.organization_type} />
                                 <CompanyCharacteristic Icon={Landmark} name="Total Offices" value={`${companyData.total_offices}`} />
                                 <CompanyCharacteristic Icon={BriefcaseBusinessIcon} name="Opened Jobs" value={`${openJobs.length}`} />
@@ -53,7 +47,7 @@ export default function CompanyView() {
             <section className="mx-auto mt-7 w-10/12 gap-10">
                 <h1 className="my-7 font-montserrat text-2xl font-bold">Current Openings</h1>
                 <div className="my-7 grid grid-cols-4 gap-3">
-                    {openJobs.map(job => (
+                    {openJobs.map((job) => (
                         <FeaturedJobCard
                             companyImageURL={`${companyData.image_path}`}
                             companyName={companyData.name}
@@ -66,9 +60,9 @@ export default function CompanyView() {
                             JobID={job.id!}
                             featured={job.featured}
                             companyID={`${companyData.id}`}
+                            companySlug={companyData.slug}
                         />
                     ))}
-
                 </div>
             </section>
         </AppLayout>

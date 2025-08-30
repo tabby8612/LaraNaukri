@@ -12,12 +12,10 @@ use Inertia\Inertia;
 use Storage;
 use Termwind\Components\Raw;
 
-class JobController extends Controller
-{
+class JobController extends Controller {
     // ------------------ <API CALLS> -----------------------
 
-    public function findJobs(Request $request)
-    {
+    public function findJobs(Request $request) {
 
         $jobs = Job::where("title", "like", "%{$request->text}%")->get(["title", "id"]);
 
@@ -26,8 +24,7 @@ class JobController extends Controller
         ], 200);
     }
 
-    public function latestJobs(Request $request)
-    {
+    public function latestJobs(Request $request) {
         // $latestJobs = Job::latest()->get();
         $latestJobs = Job::with("companies")
             ->where("is_open", "=", 1)
@@ -41,12 +38,11 @@ class JobController extends Controller
         ], 200);
     }
 
-    public function searchJobs(Request $request)
-    {
+    public function searchJobs(Request $request) {
 
-        $filters = $request->only(["title", "category", "industry_id", "is_featured", "city_id", "country_id"]);
+        $filters = $request->only(["title", "category", "industry_id", "is_featured", "city_id", "country_id", "company_id"]);
 
-        $query = Job::with(["city", "companies:id,name,image_path"]);
+        $query = Job::with(["city", "companies:id,name,image_path,slug"]);
 
 
         if ($request->title) {
@@ -78,6 +74,10 @@ class JobController extends Controller
                 ->where("country_id", "=", $request->country_id);
         }
 
+        if ($request->company_id) {
+            $query->where("company_id", "=", $request->company_id);
+        }
+
 
         $data = $query->get()->toArray();
 
@@ -89,8 +89,7 @@ class JobController extends Controller
         );
     }
 
-    public function all()
-    {
+    public function all() {
         $jobs = Job::with(["companies", "category", "city"])
             ->get()
             ->mapWithKeys(function ($job, $index) {
@@ -113,8 +112,7 @@ class JobController extends Controller
         return response()->json($jobs);
     }
 
-    public function filterJobs(Request $request)
-    {
+    public function filterJobs(Request $request) {
         $filters = $request->all();
         $query = Job::with(["city", "companies:id,name,image_path"]);
 
@@ -156,8 +154,7 @@ class JobController extends Controller
 
     }
 
-    public function relatedJobs(Request $request)
-    {
+    public function relatedJobs(Request $request) {
 
         $relatedJobs = Job::with("city", "companies:name,id,image_path")
             ->where("category_id", "=", $request->categoryID)->get()->toArray();
@@ -175,8 +172,7 @@ class JobController extends Controller
 
     // ------------------ <WEB CALLS> -----------------------
 
-    public function show(Request $request)
-    {
+    public function show(Request $request) {
 
         $job = Job::with("category", "companies:id,name,image_path", "city")
             ->where("slug", "=", $request->slug)

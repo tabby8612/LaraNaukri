@@ -14,6 +14,7 @@ type JobsProps = {
     salary: string | number;
     featured: boolean;
     JobID: string;
+    companySlug: string
 };
 
 export default function FeaturedJobCard({
@@ -25,8 +26,8 @@ export default function FeaturedJobCard({
     companyImageURL,
     salary,
     featured,
-    companyID,
     JobID,
+    companySlug
 }: JobsProps) {
 
     return (
@@ -67,7 +68,7 @@ export default function FeaturedJobCard({
                     <p>{postedDate}</p>
                     <a
                         href={route('company.view', {
-                            slug: `${companyName.toLowerCase().replaceAll(' ', '-')}-${companyID}`,
+                            slug: companySlug,
                         })}
                     >
                         <p className="font-montserrat font-bold transition-colors delay-100 duration-300 hover:text-primary">{companyName}</p>

@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use App\Models\Job;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CityController extends Controller
-{
+class CityController extends Controller {
     //
 
-
-
-    public function topCities()
-    {
+    public function topCities() {
         $topCities = Job::select("city_id", DB::raw("COUNT(*) AS jobs_count"))
             ->with('city')
             ->groupBy("city_id")
@@ -32,5 +29,14 @@ class CityController extends Controller
             });
 
         return response()->json($topCities, 200);
+    }
+
+
+    public function relatedCities(Request $request) {
+        $cities = City::where("country_id", "=", $request->country_id)
+            ->get()
+            ->toArray();
+
+        return response()->json($cities, 200);
     }
 }
