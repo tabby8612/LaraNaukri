@@ -156,7 +156,7 @@ class JobController extends Controller {
 
     public function relatedJobs(Request $request) {
 
-        $relatedJobs = Job::with("city", "companies:name,id,image_path")
+        $relatedJobs = Job::with("city", "companies:name,id,image_path,slug")
             ->where("category_id", "=", $request->categoryID)->get()->toArray();
 
 
@@ -174,7 +174,7 @@ class JobController extends Controller {
 
     public function show(Request $request) {
 
-        $job = Job::with("category", "companies:id,name,image_path", "city")
+        $job = Job::with("category", "companies:id,name,image_path,slug", "city")
             ->where("slug", "=", $request->slug)
             ->firstOrFail()
             ->toArray();

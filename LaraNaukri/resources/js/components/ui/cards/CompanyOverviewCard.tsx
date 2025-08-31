@@ -8,8 +8,9 @@ type CompanyOverviewProps = {
     companyID: string;
     openJobs: number;
     description: string;
+    companySlug: string;
 };
-export default function CompanyOverviewCard({ imageURL, name, companyID, location, openJobs, description }: CompanyOverviewProps) {
+export default function CompanyOverviewCard({ imageURL, name, location, openJobs, description, companySlug }: CompanyOverviewProps) {
     return (
         <Card className="border border-gray-200 bg-green-50 py-7 shadow-transparent">
             <CardContent className="my-0">
@@ -24,7 +25,7 @@ export default function CompanyOverviewCard({ imageURL, name, companyID, locatio
                         <p className="text-primary">{location}</p>
                         <a
                             href={route('company.view', {
-                                slug: `${name.toLowerCase().replaceAll(' ', '-')}-${companyID}`,
+                                slug: companySlug,
                             })}
                             className="text-primary"
                         >
@@ -38,7 +39,7 @@ export default function CompanyOverviewCard({ imageURL, name, companyID, locatio
                     {description}{' '}
                     <a
                         href={route('company.view', {
-                            slug: `${name.toLowerCase().replaceAll(' ', '-')}-${companyID}`,
+                            slug: companySlug,
                         })}
                         className="text-primary"
                     >
@@ -46,6 +47,6 @@ export default function CompanyOverviewCard({ imageURL, name, companyID, locatio
                     </a>
                 </p>
             </CardContent>
-        </Card >
+        </Card>
     );
 }

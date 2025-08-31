@@ -1,26 +1,34 @@
-import MainBlogSection from '@/components/sections/MainBlogSection';
 import CategoryWidget from '@/components/ui/cards/CategoryWidget';
-import { Input } from '@/components/ui/UnusedUI/input';
 import AppLayout from '@/layouts/app/app-layout';
 import { BlogPost } from '@/types';
+import { Input } from '@headlessui/react';
 import { usePage } from '@inertiajs/react';
 import { SearchIcon } from 'lucide-react';
 
-type BlogPostsProps = {
-    blogposts: BlogPost[];
+type BlogPostProps = {
+    blogPost: BlogPost;
 };
 
-export default function Blog() {
-    const { blogposts } = usePage<BlogPostsProps>().props;
-    console.log(blogposts);
+export default function BlogPostView() {
+    const { blogPost } = usePage<BlogPostProps>().props;
 
     return (
         <AppLayout page="blog">
             <div className="flex flex-col items-center justify-center bg-green-50 py-10">
-                <h1 className="font-montserrat text-4xl font-bold">Blog</h1>
+                <h1 className="font-montserrat text-4xl font-bold">{blogPost.title}</h1>
             </div>
             <section id="blog" className="flex gap-3 px-20">
-                <MainBlogSection blogPosts={blogposts} />
+                <div className="h-full w-10/12 p-7">
+                    <h1 className="font-montserrat text-4xl font-bold">{blogPost.title}</h1>
+                    <img src={`/storage/${blogPost.featured_image_path}`} alt={blogPost.title} className="my-2 size-11/12" />
+                    <p className="my-7">
+                        Category:{' '}
+                        <a href="" className="text-primary">
+                            {blogPost.blogcategory.name}
+                        </a>
+                    </p>
+                    <p>{blogPost.description}</p>
+                </div>
                 <div id="blog-sidebar" className="w-1/4 border border-gray-100">
                     <div className="relative mx-auto mt-10 w-10/12">
                         <h1 className="text-lg font-semibold">Search</h1>

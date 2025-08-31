@@ -15,15 +15,13 @@ import AppLayout from '@/layouts/app/app-layout';
 import { FilteredJobs } from '@/types';
 import { usePage } from '@inertiajs/react';
 
-
 type HomeProps = {
-    jobs: FilteredJobs[]
-}
+    jobs: FilteredJobs[];
+};
 
 export default function Welcome() {
     const props = usePage<HomeProps>().props;
     const { jobs } = props;
-
 
     return (
         <AppLayout page="home">

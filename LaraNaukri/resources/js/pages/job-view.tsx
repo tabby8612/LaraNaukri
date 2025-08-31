@@ -6,20 +6,18 @@ import DescriptionCard from '@/components/ui/cards/DescriptionCard';
 import JobIntroCard from '@/components/ui/cards/JobIntroCard';
 import RelatedJobs from '@/components/ui/cards/RelatedJobs';
 import SkillCard from '@/components/ui/cards/SkillCard';
-import { Button } from '@/components/ui/UnusedUI/button';
 import AppLayout from '@/layouts/app/app-layout';
 import { FilteredJobs } from '@/types';
+import { Button } from '@headlessui/react';
 import { usePage } from '@inertiajs/react';
 import { Send } from 'lucide-react';
 
 type SelectedJobProps = {
     selectedJob: FilteredJobs;
-}
+};
 export default function JobView() {
     const props = usePage<SelectedJobProps>().props;
-    const { selectedJob } = props
-
-    console.log(selectedJob);
+    const { selectedJob } = props;
 
     return (
         <AppLayout page="jobs">
@@ -30,7 +28,10 @@ export default function JobView() {
                     <h1 className="font-montserrat text-xl font-semibold">{selectedJob.title}</h1>
                     <p className="mt-2 text-stone-400">Date Posted: {selectedJob.created_at}</p>
                     <p className="mt-2 font-semibold text-stone-500">
-                        Monthly: <span className="font-semibold text-black">PKR {selectedJob.salary_from} - PKR {selectedJob.salary_to}</span>
+                        Monthly:{' '}
+                        <span className="font-semibold text-black">
+                            PKR {selectedJob.salary_from} - PKR {selectedJob.salary_to}
+                        </span>
                     </p>
                 </div>
                 <div>
@@ -47,10 +48,7 @@ export default function JobView() {
                 <div className="w-7/12">
                     <JobIntroCard jobData={selectedJob} />
 
-                    <DescriptionCard
-                        type="Job"
-                        description={selectedJob.description}
-                    />
+                    <DescriptionCard type="Job" description={selectedJob.description} />
 
                     <BenefitCard benefits={['Benefit 1', 'Benefit 2', 'Benefit 3', 'Benefit 4', 'Benefit 5']} />
 
@@ -58,12 +56,13 @@ export default function JobView() {
                 </div>
                 <div className="w-5/12">
                     <CompanyOverviewCard
-                        companyID={selectedJob.companies!.id}
+                        companyID={`${selectedJob.companies!.id}`}
                         description={selectedJob.companies!.name}
                         imageURL={`/storage/${selectedJob.companies!.image_path}`}
-                        location={"company location"}
+                        location={selectedJob.location}
                         name={selectedJob.companies!.name}
                         openJobs={selectedJob.positions}
+                        companySlug={selectedJob.companies.slug}
                     />
                     <Card className="my-7 border border-stone-200">
                         <CardContent>Map Goes Here</CardContent>

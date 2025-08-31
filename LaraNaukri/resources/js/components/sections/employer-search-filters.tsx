@@ -43,7 +43,7 @@ export default function EmployerSearchFilters({ industries, handleFn }: { indust
             <p className="mt-3 font-semibold">Industry</p>
             {industries &&
                 industries.map((industry) => (
-                    <FilterItem name={industry.name} count={industry.jobs_count} key={industry.id} columnName="industry_id" />
+                    <FilterItem name={industry.name} count={industry.companies_count} key={industry.id} columnName="industry_id" />
                 ))}
 
             <button className="mt-6 flex cursor-pointer items-center justify-center gap-3 rounded-lg bg-primary px-3 py-3 text-lg font-semibold text-white">

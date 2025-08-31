@@ -9,13 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Inertia\Inertia;
 
-class CategoryController extends Controller
-{
+class CategoryController extends Controller {
     /**
      * returns all categories.
      */
-    public function all(Request $request)
-    {
+    public function all(Request $request) {
         //
 
         $categories = Category::all("name");
@@ -32,8 +30,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function topCategories()
-    {
+    public function topCategories() {
         $topCategories = Job::select('categories.id', 'categories.name', 'categories.image_path', FacadesDB::raw('COUNT(*) as jobs_count'))
             ->join('categories', 'categories.id', '=', 'jobs_listings.category_id')
             ->groupBy('categories.id', 'categories.name', 'categories.image_path')
@@ -44,8 +41,7 @@ class CategoryController extends Controller
 
     }
 
-    public function index()
-    {
+    public function index() {
         $AllCategories = Category::with("jobs")
             ->get()
             ->mapWithKeys(function ($category, $index) {
@@ -64,4 +60,6 @@ class CategoryController extends Controller
         ]);
 
     }
+
+
 }

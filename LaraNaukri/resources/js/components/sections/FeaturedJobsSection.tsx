@@ -2,7 +2,7 @@ import { FilteredJobs } from '@/types';
 import FeaturedJobCard from '../ui/cards/FeaturedJobCard';
 
 export default function FeaturedJobsSection({ jobs }: { jobs: FilteredJobs[] }) {
-    const featuredJobs = jobs.filter(job => job.is_featured).slice(0, 8);
+    const featuredJobs = jobs.filter((job) => job.is_featured).slice(0, 8);
 
     return (
         <section id="featuredJobsSection" className="px-14 py-10">
@@ -22,6 +22,7 @@ export default function FeaturedJobsSection({ jobs }: { jobs: FilteredJobs[] }) 
                         featured={job.featured}
                         salary={job.salary_to}
                         companyID={`${job.companies.id}`}
+                        companySlug={job.companies.slug}
                     />
                 ))}
             </div>

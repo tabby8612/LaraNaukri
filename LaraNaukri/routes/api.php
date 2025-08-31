@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogCategoriesController;
 use App\Http\Controllers\BlogpostController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CategoryController;
@@ -48,3 +49,5 @@ Route::get("all-countries", [CountryController::class, "allCountries"])->name("a
 Route::get("related-cities", [CityController::class, "relatedCities"])->name("related.cities");
 
 Route::get("filtered-companies", [CompanyController::class, "filterCompanies"])->name("filter.companies.api");
+
+Route::get("all-blogcategories", [BlogCategoriesController::class, "allBlogCategories"])->name("all.blogcategories.api");

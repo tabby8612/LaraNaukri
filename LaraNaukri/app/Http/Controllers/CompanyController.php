@@ -100,13 +100,13 @@ class CompanyController extends Controller {
 
         $companies = $companiesQuery->get()->toArray();
 
-        $industries = FacadesDB::table("jobs_listings")
-            ->select("industries.id", "industries.name", FacadesDB::raw("COUNT(*) as jobs_count"))
-            ->join("companies", "jobs_listings.company_id", "=", "companies.id")
+        $industries = FacadesDB::table("companies")
+            ->select("industries.id", "industries.name", FacadesDB::raw("COUNT(*) as companies_count"))
             ->join("industries", "industries.id", "=", "companies.industry_id")
             ->groupBy(["industries.id", "industries.name"])
             ->get()
             ->toArray();
+
 
         return Inertia::render("companies", [
             "companiesData" => count($companies) ? $companies : [],

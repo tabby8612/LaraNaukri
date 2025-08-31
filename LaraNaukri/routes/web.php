@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BlogCategoriesController;
+use App\Http\Controllers\BlogpostController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HomeController;
@@ -15,9 +17,11 @@ Route::get("/job/{slug}", [JobController::class, "show"])->name("job.view");
 
 Route::get("/companies", [CompanyController::class, "index"])->name("companies");
 
-Route::get("/blog", function () {
-    return Inertia::render("blog");
-})->name("blog");
+Route::get("/blog", [BlogpostController::class, "index"])->name("blog");
+
+Route::get("/blog/{slug}", [BlogpostController::class, "show"])->name("blog.view");
+
+Route::get("/blog/category/{id}", [BlogCategoriesController::class, "show"])->name("blog.category.view");
 
 Route::get("/contact", function () {
     return Inertia::render("contact");

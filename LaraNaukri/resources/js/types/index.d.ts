@@ -124,7 +124,7 @@ type Country = {
 type Industry = {
     id: string;
     name: string;
-    jobs_count: number;
+    companies_count: number;
 };
 
 type Candidate = {
@@ -137,12 +137,19 @@ type Candidate = {
     is_featured: number;
 };
 
-type BlogPost = {
+type BlogCategory = {
     id: string;
+    name: string;
+    created_at: string;
+    updated_at: string;
+};
+
+type BlogPost = {
+    id: number;
     title: string;
     slug: string;
     featured_image_path: string;
     description: string;
-    category: string;
+    blogcategory: BlogCategory;
     posted_at: string;
 };
