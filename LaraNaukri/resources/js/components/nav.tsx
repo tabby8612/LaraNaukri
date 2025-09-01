@@ -24,7 +24,7 @@ export default function Nav({ page }: { page: string }) {
     return (
         <>
             <nav
-                className={`${isNavSticky && 'sticky opacity-100 drop-shadow-xl'} top-0 z-9999 flex justify-between border-b-2 border-gray-200/50 bg-white px-8 py-4 font-montserrat transition-all delay-150 duration-300`}
+                className={`${isNavSticky && 'sticky opacity-100 shadow-lg'} top-0 z-5 flex justify-between border-b-2 border-gray-200/50 bg-white px-8 py-4 font-montserrat transition-all delay-150 duration-300`}
             >
                 <div id="logoImage">
                     <a href={route('home')}>

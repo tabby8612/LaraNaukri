@@ -18,36 +18,36 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get("/all-categories", [CategoryController::class, "all"])->name("all.categories.api");
-
+// ------------- Job Routes
 Route::get("/all-jobs", [JobController::class, "all"])->name("all.jobs.api");
-
 Route::get("/find-jobs/{text}", [JobController::class, "findJobs"])->name("find.jobs.api");
-
-Route::get("top-companies", [CompanyController::class, "topCompanies"])->name("top.companies");
-
-Route::get("top-industries", [IndustryController::class, "topIndustries"])->name("top.industries");
-
 Route::get("latest-jobs", [JobController::class, "latestJobs"])->name("latest.jobs");
+Route::post("filter-jobs", [JobController::class, "filterJobs"])->name("filter.jobs");
+Route::get("related-jobs", [JobController::class, "relatedJobs"])->name("related.jobs.api");
 
+
+// ------------- Companies API Routes
+Route::get("top-companies", [CompanyController::class, "topCompanies"])->name("top.companies");
+Route::get("top-industries", [IndustryController::class, "topIndustries"])->name("top.industries");
+Route::get("filtered-companies", [CompanyController::class, "filterCompanies"])->name("filter.companies.api");
+
+// ------------- Category/Functional Area API Routes
+Route::get("/all-categories", [CategoryController::class, "all"])->name("all.categories.api");
 Route::get("top-categories", [CategoryController::class, "topCategories"])->name("top.categories");
 
+// ------------- Cities/Countries API Routes
 Route::get("top-cities", [CityController::class, "topCities"])->name("top.cities");
-
 Route::get("top-countries", [CountryController::class, "topCountries"])->name("top.countries");
+Route::get("all-countries", [CountryController::class, "allCountries"])->name("all.countries.api");
+Route::get("related-cities", [CityController::class, "relatedCities"])->name("related.cities");
+
+// ------------ Blog Posts/Blog Categories API Routes
+Route::get("latest-blogposts", [BlogpostController::class, "latestBlogPosts"])->name("latest.blogposts");
+Route::get("all-blogcategories", [BlogCategoriesController::class, "allBlogCategories"])->name("all.blogcategories.api");
+
+
 
 Route::get("featured-candidates", [CandidateController::class, "featuredCandidate"])->name("featured.candidates");
 
-Route::get("latest-blogposts", [BlogpostController::class, "latestBlogPosts"])->name("latest.blogposts");
 
-Route::post("filter-jobs", [JobController::class, "filterJobs"])->name("filter.jobs");
 
-Route::get("related-jobs", [JobController::class, "relatedJobs"])->name("related.jobs.api");
-
-Route::get("all-countries", [CountryController::class, "allCountries"])->name("all.countries.api");
-
-Route::get("related-cities", [CityController::class, "relatedCities"])->name("related.cities");
-
-Route::get("filtered-companies", [CompanyController::class, "filterCompanies"])->name("filter.companies.api");
-
-Route::get("all-blogcategories", [BlogCategoriesController::class, "allBlogCategories"])->name("all.blogcategories.api");

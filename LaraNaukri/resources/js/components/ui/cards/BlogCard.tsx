@@ -4,9 +4,10 @@ type Props = {
     imageUrl: string;
     date: string;
     title: string;
+    slug: string;
 };
 
-export default function BlogCard({ imageUrl, date, title }: Props) {
+export default function BlogCard({ imageUrl, date, title, slug }: Props) {
     return (
         <div className="p-7">
             <img src={`/storage/${imageUrl}`} alt={title} />
@@ -14,7 +15,12 @@ export default function BlogCard({ imageUrl, date, title }: Props) {
                 <CalendarCheck />
                 <p>{date}</p>
             </div>
-            <a href="http://google.com" className="font-montserrat text-lg font-semibold transition-colors delay-100 duration-500 hover:text-primary">
+            <a
+                href={route('blog.view', {
+                    slug: slug,
+                })}
+                className="font-montserrat text-lg font-semibold transition-colors delay-100 duration-500 hover:text-primary"
+            >
                 {title}
             </a>
         </div>

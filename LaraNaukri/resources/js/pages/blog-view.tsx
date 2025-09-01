@@ -1,9 +1,8 @@
 import CategoryWidget from '@/components/ui/cards/CategoryWidget';
+import SearchWidget from '@/components/ui/cards/SearchWidget';
 import AppLayout from '@/layouts/app/app-layout';
 import { BlogPost } from '@/types';
-import { Input } from '@headlessui/react';
 import { usePage } from '@inertiajs/react';
-import { SearchIcon } from 'lucide-react';
 
 type BlogPostProps = {
     blogPost: BlogPost;
@@ -30,11 +29,7 @@ export default function BlogPostView() {
                     <p>{blogPost.description}</p>
                 </div>
                 <div id="blog-sidebar" className="w-1/4 border border-gray-100">
-                    <div className="relative mx-auto mt-10 w-10/12">
-                        <h1 className="text-lg font-semibold">Search</h1>
-                        <Input className="relative mt-2 h-10 pr-12 text-lg selection:text-white focus-visible:ring-primary" />
-                        <SearchIcon className="absolute top-11 right-4 cursor-pointer" />
-                    </div>
+                    <SearchWidget />
 
                     <CategoryWidget />
                 </div>

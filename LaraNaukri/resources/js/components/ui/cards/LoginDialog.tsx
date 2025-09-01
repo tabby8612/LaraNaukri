@@ -6,7 +6,7 @@ export default function LoginDialog({ type = 'login' }: { type?: string }) {
             <Dialog>
                 <DialogTrigger className="cursor-pointer capitalize">{type}</DialogTrigger>
                 <DialogOverlay className="fixed inset-0 bg-black/50 data-[state=closed]:animate-overlayClose data-[state=open]:animate-overlayOpen" />
-                <DialogContent className="translate-y-[-150%] bg-white data-[state=closed]:animate-closeDialog data-[state=open]:animate-openDialog">
+                <DialogContent className="translate-y-[-100%] bg-white data-[state=closed]:animate-closeDialog data-[state=open]:animate-openDialog">
                     <DialogHeader>
                         <DialogTitle className="text-center text-2xl capitalize">{type} As</DialogTitle>
                         <DialogDescription className="flex justify-center gap-10">

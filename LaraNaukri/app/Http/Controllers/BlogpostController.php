@@ -34,12 +34,24 @@ class BlogpostController extends Controller {
 
     }
 
-    public function index() {
+    public function index(Request $request) {
 
-        $blogs = Blogpost::with("blogcategory")->get()->toArray();
+        $filters = $request->only(["search"]);
+
+        $blogsQuery = Blogpost::with("blogcategory");
+
+        if (isset($filters["search"])) {
+            $blogsQuery
+                ->where("title", "like", "%{$filters["search"]}%", "or")
+                ->where("description", "like", "%{$filters["search"]}%", "or");
+        }
+
+        $blogs = $blogsQuery->get()->toArray();
 
         return Inertia::render("blog", [
-            "blogposts" => $blogs
+            "blogposts" => $blogs,
+            "searchText" => $filters["search"] ?? ""
+
         ]);
 
     }

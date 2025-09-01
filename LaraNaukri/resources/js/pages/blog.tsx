@@ -1,32 +1,28 @@
 import MainBlogSection from '@/components/sections/MainBlogSection';
 import CategoryWidget from '@/components/ui/cards/CategoryWidget';
-import { Input } from '@/components/ui/UnusedUI/input';
+import SearchWidget from '@/components/ui/cards/SearchWidget';
 import AppLayout from '@/layouts/app/app-layout';
 import { BlogPost } from '@/types';
 import { usePage } from '@inertiajs/react';
-import { SearchIcon } from 'lucide-react';
 
 type BlogPostsProps = {
     blogposts: BlogPost[];
+    searchText: undefined | string;
 };
 
 export default function Blog() {
-    const { blogposts } = usePage<BlogPostsProps>().props;
-    console.log(blogposts);
+    const { blogposts, searchText } = usePage<BlogPostsProps>().props;
 
     return (
         <AppLayout page="blog">
             <div className="flex flex-col items-center justify-center bg-green-50 py-10">
                 <h1 className="font-montserrat text-4xl font-bold">Blog</h1>
+                {searchText && <h2 className="mt-3 font-montserrat text-2xl font-bold">Showing blogs for: {searchText}</h2>}
             </div>
             <section id="blog" className="flex gap-3 px-20">
                 <MainBlogSection blogPosts={blogposts} />
                 <div id="blog-sidebar" className="w-1/4 border border-gray-100">
-                    <div className="relative mx-auto mt-10 w-10/12">
-                        <h1 className="text-lg font-semibold">Search</h1>
-                        <Input className="relative mt-2 h-10 pr-12 text-lg selection:text-white focus-visible:ring-primary" />
-                        <SearchIcon className="absolute top-11 right-4 cursor-pointer" />
-                    </div>
+                    <SearchWidget />
 
                     <CategoryWidget />
                 </div>
