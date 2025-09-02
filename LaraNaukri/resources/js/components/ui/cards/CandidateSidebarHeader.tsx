@@ -43,28 +43,28 @@ export default function CandidateSidebarHeader() {
             </ul>
             <section id="payment-buttons" className="mt-7">
                 <div className="group relative my-3 flex cursor-pointer items-center gap-3 overflow-hidden rounded-full bg-white p-1">
-                    <div className="bg-primary-2 z-20 rounded-full bg-primary p-3">
+                    <div className="bg-primary-2 z-1 rounded-full bg-primary p-3">
                         <Paypal className="size-6 text-white" />
                     </div>
-                    <p className="z-20 font-montserrat text-lg font-semibold tracking-wider transition-colors delay-100 duration-300 group-hover:text-white">
+                    <p className="z-1 font-montserrat text-lg font-semibold tracking-wider transition-colors delay-100 duration-300 group-hover:text-white">
                         Paypal
                     </p>
-                    <div className="absolute right-0 bottom-0 z-10 h-full w-full translate-x-70 translate-y-10 rounded-full bg-black transition-transform delay-100 duration-500 group-hover:-translate-x-0 group-hover:-translate-y-0" />
+                    <div className="absolute right-0 bottom-0 z-1 h-full w-full translate-x-70 translate-y-10 rounded-full bg-black transition-transform delay-100 duration-500 group-hover:-translate-x-0 group-hover:-translate-y-0" />
                 </div>
                 <div className="group relative my-3 flex cursor-pointer items-center gap-3 overflow-hidden rounded-full bg-white p-1">
-                    <div className="bg-primary-2 z-20 rounded-full bg-primary p-3">
+                    <div className="bg-primary-2 z-1 rounded-full bg-primary p-3">
                         <Stripe className="size-6 text-white" />
                     </div>
-                    <p className="z-20 font-montserrat text-lg font-semibold tracking-wider transition-colors delay-100 duration-300 group-hover:text-white">
+                    <p className="z-1 font-montserrat text-lg font-semibold tracking-wider transition-colors delay-100 duration-300 group-hover:text-white">
                         Stripe
                     </p>
                     <div className="absolute right-0 bottom-0 z-10 h-full w-full translate-x-70 translate-y-10 rounded-full bg-black transition-transform delay-100 duration-500 group-hover:-translate-x-0 group-hover:-translate-y-0" />
                 </div>
                 <div className="group relative my-3 flex cursor-pointer items-center gap-3 overflow-hidden rounded-full bg-white p-1">
-                    <div className="bg-primary-2 z-20 rounded-full bg-primary p-3">
+                    <div className="bg-primary-2 z-1 rounded-full bg-primary p-3">
                         <CreditCard className="size-6 text-white" />
                     </div>
-                    <p className="z-20 font-montserrat text-lg font-semibold tracking-wider transition-colors delay-100 duration-300 group-hover:text-white">
+                    <p className="z-1 font-montserrat text-lg font-semibold tracking-wider transition-colors delay-100 duration-300 group-hover:text-white">
                         Paystack
                     </p>
                     <div className="absolute right-0 bottom-0 z-10 h-full w-full translate-x-70 translate-y-10 rounded-full bg-black transition-transform delay-100 duration-500 group-hover:-translate-x-0 group-hover:-translate-y-0" />

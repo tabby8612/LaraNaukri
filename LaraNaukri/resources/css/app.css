@@ -99,6 +99,10 @@
     .activeNav {
         @apply text-primary after:absolute after:bottom-[-10px] after:left-0 after:h-1 after:w-full after:rounded-full after:bg-primary;
     }
+
+    .smoothTransition {
+        @apply transition-all delay-75 duration-300
+    }
 }
 
 .swiper-button-prev,
