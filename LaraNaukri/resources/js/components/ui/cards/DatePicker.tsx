@@ -28,7 +28,7 @@ export function DatePicker({ year, month, day }: { year: number; month: number; 
                     mode="single"
                     selected={date}
                     onSelect={setDate}
-                    defaultMonth={new Date(1989, 11, 11)}
+                    defaultMonth={new Date(year, month - 1, day)}
                     required={false}
                     className="w-full px-4 data-[selected-single=true]:text-white data-[selected='true']:text-white"
                     captionLayout="dropdown"

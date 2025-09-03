@@ -1,10 +1,10 @@
 import { Textarea } from '@headlessui/react';
-import { Label } from '../UnusedUI/label';
+import { Label } from '@radix-ui/react-label';
 
 export default function CustomTextArea({ label, name, value }: { label: string; name: string; value: string }) {
     return (
         <div className="size-full">
-            <Label htmlFor="street-address" className="block tracking-wider text-gray-500">
+            <Label htmlFor={name} className="tracking-wider text-gray-500">
                 {label}
             </Label>
             <Textarea

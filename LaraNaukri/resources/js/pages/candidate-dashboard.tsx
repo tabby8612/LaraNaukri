@@ -10,7 +10,7 @@ import { SquarePen } from 'lucide-react';
 
 export default function CandidateDashboard() {
     return (
-        <AppCandidateLayout page="dashboard">
+        <AppCandidateLayout page="dashboard" titleText="Welcome to Candidate Dashboard" displaySearch>
             <section id="dashboard-overview" className="flex gap-5">
                 <DashboardOverviewWidget SVGIcon={RoundRemoveRedEye} link="" mainText="179" secondaryText="Profile Views" />
                 <DashboardOverviewWidget SVGIcon={User} link="" mainText="7" secondaryText="Followings" />

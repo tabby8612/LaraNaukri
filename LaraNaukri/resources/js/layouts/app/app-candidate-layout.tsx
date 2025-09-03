@@ -5,10 +5,15 @@ import OpenToWork from '@/components/ui/cards/OpenToWork';
 import { PropsWithChildren } from 'react';
 import AppLayout from './app-layout';
 
-export default function AppCandidateLayout({ children, page }: PropsWithChildren<{ page: string }>) {
+export default function AppCandidateLayout({
+    children,
+    page,
+    titleText,
+    displaySearch,
+}: PropsWithChildren<{ page: string; titleText: string; displaySearch: boolean }>) {
     return (
         <AppLayout page="">
-            <Searchjobhero />
+            <Searchjobhero displaySearch={displaySearch} titleText={titleText} />
             <section className="mx-auto flex w-11/12 gap-1 p-7">
                 <div id="candidate-sidebar" className="w-[28%] p-4">
                     <CandidateSidebarHeader />

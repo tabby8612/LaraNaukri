@@ -26,7 +26,7 @@ export default function CandidateNavLinks({ page = 'dashboard' }: { page: string
                     <p className={`group-hover:text-primary ${page === 'edit-profile' ? 'text-primary' : 'text-gray-500'}`}>Edit Profile</p>
                 </li>
             </a>
-            <a href="">
+            <a href={route('candidate.buildResume')}>
                 <li className="group mt-4 flex items-center gap-2 hover:cursor-pointer">
                     <RoundInsertDriveFile
                         className={`size-5 group-hover:text-primary ${page === 'build-resume' ? 'text-primary' : 'text-gray-500'}`}

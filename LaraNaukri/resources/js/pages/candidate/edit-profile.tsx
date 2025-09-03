@@ -10,7 +10,7 @@ import { ArrowRightCircle } from 'lucide-react';
 
 export default function EditProfile() {
     return (
-        <AppCandidateLayout page="edit-profile">
+        <AppCandidateLayout page="edit-profile" displaySearch={false} titleText="Edit Profile">
             <form className="rounded-2xl bg-green-50 p-7">
                 <h1 className="font-montserrat text-2xl font-bold">Account Information</h1>
                 <div className="flex gap-3">
