@@ -2,6 +2,7 @@ import { LightningBolt } from '@/SVGs/Bolt';
 import { Job } from '@/SVGs/Job';
 import { Location } from '@/SVGs/Location';
 import { Card } from '../card';
+import { Button } from '../UnusedUI/button';
 
 type JobsProps = {
     title: string;
@@ -14,7 +15,8 @@ type JobsProps = {
     salary: string | number;
     featured: boolean;
     JobID: string;
-    companySlug: string
+    companySlug: string;
+    removeFavoriteFn?: (id: string) => void;
 };
 
 export default function FeaturedJobCard({
@@ -27,9 +29,9 @@ export default function FeaturedJobCard({
     salary,
     featured,
     JobID,
-    companySlug
+    companySlug,
+    removeFavoriteFn,
 }: JobsProps) {
-
     return (
         <Card className="relative gap-0 rounded-4xl border-gray-300 p-5 shadow-2xs transition-all delay-100 duration-300 hover:translate-y-[-7px] hover:border-primary hover:shadow-xl">
             {featured && (
@@ -76,6 +78,11 @@ export default function FeaturedJobCard({
                 </div>
                 <img src={`/storage/${companyImageURL}`} alt={companyName} className="size-16 rounded-full border-4 border-white" />
             </div>
+            {removeFavoriteFn && (
+                <Button className="mt-5 w-28 cursor-pointer bg-red-500 font-montserrat font-bold text-white" onClick={() => removeFavoriteFn(JobID)}>
+                    X Remove
+                </Button>
+            )}
         </Card>
     );
 }
