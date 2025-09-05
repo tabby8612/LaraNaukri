@@ -6,9 +6,13 @@ import { RoundRemoveRedEye } from '@/SVGs/Eye';
 import { Job } from '@/SVGs/Job';
 import { Message } from '@/SVGs/Message';
 import { User } from '@/SVGs/User';
+import { usePage } from '@inertiajs/react';
 import { SquarePen } from 'lucide-react';
 
 export default function CandidateDashboard() {
+    const props = usePage();
+    console.log(props);
+
     return (
         <AppCandidateLayout page="dashboard" titleText="Welcome to Candidate Dashboard" displaySearch>
             <section id="dashboard-overview" className="flex gap-5">

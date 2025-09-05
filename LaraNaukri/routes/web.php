@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -64,6 +65,10 @@ Route::get("/candidate-login", function () {
 Route::get("/candidate-register", function () {
     return Inertia::render("candidate-register");
 })->name("candidate.register");
+
+Route::post("/candidate-verify", [UserController::class, "verify"])->name("candidate.verify");
+Route::post("/candidate-register", [UserController::class, "store"])->name("candidate.register");
+
 
 
 // ----------- Other Pages Routes
