@@ -127,16 +127,6 @@ type Industry = {
     companies_count: number;
 };
 
-type Candidate = {
-    id: string;
-    name: string;
-    image_path: string;
-    profession: string;
-    city: string;
-    career_level: string;
-    is_featured: number;
-};
-
 type BlogCategory = {
     id: string;
     name: string;
@@ -152,4 +142,41 @@ type BlogPost = {
     description: string;
     blogcategory: BlogCategory;
     posted_at: string;
+};
+
+type User = {
+    id: string;
+    name: string;
+    email: string;
+};
+
+type Candidate = {
+    id: string;
+    user_id: string;
+    name: string;
+    image_path: string;
+    profession: string;
+    city_id: number;
+    career_level: string;
+    is_featured: number;
+    created_at: string;
+    updated_at: string;
+    profile_views: number;
+    cover_image_path: string;
+    gender: string;
+    martial_status: string;
+    nationality: string;
+    date_of_birth: string;
+    phone: string;
+    mobile: string;
+    address: string;
+    video_profile: string;
+    experience: number;
+    industry_id: number;
+    category_id: number;
+    salary_from: number;
+    salary_to: number;
+    summary: string;
+    open_to_work: boolean;
+    user: User;
 };

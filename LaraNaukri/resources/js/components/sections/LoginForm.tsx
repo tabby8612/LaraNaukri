@@ -1,6 +1,6 @@
 import { Lock } from '@/SVGs/Lock';
 import { useForm } from '@inertiajs/react';
-import { FormEvent } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Button } from '../ui/UnusedUI/button';
 import { Input } from '../ui/UnusedUI/input';
 
@@ -8,7 +8,23 @@ export default function LoginForm() {
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
+        invalidCombination: '',
     });
+
+    const [loginError, setLoginError] = useState<string | undefined>(errors.invalidCombination);
+
+    useEffect(() => {
+        if (!errors.invalidCombination) return;
+
+        setLoginError(errors.invalidCombination);
+
+        const timer = setTimeout(() => {
+            errors.invalidCombination = '';
+            setLoginError('');
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    }, [errors]);
 
     function submitHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -17,6 +33,7 @@ export default function LoginForm() {
 
     return (
         <form id="login-form" className="mt-8" onSubmit={(e) => submitHandler(e)}>
+            {loginError && <div className="my-7 mt-1 text-center text-red-500">{loginError}</div>}
             <Input
                 type="email"
                 required
@@ -39,7 +56,7 @@ export default function LoginForm() {
                 value={data.password}
                 onChange={(e) => setData('password', e.target.value)}
             />
-            {errors.email && <div className="mt-1 text-sm text-red-500">{errors.email}</div>}
+            {errors.password && <div className="mt-1 text-sm text-red-500">{errors.password}</div>}
 
             <div className="mt-3 flex items-center gap-1">
                 <Lock />

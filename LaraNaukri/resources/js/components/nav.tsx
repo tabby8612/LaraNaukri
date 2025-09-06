@@ -1,11 +1,27 @@
+import { Exit } from '@/SVGs/Exit';
+import { RoundRemoveRedEye } from '@/SVGs/Eye';
+import { MonitorFill16 } from '@/SVGs/Monitor';
+import { Speed } from '@/SVGs/Speedometer';
+import { User } from '@/SVGs/User';
+import { Link, usePage } from '@inertiajs/react';
 import { LanguagesIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import LoginDialog from './ui/cards/LoginDialog';
 import Logo from '/public/storage/LaraNaukri Logo.png';
 
+type Props = {
+    auth: {
+        user: {
+            id: number;
+            name: string;
+        };
+    };
+};
 export default function Nav({ page }: { page: string }) {
     const [isNavSticky, setNavSticky] = useState(false);
-    // const [loginDialog, setLoginDialog] = useState(false);
+    const [userOptions, setUserOptions] = useState(false);
+    const { auth } = usePage<Props>().props;
+    const { user } = auth;
 
     useEffect(() => {
         function handleScroll() {
@@ -20,7 +36,6 @@ export default function Nav({ page }: { page: string }) {
         };
     }, []);
 
-    // createPortal(<p>This child is placed in the document body.</p>, document.body);
     return (
         <>
             <nav
@@ -71,12 +86,80 @@ export default function Nav({ page }: { page: string }) {
                                 Contact us
                             </li>
                         </a>
-                        <li
-                            className={`${page === 'login' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
-                        >
-                            {<LoginDialog />}
-                        </li>
-                        <li className="rounded-md bg-primary px-4 py-1.5 text-white">{<LoginDialog type="register" />}</li>
+                        {user ? (
+                            <li
+                                className="relative cursor-pointer"
+                                onMouseEnter={() => setUserOptions(true)}
+                                onMouseLeave={() => setUserOptions(false)}
+                            >
+                                <img
+                                    src="https://www.sharjeelanjum.com/demos/jobsportal-update/user_images/-1741437874-596.jpg"
+                                    alt={user.name}
+                                    className="size-9 rounded-full outline-2 outline-primary"
+                                />
+
+                                {userOptions && (
+                                    <div
+                                        className={`absolute -left-[600%] flex size-0 flex-col opacity-100 shadow-2xs duration-500 peer-hover:-translate-y-0 peer-hover:opacity-100`}
+                                    >
+                                        <ul
+                                            onMouseEnter={() => setUserOptions(true)}
+                                            onMouseLeave={() => setUserOptions(false)}
+                                            className="w-3xs rounded-b-xl border-2 border-gray-200 bg-white shadow-2xl peer-hover:-translate-y-0"
+                                        >
+                                            <Link href={route('candidate.dashboard')}>
+                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
+                                                    <Speed className="size-6" />
+                                                    <p>Dashboard</p>
+                                                </li>
+                                            </Link>
+
+                                            <Link href={route('candidate.editProfile')}>
+                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
+                                                    <User className="size-5" />
+                                                    <p>My Profile</p>
+                                                </li>
+                                            </Link>
+
+                                            <Link
+                                                href={route('candidate.viewPublicProfile', {
+                                                    id: user.id,
+                                                })}
+                                            >
+                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
+                                                    <RoundRemoveRedEye className="size-5" />
+                                                    <p>View Public Profile</p>
+                                                </li>
+                                            </Link>
+
+                                            <Link href={route('candidate.jobApplications')}>
+                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
+                                                    <MonitorFill16 className="mr-1 size-4" />
+                                                    <p>My Job Applications</p>
+                                                </li>
+                                            </Link>
+
+                                            <Link href={route('candidate.logout')}>
+                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
+                                                    <Exit className="size-4" />
+                                                    <p>Logout</p>
+                                                </li>
+                                            </Link>
+                                        </ul>
+                                    </div>
+                                )}
+                            </li>
+                        ) : (
+                            <div className="flex items-center gap-7">
+                                <li
+                                    className={`${page === 'login' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
+                                >
+                                    {<LoginDialog />}
+                                </li>
+                                <li className="rounded-md bg-primary px-4 py-1.5 text-white">{<LoginDialog type="register" />}</li>
+                            </div>
+                        )}
+
                         <li>{<LanguagesIcon className="rounded-full border-2 border-gray-400" />}</li>
                     </ul>
                 </div>

@@ -6,12 +6,13 @@ import { RoundRemoveRedEye } from '@/SVGs/Eye';
 import { Job } from '@/SVGs/Job';
 import { Message } from '@/SVGs/Message';
 import { User } from '@/SVGs/User';
+import { Candidate } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { SquarePen } from 'lucide-react';
 
 export default function CandidateDashboard() {
-    const props = usePage();
-    console.log(props);
+    const { candidate } = usePage<{ candidate: Candidate }>().props;
+    console.log(candidate);
 
     return (
         <AppCandidateLayout page="dashboard" titleText="Welcome to Candidate Dashboard" displaySearch>
@@ -24,12 +25,12 @@ export default function CandidateDashboard() {
 
             <section id="profile-image" className="relative mt-5">
                 <img
-                    src="https://www.sharjeelanjum.com/demos/jobsportal-update/user_images/-1736424828-319.jpg"
-                    alt=""
-                    className="w-full rounded-2xl"
+                    src={`/storage/${candidate.cover_image_path ? candidate.cover_image_path : 'user_images/default.png'}`}
+                    alt={candidate.name}
+                    className="h-60 w-full rounded-2xl"
                 />
                 <SquarePen className="absolute top-3 right-5 size-10 cursor-pointer rounded-full bg-white p-2 drop-shadow-xl drop-shadow-black/30" />
-                <IntroCard />
+                <IntroCard candidate={candidate} />
             </section>
 
             <section className="mt-30">

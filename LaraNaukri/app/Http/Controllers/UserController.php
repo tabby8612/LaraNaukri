@@ -35,19 +35,32 @@ class UserController extends Controller {
             "role" => "candidate"
         ]);
 
-
-
         // Event UserCreated will create an entry in the Candidate table.
         UserCreated::dispatch($user);
 
         //Set The Authention To Login
         Auth::login($user);
 
-
         return redirect(route("candidate.dashboard"));
     }
 
     public function verify(Request $request) {
-        dd($request->only(["email", "password"]));
+
+        $request->validate([
+            "email" => ["required", "min:3", "email"],
+            "password" => ["required", "min:5"],
+        ]);
+
+        $user = User::where("email", "=", $request->email)->firstOrFail();
+
+
+        if (password_verify($request->password, $user->password)) {
+            Auth::login($user);
+            return to_route("candidate.dashboard");
+        } else {
+            return back()->withErrors([
+                "invalidCombination" => "Invalid email and password combination"
+            ]);
+        }
     }
 }
