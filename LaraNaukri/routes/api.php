@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndustryController;
 use App\Http\Controllers\JobController;
 use App\Models\Company;
@@ -46,6 +47,8 @@ Route::get("latest-blogposts", [BlogpostController::class, "latestBlogPosts"])->
 Route::get("all-blogcategories", [BlogCategoriesController::class, "allBlogCategories"])->name("all.blogcategories.api");
 
 
+// ------------ Candidate
+Route::get("fetch/{column}", [HomeController::class, "fetch"])->name("fetch");
 
 Route::get("featured-candidates", [CandidateController::class, "featuredCandidate"])->name("featured.candidates");
 

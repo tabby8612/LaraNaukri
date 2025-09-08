@@ -65,12 +65,17 @@ class Candidate extends Model {
 
 
     //--- Getters
+    protected function dateOfBirth(): Attribute {
+        return Attribute::make(
+            get: fn($value) => Carbon::parse($value)->format("Y-m-d")
+        );
+    }
 
     protected function createdAt() {
 
         return Attribute::make(function ($value) {
             $dt = Carbon::parse($value);
-            return "$dt->day/$dt->month/$dt->year";
+            return "$dt->day-$dt->month-$dt->year";
         });
     }
 }

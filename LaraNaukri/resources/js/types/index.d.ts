@@ -150,33 +150,42 @@ type User = {
     email: string;
 };
 
+type Gender = {
+    id: number;
+    name: string;
+};
+
 type Candidate = {
     id: string;
     user_id: string;
-    name: string;
+    first_name: string;
+    last_name: string;
+    gender_id: number;
+    marital_status_id: number;
+    nationality_id: number;
+    experience_id: number;
+    industry_id: number;
+    category_id: number;
+    career_level_id: number;
+    is_subscribed: boolean;
+
     image_path: string;
     profession: string;
     city_id: number;
-    career_level: string;
     is_featured: number;
     created_at: string;
     updated_at: string;
     profile_views: number;
     cover_image_path: string;
-    gender: string;
-    martial_status: string;
-    nationality: string;
     date_of_birth: string;
     phone: string;
     mobile: string;
     address: string;
     video_profile: string;
-    experience: number;
-    industry_id: number;
-    category_id: number;
     salary_from: number;
     salary_to: number;
     summary: string;
     open_to_work: boolean;
     user: User;
+    gender: Gender;
 };

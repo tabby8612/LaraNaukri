@@ -17,7 +17,7 @@ export function DatePicker({ year, month, day }: { year: number; month: number; 
                 <Button
                     variant="outline"
                     data-empty={!date}
-                    className="data-[empty=true]:text-muted-foreground w-full justify-start bg-white text-left font-normal"
+                    className="data-[empty=true]:text-muted-foreground h-10 w-full justify-start border-gray-400 bg-white text-left font-normal"
                 >
                     <CalendarIcon />
                     {date ? format(date, 'PPP') : <span>Pick a date</span>}

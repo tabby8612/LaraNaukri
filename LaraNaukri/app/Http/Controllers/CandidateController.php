@@ -11,6 +11,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class CandidateController extends Controller {
@@ -62,31 +65,51 @@ class CandidateController extends Controller {
         $user_id = Auth::id();
 
         $candidate = Candidate::where("user_id", "=", $user_id)
-            ->with("user:id,email")
+            ->with(["user:id,email", "gender:id,name"])
             ->first()
             ->toArray();
 
-        $countries = Cache::get("countries", fn() => Country::all());
-        $cities = Cache::get("cities", fn() => City::all());
-        $industries = Cache::get("industries", fn() => Industry::all());
-        $categories = Cache::get("categories", fn() => Category::all());
+
 
 
         return Inertia::render("candidate/edit-profile", [
             "candidate" => $candidate,
-            "genderValues" => ["Male", "Female"],
-            "martialStatusValues" => ['Divorced', 'Married', 'Seperated', 'Single', 'Window/er'],
-            "countriesValues" => $countries->pluck("name")->toArray(),
-            "citiesValues" => $cities->pluck("name")->toArray(),
-            "industriesValues" => $industries->pluck("name")->toArray(),
-            "nationalityValues" => ["American", "Pakistani", "Indian"],
-            "experienceValues" => ["Fresh", "Less Than 1 Year", "1 Year", "2 Year"],
-            "careerLevelValues" => ["experienced professional", "entry level", 'department head'],
-            "categoriesValues" => $categories->pluck("name")->toArray(),
-
-
-
         ]);
+    }
 
+    public function update(Request $request) {
+
+        $candidateID = Auth::id();
+
+        $candidate = Candidate::where("user_id", "=", $candidateID);
+
+
+        DB::transaction(function () use ($request, $candidateID) {
+            $candidate = Candidate::where("user_id", "=", $candidateID);
+
+            foreach ($request->all() as $key => $value) {
+                if ($key == "email" && isset($value)) {
+                    DB::table("users")->where("id", $candidateID)->update(["email" => $value]);
+                }
+
+                if ($key == "password" && isset($value)) {
+                    when(isset($value), function () use ($value) {
+                        DB::table("users")->where("id", Auth::id())->update([
+                            "password" => Hash::make($value)
+                        ]);
+                    });
+                }
+
+                if ($key != "email" && $key != "password") {
+                    $candidate->update([
+                        $key => $value
+                    ]);
+                }
+            }
+        });
+
+        Session::put("message", "User Updated Successfully");
+
+        return to_route("candidate.editProfile");
     }
 }
