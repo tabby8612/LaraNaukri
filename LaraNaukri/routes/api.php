@@ -36,11 +36,14 @@ Route::get("filtered-companies", [CompanyController::class, "filterCompanies"])-
 Route::get("/all-categories", [CategoryController::class, "all"])->name("all.categories.api");
 Route::get("top-categories", [CategoryController::class, "topCategories"])->name("top.categories");
 
-// ------------- Cities/Countries API Routes
+// ------------- Cities/States/Countries API Routes
 Route::get("top-cities", [CityController::class, "topCities"])->name("top.cities");
 Route::get("top-countries", [CountryController::class, "topCountries"])->name("top.countries");
 Route::get("all-countries", [CountryController::class, "allCountries"])->name("all.countries.api");
-Route::get("related-cities", [CityController::class, "relatedCities"])->name("related.cities");
+// Route::get("related-cities", [CityController::class, "relatedCities"])->name("related.cities");
+Route::get("related-states/{countryID}", [HomeController::class, "relatedStates"])->name("related.states");
+Route::get("related-cities/{stateID}", [HomeController::class, "relatedCities"])->name("related.cities");
+
 
 // ------------ Blog Posts/Blog Categories API Routes
 Route::get("latest-blogposts", [BlogpostController::class, "latestBlogPosts"])->name("latest.blogposts");

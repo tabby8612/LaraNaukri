@@ -78,11 +78,9 @@ class CandidateController extends Controller {
     }
 
     public function update(Request $request) {
+        // dd($request->all());
 
         $candidateID = Auth::id();
-
-        $candidate = Candidate::where("user_id", "=", $candidateID);
-
 
         DB::transaction(function () use ($request, $candidateID) {
             $candidate = Candidate::where("user_id", "=", $candidateID);
@@ -100,7 +98,20 @@ class CandidateController extends Controller {
                     });
                 }
 
-                if ($key != "email" && $key != "password") {
+                if ($key == "image_path" && $request->hasFile("image_path")) {
+                    $image_path = $request->file("image_path")->store("candidates", "public");
+                    $candidate->update([
+                        $key => $image_path
+                    ]);
+                }
+                if ($key == "cover_image_path" && $request->hasFile("cover_image_path")) {
+                    $cover_image_path = $request->file("cover_image_path")->store("candidates", "public");
+                    $candidate->update([
+                        $key => $cover_image_path
+                    ]);
+                }
+
+                if ($key != "email" && $key != "password" && $key != "image_path" && $key != "cover_image_path") {
                     $candidate->update([
                         $key => $value
                     ]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -22,5 +23,17 @@ class HomeController extends Controller {
         $items = Cache::get($request->column, fn() => DB::table($request->column)->get(["id", "name"]));
 
         return response()->json($items->toArray());
+    }
+
+    public function relatedStates(string $countryID) {
+        $states = DB::table("states")->where("country_id", $countryID)->get(["name", "id"])->toArray();
+
+        return response()->json($states);
+    }
+
+    public function relatedCities(string $stateID) {
+        $cities = DB::table("cities")->where("state_id", $stateID)->get(["name", "id"])->toArray();
+
+        return response()->json($cities);
     }
 }

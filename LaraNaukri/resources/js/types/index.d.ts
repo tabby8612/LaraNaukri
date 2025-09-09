@@ -168,10 +168,12 @@ type Candidate = {
     category_id: number;
     career_level_id: number;
     is_subscribed: boolean;
-
-    image_path: string;
-    profession: string;
+    country_id: number;
+    state_id: number;
     city_id: number;
+    image_path: string;
+
+    profession: string;
     is_featured: number;
     created_at: string;
     updated_at: string;

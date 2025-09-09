@@ -6,26 +6,17 @@ type Props = {
     name: string;
     fetchTable: string;
     selectedID?: number;
-    onChangeFn: (column: string, val: string) => void;
     items?: {
         name: string;
         id: number;
     }[];
 };
-export default function CustomSelectField({
-    label,
-    name,
-    items,
-    fetchTable,
-    selectedID,
-    onChangeFn,
-    ...props
-}: InputHTMLAttributes<HTMLSelectElement> & Props) {
+export default function CustomSelectField({ label, name, items, fetchTable, selectedID, ...props }: InputHTMLAttributes<HTMLSelectElement> & Props) {
     const [fetchItems, setFetchItems] = useState(items ?? []);
 
     useEffect(() => {
         async function fetchData(column: string) {
-            if (fetchItems.length === 0) {
+            if (!items) {
                 const response = await fetch(route('fetch', { column }));
 
                 const data = await response.json();
@@ -46,7 +37,6 @@ export default function CustomSelectField({
                 name={name}
                 id={name}
                 className="h-10 w-full rounded border-2 border-gray-300 bg-white focus-visible:outline-2 focus-visible:outline-primary"
-                onChange={(e) => onChangeFn(name, e.target.value)}
                 {...props}
             >
                 {fetchItems.length > 0 &&
