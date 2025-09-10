@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ResumeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -10,7 +12,18 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::post("update-profile", [CandidateController::class, "update"])->name("updateProfile");
 
 
-    Route::get("build-resume", fn() => Inertia::render("candidate/build-resume"))->name("buildResume");
+    //-- Resume Calls
+    Route::get("build-resume", [ResumeController::class, "index"])->name("buildResume"); //shows listings of resumes
+    Route::post("create-resume", [ResumeController::class, "store"])->name("storeResume");
+    Route::delete("delete-resume/{id}", [ResumeController::class, "destroy"])->name("destroyResume");
+    Route::post("update-resume/{id}", [ResumeController::class, "update"])->name("updateResume");
+
+    //-- Project Calls
+    Route::get("projects", [ProjectController::class, "index"])->name("projects"); //shows listings of projects
+    Route::post("project-add", [ProjectController::class, "store"])->name("projectAdd");
+
+
+
     Route::get("download-resume", fn() => Inertia::render("candidate/download-resume"))->name("downloadResume");
     Route::get("view-public-profile/{id}", fn() => Inertia::render("candidate/view-public-profile"))->name("viewPublicProfile");
     Route::get("my-job-application", fn() => Inertia::render("candidate/job-applications"))->name("jobApplications");

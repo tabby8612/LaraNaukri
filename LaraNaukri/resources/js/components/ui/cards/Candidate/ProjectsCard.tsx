@@ -16,7 +16,7 @@ export default function ProjectsCard({ projects }: { projects: Project[] }) {
         <Card className="mt-10 border-gray-200 p-7 shadow-xl">
             <div className="flex items-center justify-between">
                 <h1 className="font-montserrat text-2xl font-bold">Projects</h1>
-                <UploadProject type="+" />
+                <UploadProject trigger="+" />
             </div>
             <div className="grid grid-cols-4 gap-4">
                 {projects &&

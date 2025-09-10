@@ -17,7 +17,7 @@ export default function CustomDatePicker({
             <input
                 type="date"
                 className="h-10 rounded border-2 border-gray-300 bg-white px-2 focus-within:ring-primary"
-                value={date}
+                defaultValue={date}
                 // onChange={(e) => onChangeFn('date_of_birth', e.target.value)}
                 {...props}
             />

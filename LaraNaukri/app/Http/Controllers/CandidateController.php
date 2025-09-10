@@ -123,4 +123,6 @@ class CandidateController extends Controller {
 
         return to_route("candidate.editProfile");
     }
+
+
 }

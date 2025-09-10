@@ -191,3 +191,13 @@ type Candidate = {
     user: User;
     gender: Gender;
 };
+
+type Resume = {
+    id: number;
+    candidate_id: number;
+    title: string;
+    cv_path: string;
+    is_default: boolean;
+    created_at: string;
+    updated_at: string;
+};

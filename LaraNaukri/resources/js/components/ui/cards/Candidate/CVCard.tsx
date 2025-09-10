@@ -1,16 +1,18 @@
 import { Pencil } from '@/SVGs/Pencil';
+import { Resume } from '@/types';
+import { router, usePage } from '@inertiajs/react';
 import { Download, X } from 'lucide-react';
 import { Card } from '../../card';
+import DeleteConfirmation from '../DeleteConfirmation';
 import UploadCV from '../UploadCV';
 
-type CVProps = {
-    title: string;
-    isDefault: boolean;
-    date: string;
-    id: string;
-};
+export default function CVCard() {
+    const { resumes } = usePage<{ resumes: Resume[] }>().props;
 
-export default function CVCard({ CVdetails }: { CVdetails: CVProps[] }) {
+    function deleteHandler(id: number) {
+        router.delete(route('candidate.destroyResume', { id }));
+    }
+
     return (
         <Card className="border-gray-200 p-7 shadow-xl">
             <div className="flex items-center justify-between">
@@ -27,24 +29,28 @@ export default function CVCard({ CVdetails }: { CVdetails: CVProps[] }) {
                     </tr>
                 </thead>
                 <tbody className="">
-                    {CVdetails.map((item) => (
-                        <tr id="1" className="my-3 h-9 even:bg-gray-200" key={item.id}>
+                    {resumes.map((item) => (
+                        <tr id={`${item.id}`} className="my-3 h-9 even:bg-gray-200" key={item.id}>
                             <td className="text-center">
-                                <a href="" className="text-primary underline">
+                                <a href={`/storage/${item.cv_path}`} className="text-primary underline" target="_blank">
                                     {item.title}
                                 </a>
                             </td>
-                            <td className="text-center">{item.isDefault ? 'Default' : 'Not Default'}</td>
-                            <td className="text-center">{item.date}</td>
+                            <td className="text-center">{item.is_default ? 'Default' : 'Not Default'}</td>
+                            <td className="text-center">{item.updated_at}</td>
                             <td className="text-center">
                                 <span className="flex items-center justify-center gap-2">
-                                    <a href="">
+                                    <a href={`/storage/${item.cv_path}`} target="_blank">
                                         <Download className="text-primary" />
                                     </a>
-                                    <UploadCV type={<Pencil className="size-4" />} title="Previous CV" />
-                                    <a href="">
-                                        <X className="text-red-500" />
-                                    </a>
+                                    <UploadCV
+                                        type={<Pencil className="size-4" />}
+                                        title={item.title}
+                                        cv_path={item.cv_path}
+                                        forUpdate
+                                        id={`${item.id}`}
+                                    />
+                                    <DeleteConfirmation trigger={<X className="text-red-500" />} deleteFn={() => deleteHandler(item.id)} />
                                 </span>
                             </td>
                         </tr>
