@@ -2,13 +2,25 @@ import { Field, Radio, RadioGroup } from '@headlessui/react';
 import { useState } from 'react';
 import { Label } from '../UnusedUI/label';
 
-export default function CustomRadioGroup({ options, label }: { options: string[]; label: string }) {
-    const [selected, setSelected] = useState(options[0]);
+type Props = {
+    options: string[];
+    label: string;
+    selectedText: string;
+    onChangeFn: (selectedValue: string) => void;
+};
+
+export default function CustomRadioGroup({ options, label, selectedText, onChangeFn }: Props) {
+    const [selected, setSelected] = useState(selectedText);
+
+    function changeHandler(val: string) {
+        setSelected(val);
+        onChangeFn(val);
+    }
 
     return (
         <div>
             <Label className="text-gray-500">{label}</Label>
-            <RadioGroup value={selected} onChange={setSelected} aria-label="default option">
+            <RadioGroup value={selected} onChange={(val) => changeHandler(val)} aria-label="default option">
                 {options.map((option) => (
                     <Field className="mt-2 flex gap-2" key={option}>
                         <Radio

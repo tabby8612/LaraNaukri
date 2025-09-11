@@ -11,7 +11,7 @@ export default function CustomDatePicker({
 } & InputHTMLAttributes<HTMLDataElement>) {
     return (
         <div className="flex w-full flex-col">
-            <Label htmlFor="date_of_birth" className="tracking-wider text-gray-500">
+            <Label htmlFor="" className="tracking-wider text-gray-500">
                 {label}
             </Label>
             <input

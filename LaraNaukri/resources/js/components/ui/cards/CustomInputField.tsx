@@ -21,7 +21,7 @@ export default function CustomInputField({
     ...props
 }: InputHTMLAttributes<HTMLInputElement> & CustomProps) {
     return (
-        <div className="size-full">
+        <div className="w-full">
             <Label htmlFor={name} className="tracking-wider text-gray-500">
                 {label}
             </Label>

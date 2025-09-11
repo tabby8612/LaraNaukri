@@ -1,6 +1,7 @@
 import { FormEvent, ReactNode } from 'react';
 import { Button } from '../UnusedUI/button';
 import { Dialog, DialogContent, DialogHeader, DialogOverlay, DialogTitle, DialogTrigger } from '../UnusedUI/dialog';
+import CountryStateCity from './CountryStateCity';
 import CustomInputField from './CustomInputField';
 import CustomSelectField from './CustomSelectField';
 
@@ -38,27 +39,25 @@ export default function AddEducation({ type }: { type?: string | ReactNode }) {
                             </div>
 
                             <CustomInputField label="Degree Title" name="degree-title" placeholder="Degree Title" type="text" value="" />
-                            <div className="flex gap-5">
-                                <CustomSelectField
-                                    label="Select Country"
-                                    name="country_id"
-                                    items={[
-                                        { id: '1', name: 'United States' },
-                                        { id: '2', name: 'Pakistan' },
-                                    ]}
-                                />
-                                <CustomSelectField
-                                    label="Select City"
-                                    name="city_id"
-                                    items={[
-                                        { id: '1', name: 'New York' },
-                                        { id: '2', name: 'Islamabad' },
-                                    ]}
-                                />
+                            <div className="flex flex-col gap-5">
+                                <CountryStateCity countryID="70" stateID={5} cityID={0} />
                             </div>
                             <div className="flex gap-5">
                                 <CustomInputField label="Institution" name="institution" placeholder="Institution" type="text" value="" />
                                 <CustomInputField label="Year" name="year" placeholder="Year" type="text" value="" />
+                            </div>
+                            <div className="flex gap-5">
+                                <CustomInputField label="Degree Result" name="degree_result" placeholder="Degree Result" type="text" value="" />
+                                <CustomSelectField
+                                    label="Select Result Type"
+                                    name="result_type"
+                                    items={[
+                                        { name: 'GPA', id: 1 },
+                                        { name: 'Grade', id: 2 },
+                                        { name: 'Percentage', id: 3 },
+                                    ]}
+                                    fetchTable=""
+                                />
                             </div>
 
                             <Button className="hoverEffect text-white">Save Changes</Button>

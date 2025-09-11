@@ -1,31 +1,51 @@
+import { Project } from '@/types';
+import { router } from '@inertiajs/react';
+import { Label } from '../../UnusedUI/label';
+import DeleteConfirmation from '../DeleteConfirmation';
+import UploadProject from '../UploadProject';
+
 type Props = {
-    image: string;
-    id: string;
-    name: string;
-    dateFrom: string;
-    dateTo: string;
-    description: string;
+    project: Project;
+    refreshProjectsFn: () => void;
 };
 
-export default function PortfilioProject({ image, id, name, dateFrom, dateTo, description }: Props) {
+export default function PortfilioProject({ project, refreshProjectsFn }: Props) {
+    function deleteHandler(id: string) {
+        router.delete(route('candidate.projectDelete', id), {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: () => refreshProjectsFn(),
+        });
+    }
+
     return (
         <div className="size-full border-0 shadow-none">
-            <img src={image} alt={name} className="rounded-lg" />
-            <h1 className="font-montserrat font-bold">{name}</h1>
+            <img src={`/storage/${project.image_path}`} alt={project.name} className="size-40 rounded-lg" />
+            <a href={project.url}>
+                <h1 className="font-montserrat font-bold">{project.name}</h1>
+            </a>
             <p className="mt-3">
-                {dateFrom} - {dateTo}
+                {project.start_date} - {project.ongoing ? 'Currently Working' : project.end_date}
             </p>
-            <p>{description}</p>
+            <p>{project.description}</p>
 
-            <p className="mt-3">
-                <span className="cursor-pointer text-primary" onClick={() => console.log(id)}>
-                    Edit
+            <div className="mt-3 flex items-baseline gap-3">
+                <span className="cursor-pointer text-primary">
+                    <UploadProject
+                        trigger={<Label className="cursor-pointer font-montserrat text-sm font-semibold">Edit</Label>}
+                        project={project}
+                        type="update"
+                        refreshProjectsFn={refreshProjectsFn}
+                    />
                 </span>{' '}
                 |{' '}
-                <span className="cursor-pointer text-red-500" onClick={() => console.log(id)}>
-                    Delete
+                <span className="cursor-pointer font-montserrat text-sm font-semibold text-red-500">
+                    <DeleteConfirmation
+                        trigger={<Label className="cursor-pointer font-montserrat text-sm font-semibold text-red-400">Delete</Label>}
+                        deleteFn={() => deleteHandler(project.id)}
+                    />
                 </span>
-            </p>
+            </div>
         </div>
     );
 }

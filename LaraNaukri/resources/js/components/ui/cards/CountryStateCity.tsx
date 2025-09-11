@@ -11,9 +11,10 @@ type Props = {
     countryID: string;
     stateID: number;
     cityID: number;
+    setData?: (attribute: string, val: string) => void;
 };
 
-export default function CountryStateCity({ countryID, stateID, cityID }: Props) {
+export default function CountryStateCity({ countryID, stateID, cityID, setData }: Props) {
     const [states, setStates] = useState<Item[] | []>([]);
     const [cities, setCities] = useState<Item[] | []>([]);
 
@@ -49,6 +50,8 @@ export default function CountryStateCity({ countryID, stateID, cityID }: Props) 
     }, []);
 
     async function countriesHandler(e: ChangeEvent<HTMLSelectElement>) {
+        if (setData) setData('country_id', e.target.value);
+
         const response = await fetch(
             route('related.states', {
                 countryID: e.target.value,
@@ -62,6 +65,8 @@ export default function CountryStateCity({ countryID, stateID, cityID }: Props) 
     }
 
     async function statesHandler(e: ChangeEvent<HTMLSelectElement>) {
+        if (setData) setData('state_id', e.target.value);
+
         const response = await fetch(
             route('related.cities', {
                 stateID: e.target.value,
@@ -105,7 +110,12 @@ export default function CountryStateCity({ countryID, stateID, cityID }: Props) 
                 <Label htmlFor="" className="tracking-wider text-gray-500">
                     City
                 </Label>
-                <select className="h-10 w-full rounded border-2 border-gray-300 bg-white focus-visible:outline-2 focus-visible:outline-primary">
+                <select
+                    className="h-10 w-full rounded border-2 border-gray-300 bg-white focus-visible:outline-2 focus-visible:outline-primary"
+                    onChange={(e) => {
+                        if (setData) setData('city_id', e.target.value);
+                    }}
+                >
                     <option value="0">Select City</option>
                     {cities.length > 0 &&
                         cities.map((item) => (

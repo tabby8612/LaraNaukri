@@ -107,15 +107,20 @@ type Category = {
     jobs_count: number;
 };
 
-type City = {
-    id: number;
+type Country = {
+    id: string;
     name: string;
     image_path: string;
     jobs_count: number;
 };
 
-type Country = {
-    id: string;
+type State = {
+    id: number;
+    name: string;
+};
+
+type City = {
+    id: number;
     name: string;
     image_path: string;
     jobs_count: number;
@@ -200,4 +205,37 @@ type Resume = {
     is_default: boolean;
     created_at: string;
     updated_at: string;
+};
+
+type Project = {
+    id: string;
+    candidate_id: string;
+    name: string;
+    url: string;
+    image_path: string;
+    ongoing: boolean;
+    start_date: string;
+    end_date: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
+};
+
+type Experience = {
+    id: string;
+    candidate_id: string;
+    title: string;
+    company: string;
+    country_id: string;
+    state_id: string;
+    city_id: string;
+    start_date: string;
+    end_date: string;
+    description: string;
+    is_working: string;
+    created_at: string;
+    updated_at: string;
+    country: Country;
+    state: State;
+    city: City;
 };

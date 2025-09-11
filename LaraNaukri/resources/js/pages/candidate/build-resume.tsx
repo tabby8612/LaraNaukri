@@ -1,63 +1,27 @@
 import CVCard from '@/components/ui/cards/Candidate/CVCard';
+import EducationsCard from '@/components/ui/cards/Candidate/EducationsCard';
+import ExperiencesCard from '@/components/ui/cards/Candidate/ExperiencesCard';
 import ProjectsCard from '@/components/ui/cards/Candidate/ProjectsCard';
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
 
-const projects = [
+const educations = [
     {
-        image_path: 'https://www.sharjeelanjum.com/demos/jobsportal-update/project_images/thumb/jobs-portal-wzrm0-373.jpg',
-        dateFrom: '31 Jan, 2025',
-        dateTo: '31 Jan, 2025',
-        description: 'This is test project',
-        id: '2',
-        name: 'Job Portal',
+        title: 'Matriculation/O-Level',
+        degree: 'Matric in Science',
+        country: 'New Zealand',
+        city: 'Palmerston North',
+        institution: 'Matric',
+        year: '2005',
     },
     {
-        image_path: 'https://www.sharjeelanjum.com/demos/jobsportal-update/project_images/thumb/jobs-portal-wzrm0-373.jpg',
-        dateFrom: '31 Jan, 2025',
-        dateTo: '31 Jan, 2025',
-        description: 'This is test project',
-        id: '1',
-        name: 'Job Portal',
+        title: 'Matriculation/O-Level',
+        degree: 'Matric in Science',
+        country: 'New Zealand',
+        city: 'Palmerston North',
+        institution: 'Matric',
+        year: '2005',
     },
 ];
-
-// const experiences = [
-//     {
-//         title: 'UI UX Designer',
-//         country: 'Namibia',
-//         city: 'Maltahohe',
-//         working_from: '13 Dec, 2009',
-//         working_to: '07 Feb, 2012',
-//         currentlyWorking: false,
-//     },
-//     {
-//         title: 'Laravel Developer',
-//         country: 'Pakistan',
-//         city: 'Karachi',
-//         working_from: '13 Dec, 2009',
-//         working_to: '07 Feb, 2012',
-//         currentlyWorking: true,
-//     },
-// ];
-
-// const educations = [
-//     {
-//         title: 'Matriculation/O-Level',
-//         degree: 'Matric in Science',
-//         country: 'New Zealand',
-//         city: 'Palmerston North',
-//         institution: 'Matric',
-//         year: '2005',
-//     },
-//     {
-//         title: 'Matriculation/O-Level',
-//         degree: 'Matric in Science',
-//         country: 'New Zealand',
-//         city: 'Palmerston North',
-//         institution: 'Matric',
-//         year: '2005',
-//     },
-// ];
 
 // const skills = [
 //     {
@@ -90,10 +54,10 @@ export default function BuildResume() {
         <AppCandidateLayout page="build-resume" displaySearch={false} titleText="Build Resume">
             <h1 className="font-montserrat text-2xl font-semibold">Build Your Resume</h1>
             <CVCard />
-            <ProjectsCard projects={projects} />
-            {/*<ExperiencesCard experiences={experiences} />
+            <ProjectsCard />
+            <ExperiencesCard />
             <EducationsCard educations={educations} />
-            <SkillsCard skills={skills} />
+            {/* <SkillsCard skills={skills} />
             <LanguagesCard languages={languages} /> */}
         </AppCandidateLayout>
     );
