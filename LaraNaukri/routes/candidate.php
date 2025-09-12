@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CandidateExperienceController;
+use App\Http\Controllers\DegreeTypeController;
+use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ResumeController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +32,11 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::post("experience-add", [CandidateExperienceController::class, "store"])->name("experienceAdd");
     Route::put("experience-update/{candidateExperience}", [CandidateExperienceController::class, "update"])->name("experienceUpdate");
     Route::delete("experience-delete/{candidateExperience}", [CandidateExperienceController::class, "destroy"])->name("experienceDelete");
+
+    //-- Education Calls
+    Route::get("degreeTypes/{degreeLevelID}", [DegreeTypeController::class, "relatedDegreeTypes"])->name("degreeTypes");
+
+    Route::post("education-add", [EducationController::class, "store"])->name("educationAdd");
 
 
     Route::get("download-resume", fn() => Inertia::render("candidate/download-resume"))->name("downloadResume");

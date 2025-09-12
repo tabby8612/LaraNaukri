@@ -239,3 +239,9 @@ type Experience = {
     state: State;
     city: City;
 };
+
+type DegreeType = {
+    id: string;
+    name: string;
+    degree_level_id: string;
+};

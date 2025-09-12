@@ -39,6 +39,7 @@ export default function CustomSelectField({ label, name, items, fetchTable, sele
                 className="h-10 w-full rounded border-2 border-gray-300 bg-white focus-visible:outline-2 focus-visible:outline-primary"
                 {...props}
             >
+                <option value="0">Select {label}</option>
                 {fetchItems.length > 0 &&
                     fetchItems.map((item) => (
                         <option value={item.id} className="hover:bg-primary hover:text-white" key={item.id} selected={item.id === selectedID}>
