@@ -4,25 +4,6 @@ import ExperiencesCard from '@/components/ui/cards/Candidate/ExperiencesCard';
 import ProjectsCard from '@/components/ui/cards/Candidate/ProjectsCard';
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
 
-const educations = [
-    {
-        title: 'Matriculation/O-Level',
-        degree: 'Matric in Science',
-        country: 'New Zealand',
-        city: 'Palmerston North',
-        institution: 'Matric',
-        year: '2005',
-    },
-    {
-        title: 'Matriculation/O-Level',
-        degree: 'Matric in Science',
-        country: 'New Zealand',
-        city: 'Palmerston North',
-        institution: 'Matric',
-        year: '2005',
-    },
-];
-
 // const skills = [
 //     {
 //         id: '1',
@@ -56,7 +37,7 @@ export default function BuildResume() {
             <CVCard />
             <ProjectsCard />
             <ExperiencesCard />
-            <EducationsCard educations={educations} />
+            <EducationsCard />
             {/* <SkillsCard skills={skills} />
             <LanguagesCard languages={languages} /> */}
         </AppCandidateLayout>

@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EducationRequest;
 use App\Models\Education;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use function Pest\Laravel\json;
 
 class EducationController extends Controller {
     /**
@@ -11,6 +15,12 @@ class EducationController extends Controller {
      */
     public function index() {
         //
+        $educations = Education::with("country:name,id", "state:name,id", "city:name,id")
+            ->where("candidate_id", Auth::user()->candidate->id)
+            ->get()
+            ->toArray();
+
+        return response()->json($educations);
     }
 
     /**
@@ -23,9 +33,14 @@ class EducationController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function store(EducationRequest $request) {
         //
-        dd($request->all());
+        $validated = $request->validated();
+        $validated["candidate_id"] = Auth::user()->candidate->id;
+
+        Education::create($validated);
+
+        return back();
     }
 
     /**
@@ -45,8 +60,14 @@ class EducationController extends Controller {
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Education $education) {
+    public function update(EducationRequest $request, Education $education) {
         //
+
+        $validated = $request->validated();
+
+        $education->update($validated);
+
+        return back();
     }
 
     /**
@@ -54,5 +75,6 @@ class EducationController extends Controller {
      */
     public function destroy(Education $education) {
         //
+        $education->delete();
     }
 }

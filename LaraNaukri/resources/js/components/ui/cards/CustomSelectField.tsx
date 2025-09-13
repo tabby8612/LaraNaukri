@@ -8,7 +8,7 @@ type Props = {
     selectedID?: number;
     items?: {
         name: string;
-        id: number;
+        id: number | string;
     }[];
 };
 export default function CustomSelectField({ label, name, items, fetchTable, selectedID, ...props }: InputHTMLAttributes<HTMLSelectElement> & Props) {

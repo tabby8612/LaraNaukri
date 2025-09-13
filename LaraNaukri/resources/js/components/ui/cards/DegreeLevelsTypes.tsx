@@ -28,6 +28,8 @@ export default function DegreeLevelsTypes({ setData, DegreeLevelID, DegreeTypeID
     }
 
     useEffect(() => {
+        if (!DegreeLevelID) return;
+
         DegreeLevelHandler(DegreeLevelID);
     }, []);
 
@@ -38,6 +40,7 @@ export default function DegreeLevelsTypes({ setData, DegreeLevelID, DegreeTypeID
                 name="degree_level_id"
                 fetchTable="degree_levels"
                 selectedID={+DegreeLevelID}
+                value={DegreeLevelID}
                 onChange={(e) => DegreeLevelHandler(e.target.value)}
             />
 

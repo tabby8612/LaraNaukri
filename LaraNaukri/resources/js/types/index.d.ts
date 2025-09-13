@@ -245,3 +245,21 @@ type DegreeType = {
     name: string;
     degree_level_id: string;
 };
+
+type Education = {
+    id: string;
+    candidate_id: string;
+    title: string;
+    degree_level_id: string;
+    degree_type_id: string;
+    country_id: string;
+    state_id: string;
+    city_id: string;
+    institution: string;
+    year: string;
+    result: string;
+    result_type: string;
+    country: Country;
+    state: State;
+    city: City;
+};

@@ -1,24 +1,31 @@
+import { Education } from '@/types';
+import { useEffect, useState } from 'react';
 import { Card } from '../../card';
 import AddEducation from '../AddEducation';
 import EducationCard from './EducationCard';
 
-type Education = {
-    title: string;
-    degree: string;
-    country: string;
-    city: string;
-    institution: string;
-    year: string;
-};
+export default function EducationsCard() {
+    const [educations, setEducation] = useState<Education[] | []>([]);
 
-export default function EducationsCard({ educations }: { educations: Education[] }) {
+    async function getEducations() {
+        const response = await fetch(route('candidate.educations'));
+        const data = await response.json();
+        console.log(data);
+        setEducation(data);
+    }
+
+    useEffect(() => {
+        getEducations();
+    }, []);
+
     return (
         <Card className="mt-10 border-gray-200 p-7 shadow-xl">
             <div className="flex items-center justify-between">
                 <h1 className="font-montserrat text-2xl font-bold">Education</h1>
-                <AddEducation trigger="+" />
+                <AddEducation trigger="+" refreshFn={getEducations} />
             </div>
-            <EducationCard educations={educations} />
+            {educations.length > 0 && <EducationCard educations={educations} refreshFn={getEducations} />}
+            {educations.length < 1 && <p>No Education To Show. Click '+' To Add Education</p>}
         </Card>
     );
 }

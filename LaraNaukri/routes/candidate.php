@@ -35,8 +35,10 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
 
     //-- Education Calls
     Route::get("degreeTypes/{degreeLevelID}", [DegreeTypeController::class, "relatedDegreeTypes"])->name("degreeTypes");
-
+    Route::get("educations", [EducationController::class, "index"])->name("educations");
     Route::post("education-add", [EducationController::class, "store"])->name("educationAdd");
+    Route::put("education-update/{education}", [EducationController::class, "update"])->name("educationUpdate");
+    Route::delete("education-delete/{education}", [EducationController::class, 'destroy'])->name("educationDelete");
 
 
     Route::get("download-resume", fn() => Inertia::render("candidate/download-resume"))->name("downloadResume");
