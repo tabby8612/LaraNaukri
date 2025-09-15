@@ -80,13 +80,7 @@ export default function CountryStateCity({ countryID, stateID, cityID, setData }
 
     return (
         <>
-            <CustomSelectField
-                label="Country"
-                name="country_id"
-                fetchTable="countries"
-                selectedID={+countryID}
-                onChange={(e) => countriesHandler(e)}
-            />
+            <CustomSelectField label="Country" name="country_id" fetchTable="countries" value={countryID} onChange={(e) => countriesHandler(e)} />
 
             <div className="w-full">
                 <Label htmlFor="" className="tracking-wider text-gray-500">
@@ -112,6 +106,7 @@ export default function CountryStateCity({ countryID, stateID, cityID, setData }
                 </Label>
                 <select
                     className="h-10 w-full rounded border-2 border-gray-300 bg-white focus-visible:outline-2 focus-visible:outline-primary"
+                    value={cityID}
                     onChange={(e) => {
                         if (setData) setData('city_id', e.target.value);
                     }}
@@ -119,7 +114,7 @@ export default function CountryStateCity({ countryID, stateID, cityID, setData }
                     <option value="0">Select City</option>
                     {cities.length > 0 &&
                         cities.map((item) => (
-                            <option value={item.id} className="hover:bg-primary hover:text-white" key={item.id} selected={item.id === cityID}>
+                            <option value={item.id} className="hover:bg-primary hover:text-white" key={item.id}>
                                 {item.name}
                             </option>
                         ))}

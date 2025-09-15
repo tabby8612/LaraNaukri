@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Education extends Model {
     //
@@ -23,4 +24,10 @@ class Education extends Model {
     public function city(): BelongsTo {
         return $this->belongsTo(City::class);
     }
+
+    public function subjects(): BelongsToMany {
+        return $this->belongsToMany(Subject::class);
+    }
+
+
 }

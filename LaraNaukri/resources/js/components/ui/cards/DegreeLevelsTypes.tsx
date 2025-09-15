@@ -22,7 +22,6 @@ export default function DegreeLevelsTypes({ setData, DegreeLevelID, DegreeTypeID
         );
 
         const data = await response.json();
-        console.log(data);
 
         setDegreeTypes(data);
     }
@@ -39,7 +38,6 @@ export default function DegreeLevelsTypes({ setData, DegreeLevelID, DegreeTypeID
                 label="Degree Level"
                 name="degree_level_id"
                 fetchTable="degree_levels"
-                selectedID={+DegreeLevelID}
                 value={DegreeLevelID}
                 onChange={(e) => DegreeLevelHandler(e.target.value)}
             />

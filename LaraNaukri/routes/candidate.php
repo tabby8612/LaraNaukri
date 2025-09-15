@@ -6,6 +6,9 @@ use App\Http\Controllers\DegreeTypeController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ResumeController;
+use App\Http\Controllers\SkillController;
+use App\Http\Controllers\SubjectController;
+use App\Models\CandidateSkill;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -35,10 +38,15 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
 
     //-- Education Calls
     Route::get("degreeTypes/{degreeLevelID}", [DegreeTypeController::class, "relatedDegreeTypes"])->name("degreeTypes");
+    Route::get("subjects", [SubjectController::class, 'index'])->name("subjects");
     Route::get("educations", [EducationController::class, "index"])->name("educations");
     Route::post("education-add", [EducationController::class, "store"])->name("educationAdd");
     Route::put("education-update/{education}", [EducationController::class, "update"])->name("educationUpdate");
     Route::delete("education-delete/{education}", [EducationController::class, 'destroy'])->name("educationDelete");
+
+    //-- Skills Calls
+    Route::post("skills-add", [CandidateSkill::class, "store"])->name("skillAdd");
+
 
 
     Route::get("download-resume", fn() => Inertia::render("candidate/download-resume"))->name("downloadResume");

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Candidate extends Model {
@@ -62,6 +63,14 @@ class Candidate extends Model {
 
     public function projects(): HasMany {
         return $this->hasMany(Project::class);
+    }
+
+    public function subjects(): BelongsToMany {
+        return $this->belongsToMany(Subject::class);
+    }
+
+    public function skills(): BelongsToMany {
+        return $this->belongsToMany(Skill::class);
     }
 
 

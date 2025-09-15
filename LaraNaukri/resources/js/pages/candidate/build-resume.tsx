@@ -2,20 +2,21 @@ import CVCard from '@/components/ui/cards/Candidate/CVCard';
 import EducationsCard from '@/components/ui/cards/Candidate/EducationsCard';
 import ExperiencesCard from '@/components/ui/cards/Candidate/ExperiencesCard';
 import ProjectsCard from '@/components/ui/cards/Candidate/ProjectsCard';
+import SkillsCard from '@/components/ui/cards/Candidate/SkillsCard';
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
 
-// const skills = [
-//     {
-//         id: '1',
-//         name: 'Adobe Photoshop',
-//         years: '14 Years',
-//     },
-//     {
-//         id: '2',
-//         name: 'Adobe Illustrator',
-//         years: '9 years',
-//     },
-// ];
+const skills = [
+    {
+        id: '1',
+        name: 'Adobe Photoshop',
+        years: '14 Years',
+    },
+    {
+        id: '2',
+        name: 'Adobe Illustrator',
+        years: '9 years',
+    },
+];
 
 // const languages = [
 //     {
@@ -38,8 +39,8 @@ export default function BuildResume() {
             <ProjectsCard />
             <ExperiencesCard />
             <EducationsCard />
-            {/* <SkillsCard skills={skills} />
-            <LanguagesCard languages={languages} /> */}
+            <SkillsCard skills={skills} />
+            {/* <LanguagesCard languages={languages} /> */}
         </AppCandidateLayout>
     );
 }

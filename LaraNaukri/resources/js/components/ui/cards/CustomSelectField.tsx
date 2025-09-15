@@ -5,13 +5,12 @@ type Props = {
     label: string;
     name: string;
     fetchTable: string;
-    selectedID?: number;
     items?: {
         name: string;
         id: number | string;
     }[];
 };
-export default function CustomSelectField({ label, name, items, fetchTable, selectedID, ...props }: InputHTMLAttributes<HTMLSelectElement> & Props) {
+export default function CustomSelectField({ label, name, items, fetchTable, ...props }: InputHTMLAttributes<HTMLSelectElement> & Props) {
     const [fetchItems, setFetchItems] = useState(items ?? []);
 
     useEffect(() => {
@@ -42,7 +41,7 @@ export default function CustomSelectField({ label, name, items, fetchTable, sele
                 <option value="0">Select {label}</option>
                 {fetchItems.length > 0 &&
                     fetchItems.map((item) => (
-                        <option value={item.id} className="hover:bg-primary hover:text-white" key={item.id} selected={item.id === selectedID}>
+                        <option value={item.id} className="hover:bg-primary hover:text-white" key={item.id}>
                             {item.name}
                         </option>
                     ))}

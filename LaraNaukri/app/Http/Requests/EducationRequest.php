@@ -30,6 +30,7 @@ class EducationRequest extends FormRequest {
             "year" => ["required", "size:4"],
             "result" => ["required"],
             "result_type" => ["required", "in:GPA,Percentage,Grade"],
+            "subjects" => ["required"]
         ];
     }
 }

@@ -13,11 +13,11 @@ export default function SkillCard({ skills }: { skills: Skill[] }) {
             <tbody className="">
                 {skills.map((skill) => (
                     <tr id={skill.id} className="my-3 h-7 odd:bg-gray-200" key={skill.id}>
-                        <td className="text-center font-bold">{skill.name}</td>
-                        <td className="text-center">{skill.years}</td>
-                        <td className="text-center">
+                        <td className="p-1 font-bold">{skill.name}</td>
+                        <td className="p-1">{skill.years}</td>
+                        <td className="p-1">
                             <span className="flex items-center justify-center gap-2">
-                                <AddSkill type={<Pencil className="size-4" />} />
+                                <AddSkill trigger={<Pencil className="size-4" />} />
                                 <a href="">
                                     <X className="text-red-500" />
                                 </a>

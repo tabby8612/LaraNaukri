@@ -5,6 +5,7 @@ import { Button } from '../UnusedUI/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogOverlay, DialogTitle, DialogTrigger } from '../UnusedUI/dialog';
 import CountryStateCity from './CountryStateCity';
 import CustomInputField from './CustomInputField';
+import { CustomMultiSelect } from './CustomMultiSelect';
 import CustomSelectField from './CustomSelectField';
 import DegreeLevelsTypes from './DegreeLevelsTypes';
 
@@ -18,13 +19,14 @@ type Props = {
 export default function AddEducation({ trigger, type = 'create', education, refreshFn }: Props) {
     const [successDialog, setSuccessDialog] = useState('');
 
-    const { data, setData, errors, post } = useForm({
+    const { data, setData, errors, post, reset } = useForm({
         degree_level_id: education?.degree_level_id ? education.degree_level_id : '',
         degree_type_id: education?.degree_type_id ? education.degree_type_id : '',
         country_id: education?.country_id ? education.country_id : '',
         state_id: education?.state_id ? education.state_id : '',
         city_id: education?.city_id ? education.city_id : '',
         title: education?.title ? education.title : '',
+        subjects: education?.subjects ? education.subjects : [],
         institution: education?.institution ? education.institution : '',
         year: education?.year ? education.year : '',
         result: education?.result ? education.result : '',
@@ -41,6 +43,7 @@ export default function AddEducation({ trigger, type = 'create', education, refr
                 preserveState: true,
                 onSuccess: () => {
                     refreshFn();
+                    reset();
                     setSuccessDialog('Education Added Successfully');
                 },
             });
@@ -50,6 +53,7 @@ export default function AddEducation({ trigger, type = 'create', education, refr
                 preserveState: true,
                 onSuccess: () => {
                     refreshFn();
+                    reset();
                     setSuccessDialog('Education Updated Successfully');
                 },
             });
@@ -97,6 +101,10 @@ export default function AddEducation({ trigger, type = 'create', education, refr
                                         onChange={(e) => setData('title', e.target.value)}
                                     />
                                     {errors.title && <div className="text-sm text-red-400">{errors.title}</div>}
+                                </div>
+
+                                <div className="w-full">
+                                    <CustomMultiSelect data={education?.subjects ?? []} setData={setData} />
                                 </div>
 
                                 <div>
@@ -161,7 +169,6 @@ export default function AddEducation({ trigger, type = 'create', education, refr
                                             ]}
                                             fetchTable=""
                                             value={data.result_type}
-                                            selectedID={+data.result_type}
                                             onChange={(e) => setData('result_type', e.target.value)}
                                         />
                                         {errors.result_type && <div className="text-sm text-red-400">{errors.result_type}</div>}

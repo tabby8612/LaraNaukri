@@ -262,4 +262,10 @@ type Education = {
     country: Country;
     state: State;
     city: City;
+    subjects: Subject[] | [];
+};
+
+type Subject = {
+    name: string;
+    id: string;
 };

@@ -10,7 +10,7 @@ export default function EducationsCard() {
     async function getEducations() {
         const response = await fetch(route('candidate.educations'));
         const data = await response.json();
-        console.log(data);
+
         setEducation(data);
     }
 
