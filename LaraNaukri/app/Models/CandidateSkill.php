@@ -3,21 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CandidateSkill extends Model {
     //
+    protected $guarded = [];
+
+    protected $table = "candidate_skill";
 
     // -- Relationships
-    public function candidates(): BelongsToMany {
-        return $this->belongsToMany(Candidate::class);
+    public function candidate(): BelongsTo {
+        return $this->belongsTo(Candidate::class);
     }
 
-    public function skills(): BelongsToMany {
-        return $this->belongsToMany(Skill::class);
+    public function skill(): BelongsTo {
+        return $this->belongsTo(Skill::class);
     }
 
-    public function experience(): BelongsToMany {
-        return $this->belongsToMany(Experience::class);
+    public function experience(): BelongsTo {
+        return $this->belongsTo(Experience::class);
     }
 }

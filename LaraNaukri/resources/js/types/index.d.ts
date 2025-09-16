@@ -269,3 +269,39 @@ type Subject = {
     name: string;
     id: string;
 };
+
+type Skill = {
+    id: string;
+    name: string;
+};
+
+type Experiences = {
+    id: string;
+    name: string;
+};
+
+type CandidateSkill = {
+    id: string;
+    candidate_id: string;
+    experience_id: string;
+    skill_id: string;
+    skill: Skill;
+    experience: Experiences;
+    candidate: Candidate;
+};
+
+type CandidateLanguage = {
+    id: string;
+    name: string;
+    pivot: {
+        candidate_id: string;
+        language_id: string;
+        language_level: string;
+        id: string;
+    };
+};
+
+type Language = {
+    id: string;
+    name: string;
+};

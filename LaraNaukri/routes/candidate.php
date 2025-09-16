@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CandidateExperienceController;
+use App\Http\Controllers\CandidateSkillController;
 use App\Http\Controllers\DegreeTypeController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ProjectController;
@@ -45,11 +46,21 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::delete("education-delete/{education}", [EducationController::class, 'destroy'])->name("educationDelete");
 
     //-- Skills Calls
-    Route::post("skills-add", [CandidateSkill::class, "store"])->name("skillAdd");
+    Route::get("candidateSkills", [CandidateSkillController::class, "index"])->name("skills");
+    Route::post("skills-add", [CandidateSkillController::class, "store"])->name("skillAdd");
+    Route::put("skills-update/{candidateSkill}", [CandidateSkillController::class, "update"])->name("skillUpdate");
+    Route::delete("skills-delete/{candidateSkill}", [CandidateSkillController::class, "delete"])->name("skillDelete");
+
+    //-- Languages Calls
+    Route::get("candidateLanguages", [CandidateController::class, "candidateLanguages"])->name("languages");
+    Route::post("languages-add", [CandidateController::class, "languageAttach"])->name("languageAdd");
+    Route::put("languages-update/{candidateLanguage}", [CandidateController::class, "languageUpdate"])->name("languageUpdate");
+    Route::delete("languages-delete/{candidateLanguage}", [CandidateController::class, "languagedelete"])->name("languageDelete");
 
 
+    //-- Resume Show
+    Route::get("download-resume", [CandidateController::class, "downloadResume"])->name("downloadResume");
 
-    Route::get("download-resume", fn() => Inertia::render("candidate/download-resume"))->name("downloadResume");
     Route::get("view-public-profile/{id}", fn() => Inertia::render("candidate/view-public-profile"))->name("viewPublicProfile");
     Route::get("my-job-application", fn() => Inertia::render("candidate/job-applications"))->name("jobApplications");
     Route::get("favorite-jobs", fn() => Inertia::render("candidate/favorite-jobs"))->name("favoriteJobs");

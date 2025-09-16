@@ -69,8 +69,12 @@ class Candidate extends Model {
         return $this->belongsToMany(Subject::class);
     }
 
-    public function skills(): BelongsToMany {
-        return $this->belongsToMany(Skill::class);
+    public function skills(): HasMany {
+        return $this->hasMany(CandidateSkill::class);
+    }
+
+    public function languages(): BelongsToMany {
+        return $this->belongsToMany(Language::class)->withPivot(["language_level", "id"]);
     }
 
 

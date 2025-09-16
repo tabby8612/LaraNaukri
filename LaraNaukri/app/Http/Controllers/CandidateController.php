@@ -69,9 +69,6 @@ class CandidateController extends Controller {
             ->first()
             ->toArray();
 
-
-
-
         return Inertia::render("candidate/edit-profile", [
             "candidate" => $candidate,
         ]);
@@ -124,5 +121,71 @@ class CandidateController extends Controller {
         return to_route("candidate.editProfile");
     }
 
+    public function languageAttach(Request $request) {
+        $request->validate([
+            "language_id" => ["required"],
+            "language_level" => ["required", "in:Expert,Beginner,Intermediate"]
+        ]);
+
+        $candidate = Candidate::findOrFail(Auth::user()->candidate->id);
+
+        $candidate->languages()->attach($request->language_id, [
+            "language_level" => $request->language_level
+        ]);
+
+        return;
+
+
+
+
+
+
+    }
+
+    public function candidateLanguages() {
+
+        $candidateID = Auth::user()->candidate->id;
+        $CandidateLanguages = Candidate::where("candidates.id", "=", $candidateID)
+            ->with(["languages:id,name"])
+            ->first(["id", "first_name", "last_name"])
+            ->toArray();
+
+
+
+        return response()->json($CandidateLanguages["languages"]);
+    }
+
+    public function languageUpdate(Request $request, string $id) {
+
+
+        $validated = $request->validate([
+            "language_id" => ["required"],
+            "language_level" => ["required", "in:Expert,Beginner,Intermediate"]
+        ]);
+
+        DB::table("candidate_language")
+            ->where("id", "=", $id)
+            ->where("candidate_id", "=", Auth::user()->candidate->id)
+            ->update($validated);
+
+
+        return;
+
+    }
+
+    public function languageDelete(Request $request, string $id) {
+        DB::table("candidate_language")
+            ->where("id", "=", $id)
+            ->where("candidate_id", "=", Auth::user()->candidate->id)
+            ->delete();
+
+        return;
+
+    }
+
+    public function downloadResume() {
+
+        return Inertia::render("candidate/download-resume");
+    }
 
 }
