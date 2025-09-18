@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GenerateResume;
 use App\Models\Candidate;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Industry;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +17,12 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\View\View;
 use Inertia\Inertia;
+use PhpParser\Node\Scalar\Float_;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
+use Spatie\Browsershot\Browsershot;
 
 class CandidateController extends Controller {
     //
@@ -185,7 +193,106 @@ class CandidateController extends Controller {
 
     public function downloadResume() {
 
-        return Inertia::render("candidate/download-resume");
+        $candidateID = Auth::user()->candidate->id;
+
+
+        $candidate = Candidate::where("id", "=", $candidateID)
+            ->with(["city:id,name", "state:id,name", "country:id,name", "user:id,email", "experiences"])
+            ->with(["gender:id,name", "maritalStatus", "category:name,id", "industry:name,id", "careerLevel:name,id"])
+            ->with(["nationality:id,name", "skills.skill:id,name", "experiences.country", "experiences.city"])
+            ->with(["educations.country", "educations.city", "languages"])
+            ->first()
+            ->toArray();
+
+        //-- Calculating Number of Experience Years
+        $totalExperienceYears = 0.0;
+
+        foreach ($candidate["experiences"] as $experience) {
+            $startdate = Carbon::parse($experience["start_date"]);
+            $enddate = Carbon::parse($experience["end_date"]);
+
+            $differenceInDays = $startdate->diffInYears($enddate);
+
+            $totalExperienceYears += $differenceInDays;
+        }
+
+        $candidate["total_experience"] = $totalExperienceYears;
+
+        //-- Calculating Age
+        $dateOfBirth = Carbon::parse($candidate["date_of_birth"]);
+        $age = $dateOfBirth->diffInYears(now());
+        $candidate["age"] = $age;
+
+        //-- Generating PDF through Browsershot Using Queue
+
+        $html = view("resume", compact("candidate"))->render();
+
+        Candidate::where("id", "=", $candidate['id'])->update([
+            "resume_path" => null
+        ]);
+
+        GenerateResume::dispatch($html, $candidate['id']);
+
+        return Inertia::render("candidate/download-resume", [
+            "candidate" => $candidate
+        ]);
     }
 
+    public function viewResume() {
+
+        $candidate = Candidate::where("id", "=", Auth::user()->candidate->id)
+            ->get(['id', 'resume_path'])
+            ->first()
+            ->toArray();
+
+        if (isset($candidate['resume_path'])) {
+            return response()->json([
+                "status" => 'done',
+                "resumePath" => $candidate['resume_path']
+            ]);
+        } else {
+            return response()->json([
+                "status" => "pending",
+                "resumePath" => null
+            ]);
+        }
+
+
+
+    }
+
+    public function viewPublicProfile(User $user) {
+
+        $candidate = $user->candidate;
+
+        $candidate = Candidate::where("id", "=", $candidate->id)
+            ->with(["city:id,name", "state:id,name", "country:id,name", "user:id,email", "experiences"])
+            ->with(["gender:id,name", "maritalStatus", "category:name,id", "industry:name,id", "careerLevel:name,id"])
+            ->with(["nationality:id,name", "skills.skill:id,name", "skills.experience:id,name", "experiences.country", "experiences.city"])
+            ->with(["educations.country", "educations.city", "languages", "projects"])
+            ->first()
+            ->toArray();
+
+        //-- Calculating Number of Experience Years
+        $totalExperienceYears = 0.0;
+
+        foreach ($candidate["experiences"] as $experience) {
+            $startdate = Carbon::parse($experience["start_date"]);
+            $enddate = Carbon::parse($experience["end_date"]);
+
+            $differenceInDays = $startdate->diffInYears($enddate);
+
+            $totalExperienceYears += $differenceInDays;
+        }
+
+        $candidate["total_experience"] = round($totalExperienceYears);
+
+        //-- Calculating Age
+        $dateOfBirth = Carbon::parse($candidate["date_of_birth"]);
+        $age = $dateOfBirth->diffInYears(now());
+        $candidate["age"] = round($age);
+
+
+        return Inertia::render('candidate/view-public-profile', compact('candidate'));
+    }
 }

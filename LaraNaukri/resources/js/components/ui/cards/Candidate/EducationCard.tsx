@@ -8,7 +8,13 @@ import { X } from 'lucide-react';
 import AddEducation from '../AddEducation';
 import DeleteConfirmation from '../DeleteConfirmation';
 
-export default function EducationCard({ educations, refreshFn }: { educations: Education[]; refreshFn: () => void }) {
+type Props = {
+    educations: Education[];
+    refreshFn: () => void;
+    viewOnly: boolean;
+};
+
+export default function EducationCard({ educations, refreshFn, viewOnly = false }: Props) {
     function deleteHandler(id: string) {
         router.delete(route('candidate.educationDelete', id), {
             preserveScroll: true,
@@ -28,14 +34,15 @@ export default function EducationCard({ educations, refreshFn }: { educations: E
                         <h1 className="relative font-montserrat text-xl font-bold before:absolute before:top-1 before:-left-6 before:z-[1] before:size-3 before:rounded-full before:bg-gray-500/80">
                             {education.title}
                         </h1>
-                        <div className="flex gap-3">
-                            <AddEducation trigger={<Pencil className="text-sm" />} education={education} type="update" refreshFn={refreshFn} />
-                            <DeleteConfirmation trigger={<X className="text-red-500" />} deleteFn={() => deleteHandler(education.id)} />
-                        </div>
+                        {!viewOnly && (
+                            <div className="flex gap-3">
+                                <AddEducation trigger={<Pencil className="text-sm" />} education={education} type="update" refreshFn={refreshFn} />
+                                <DeleteConfirmation trigger={<X className="text-red-500" />} deleteFn={() => deleteHandler(education.id)} />
+                            </div>
+                        )}
                     </div>
                     <p className="my-2 font-semibold">
                         {education.year} - {education.city.name ? `${education.city.name} - ${education.country.name}` : education.country.name}{' '}
-                        {education.country.name}
                     </p>
                     <span className="flex items-center gap-1">
                         <GraduationHatFilled className="text-primary" />

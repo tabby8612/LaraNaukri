@@ -177,6 +177,23 @@ type Candidate = {
     state_id: number;
     city_id: number;
     image_path: string;
+    city: City;
+    state: State;
+    country: Country;
+    email: User;
+    total_experience: number;
+    age: number;
+    marital_status: MaritalStatus;
+    category: Category;
+    industry: Industry;
+    career_level: CareerLevel;
+    nationality: Nationality;
+    skills: Skills[];
+    experiences: Experience[];
+    educations: Education[];
+    languages: CandidateLanguage[];
+    resume_path: string;
+    projects: Project[];
 
     profession: string;
     is_featured: number;
@@ -195,6 +212,25 @@ type Candidate = {
     open_to_work: boolean;
     user: User;
     gender: Gender;
+};
+
+type Skills = {
+    skill: Skill;
+    experience: Experiences;
+};
+
+type Nationality = {
+    name: string;
+    id: string;
+};
+type CareerLevel = {
+    name: string;
+    id: string;
+};
+
+type MaritalStatus = {
+    name: string;
+    id: string;
 };
 
 type Resume = {

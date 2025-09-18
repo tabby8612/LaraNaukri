@@ -9,6 +9,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\SubjectController;
+use App\Models\Candidate;
 use App\Models\CandidateSkill;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -60,8 +61,12 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
 
     //-- Resume Show
     Route::get("download-resume", [CandidateController::class, "downloadResume"])->name("downloadResume");
+    Route::get("view-resume", [CandidateController::class, "viewResume"])->name("viewResume");
 
-    Route::get("view-public-profile/{id}", fn() => Inertia::render("candidate/view-public-profile"))->name("viewPublicProfile");
+
+    Route::get("view-public-profile/{user}", [CandidateController::class, "viewPublicProfile"])->name("viewPublicProfile");
+
+
     Route::get("my-job-application", fn() => Inertia::render("candidate/job-applications"))->name("jobApplications");
     Route::get("favorite-jobs", fn() => Inertia::render("candidate/favorite-jobs"))->name("favoriteJobs");
     Route::get("jobs-alert", fn() => Inertia::render("candidate/jobs-alert"))->name("jobsAlert");

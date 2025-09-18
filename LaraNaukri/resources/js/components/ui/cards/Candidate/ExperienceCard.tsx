@@ -8,9 +8,14 @@ import { X } from 'lucide-react';
 import AddExperience from '../AddExperience';
 import DeleteConfirmation from '../DeleteConfirmation';
 
-export default function ExperienceCard({ experiences, refreshExperiences }: { experiences: Experience[]; refreshExperiences: () => void }) {
+type Props = {
+    experiences: Experience[];
+    refreshExperiences: () => void;
+    viewOnly?: boolean;
+};
+
+export default function ExperienceCard({ experiences, refreshExperiences, viewOnly = false }: Props) {
     function deleteHandler(id: string) {
-        console.log(id);
         router.delete(route('candidate.experienceDelete', id), {
             preserveScroll: true,
             preserveState: true,
@@ -30,15 +35,17 @@ export default function ExperienceCard({ experiences, refreshExperiences }: { ex
                         <h1 className="relative font-montserrat text-xl font-bold before:absolute before:top-1 before:-left-6 before:z-[1] before:size-3 before:rounded-full before:bg-gray-400/80">
                             {experience.title}
                         </h1>
-                        <div className="flex items-center-safe justify-center gap-3">
-                            <AddExperience
-                                trigger={<Pencil className="size-4" />}
-                                refreshExperiences={refreshExperiences}
-                                experience={experience}
-                                type="update"
-                            />
-                            <DeleteConfirmation trigger={<X className="text-red-500" />} deleteFn={() => deleteHandler(experience.id)} />
-                        </div>
+                        {!viewOnly && (
+                            <div className="flex items-center-safe justify-center gap-3">
+                                <AddExperience
+                                    trigger={<Pencil className="size-4" />}
+                                    refreshExperiences={refreshExperiences}
+                                    experience={experience}
+                                    type="update"
+                                />
+                                <DeleteConfirmation trigger={<X className="text-red-500" />} deleteFn={() => deleteHandler(experience.id)} />
+                            </div>
+                        )}
                     </div>
                     <span className="flex items-center gap-1">
                         <Location className="text-primary" />

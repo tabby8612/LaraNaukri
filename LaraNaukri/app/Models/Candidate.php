@@ -41,7 +41,7 @@ class Candidate extends Model {
         return $this->belongsTo(Gender::class);
     }
 
-    public function martialStatus(): BelongsTo {
+    public function maritalStatus(): BelongsTo {
         return $this->belongsTo(MaritalStatus::class);
     }
 
@@ -77,6 +77,14 @@ class Candidate extends Model {
         return $this->belongsToMany(Language::class)->withPivot(["language_level", "id"]);
     }
 
+    public function experiences(): HasMany {
+        return $this->hasMany(CandidateExperience::class);
+    }
+
+    public function educations(): HasMany {
+        return $this->hasMany(Education::class);
+    }
+
 
 
 
@@ -93,11 +101,10 @@ class Candidate extends Model {
         );
     }
 
-    protected function createdAt() {
+    protected function createdAt(): Attribute {
 
-        return Attribute::make(function ($value) {
-            $dt = Carbon::parse($value);
-            return "$dt->day-$dt->month-$dt->year";
-        });
+        return Attribute::make(
+            get: fn($value) => Carbon::parse($value)->format("dS \of F, o")
+        );
     }
 }

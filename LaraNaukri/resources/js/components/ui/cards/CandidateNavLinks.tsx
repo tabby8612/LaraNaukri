@@ -10,8 +10,17 @@ import { Pencil } from '@/SVGs/Pencil';
 import { RoundPrint } from '@/SVGs/Print';
 import { Speaker } from '@/SVGs/Speaker';
 import { User } from '@/SVGs/User';
+import { usePage } from '@inertiajs/react';
 
 export default function CandidateNavLinks({ page = 'dashboard' }: { page: string }) {
+    const { auth } = usePage<{
+        auth: {
+            user: {
+                id: string;
+            };
+        };
+    }>().props;
+
     return (
         <ul className="ml-2">
             <a href={route('candidate.dashboard')}>
@@ -42,7 +51,7 @@ export default function CandidateNavLinks({ page = 'dashboard' }: { page: string
             </a>
             <a
                 href={route('candidate.viewPublicProfile', {
-                    id: '1',
+                    id: auth.user.id,
                 })}
             >
                 <li className="group mt-4 flex items-center gap-2 hover:cursor-pointer">

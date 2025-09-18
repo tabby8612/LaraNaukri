@@ -30,9 +30,9 @@ export default function PublicProfileIntro({
     return (
         <>
             <Card className="rounded-2xl border-gray-300 py-0 shadow-none">
-                <img src={cover_path} alt={name} className="rounded-t-xl" />
+                <img src={`/storage/${cover_path}`} alt={name} className="h-52 rounded-t-xl" />
                 <div className="flex gap-5 px-7">
-                    <img src={profile_path} alt={name} className="size-32 rounded-xl" />
+                    <img src={`/storage/${profile_path}`} alt={name} className="size-32 rounded-xl" />
                     <div>
                         <h1 className="font-montserrat text-4xl font-bold">
                             {name} <span className="text-sm">({industry})</span>
@@ -52,7 +52,7 @@ export default function PublicProfileIntro({
                     </div>
                 </div>
                 <div className="rounded-b-2xl bg-green-100 py-4 pl-7">
-                    <a href={cv_path}>
+                    <a href={`/storage/${cv_path}`} download={true}>
                         <Button className="hoverEffect flex cursor-pointer items-center gap-2 rounded-xl border-2 border-primary bg-transparent px-11 py-5 text-lg text-primary hover:bg-primary hover:text-white">
                             <Download className="size-5" />
                             Download CV
