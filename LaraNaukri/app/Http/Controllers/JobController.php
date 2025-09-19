@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
+use App\Models\Candidate;
 use App\Models\Category;
 use App\Models\Country;
 use App\Models\Job;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Storage;
@@ -179,14 +182,37 @@ class JobController extends Controller {
             ->firstOrFail()
             ->toArray();
 
+        $candidate = null;
+        $alreadyApplied = false;
+        $isFavorite = false;
+
+        if (Auth::user()) {
+            $candidate = Candidate::where('id', '=', Auth::user()->candidate->id)
+                ->with('user')
+                ->first();
+
+            $alreadyApplied = Application::where('candidate_id', '=', $candidate->id)
+                ->where('job_id', '=', $job['id'])
+                ->exists();
+
+            $isFavorite = DB::table("candidate_job_favorite")
+                ->where("candidate_id", $candidate->id)
+                ->where('job_id', $job['id'])
+                ->exists();
+        }
+
+
         return Inertia::render("job-view", [
-            "selectedJob" => $job
+            "selectedJob" => $job,
+            "candidate" => $candidate,
+            "alreadyApplied" => $alreadyApplied,
+            "isFavorite" => $isFavorite
         ]);
 
 
     }
 
 
-    // ------------------ <WEB CALLS> -----------------------
+    // ------------------ </WEB CALLS> -----------------------
 
 }

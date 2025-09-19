@@ -85,6 +85,14 @@ class Candidate extends Model {
         return $this->hasMany(Education::class);
     }
 
+    public function applications(): HasMany {
+        return $this->hasMany(Application::class);
+    }
+
+    public function favoriteJobs(): BelongsToMany {
+        return $this->belongsToMany(Job::class, 'candidate_job_favorite')->withTimestamps();
+    }
+
 
 
 

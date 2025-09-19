@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CandidateExperienceController;
 use App\Http\Controllers\CandidateSkillController;
@@ -13,6 +14,7 @@ use App\Models\Candidate;
 use App\Models\CandidateSkill;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use function Pest\Laravel\withoutMiddleware;
 
 Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group(function () {
     Route::get("dashboard", [CandidateController::class, "dashboard"])->name("dashboard");
@@ -64,11 +66,19 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::get("view-resume", [CandidateController::class, "viewResume"])->name("viewResume");
 
 
-    Route::get("view-public-profile/{user}", [CandidateController::class, "viewPublicProfile"])->name("viewPublicProfile");
+    //-- Public Profile
+    Route::get("view-public-profile/{user}", [CandidateController::class, "viewPublicProfile"])->name("viewPublicProfile")->withoutMiddleware('IsCandidate');
 
 
-    Route::get("my-job-application", fn() => Inertia::render("candidate/job-applications"))->name("jobApplications");
-    Route::get("favorite-jobs", fn() => Inertia::render("candidate/favorite-jobs"))->name("favoriteJobs");
+    //-- Applications
+    Route::get("my-job-application", [CandidateController::class, "jobApplications"])->name("jobApplications");
+    Route::post("application-store", [ApplicationController::class, 'store'])->name('applicationStore');
+
+    // -- Favorite Jobs
+    Route::get("favorite-jobs", [CandidateController::class, 'showFavoriteJobs'])->name("favoriteJobs");
+    Route::post("toggle-favorite-jobs/{job}", [CandidateController::class, "toggleFavoriteJob"])->name("toggleFavoriteJob");
+
+
     Route::get("jobs-alert", fn() => Inertia::render("candidate/jobs-alert"))->name("jobsAlert");
     Route::get("payment-history", action: fn() => Inertia::render("candidate/candidate-payment-history"))->name("PaymentHistory");
     Route::get("my-messages", fn() => Inertia::render("candidate/my-messages"))->name("messages");

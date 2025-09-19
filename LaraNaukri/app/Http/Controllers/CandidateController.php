@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\GenerateResume;
+use App\Models\Application;
 use App\Models\Candidate;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Industry;
+use App\Models\Job;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -54,6 +56,13 @@ class CandidateController extends Controller {
         return response()->json($featuredCandidates, 200);
 
 
+    }
+
+    public function fetchCandidate(User $user) {
+
+        $candidate = Candidate::where('id', '=', $user->candidate->id)->with('user')->first()->toArray();
+
+        return response()->json($candidate);
     }
 
     public function dashboard() {
@@ -294,5 +303,47 @@ class CandidateController extends Controller {
 
 
         return Inertia::render('candidate/view-public-profile', compact('candidate'));
+    }
+
+    public function jobApplications() {
+
+        $applications = Application::where("candidate_id", "=", Auth::user()->candidate->id)
+            ->with(["job.companies"])
+            ->get()
+            ->toArray();
+
+
+
+        return Inertia::render("candidate/job-applications", compact('applications'));
+    }
+
+    public function toggleFavoriteJob(Job $job) {
+
+        $candidate = Candidate::findOrFail(Auth::user()->candidate->id);
+
+        $isAttach = $candidate->favoriteJobs()->where("job_id", $job->id)->exists();
+
+        if ($isAttach) {
+            $candidate->favoriteJobs()->detach($job->id);
+            return back()->with("message", "Job removed from your favorite list");
+        } else {
+            $candidate->favoriteJobs()->attach($job->id);
+            return back()->with("message", "Job added to your favorite list");
+        }
+
+    }
+
+    public function showFavoriteJobs() {
+
+        $candidate = Candidate::where("id", Auth::user()->candidate->id)
+            ->with(['favoriteJobs', 'favoriteJobs.companies'])
+            ->first()
+            ->toArray();
+
+        $favoriteJobs = $candidate['favorite_jobs'];
+
+
+
+        return Inertia::render('candidate/favorite-jobs', compact('favoriteJobs'));
     }
 }

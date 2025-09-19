@@ -1,5 +1,7 @@
 import { Email } from '@/SVGs/Mail';
+import { FilteredJobs } from '@/types';
 import { Button } from '@headlessui/react';
+import { router, usePage } from '@inertiajs/react';
 import {
     AlignLeft,
     Calendar,
@@ -13,11 +15,13 @@ import {
     TriangleAlert,
     Users2Icon,
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { Card, CardContent } from '../card';
+import { Toaster } from '../sonner';
 import Characteristic from './Characteristic';
-import { FilteredJobs } from '@/types';
 
-export default function JobIntroCard({ jobData }: { jobData: FilteredJobs }) {
+export default function JobIntroCard({ jobData, isFavorite }: { jobData: FilteredJobs; isFavorite: boolean }) {
+    const { message } = usePage<{ message: string }>().props;
 
     const JobCharacteristics = [
         {
@@ -67,8 +71,14 @@ export default function JobIntroCard({ jobData }: { jobData: FilteredJobs }) {
         },
     ];
 
+    function handleFavoriteJob(id: string) {
+        router.post(route('candidate.toggleFavoriteJob', id));
+    }
+
     return (
         <Card className="border border-gray-200 py-0 shadow-transparent">
+            <Toaster closeButton richColors position="bottom-center" />
+            {message && toast.success(message)}
             <CardContent className="my-0">
                 <div className="flex items-center gap-2 p-6">
                     <AlignLeft className="size-8 text-gray-400" />
@@ -93,14 +103,17 @@ export default function JobIntroCard({ jobData }: { jobData: FilteredJobs }) {
                         </div>
                     </Button>
                 </a>
-                <Button className="group h-fit cursor-pointer rounded-2xl border border-primary bg-transparent px-7 py-3 transition-colors delay-75 duration-300 hover:bg-primary">
+                <Button
+                    className="group h-fit cursor-pointer rounded-2xl border border-primary bg-transparent px-7 py-3 transition-colors delay-75 duration-300 hover:bg-primary"
+                    onClick={() => handleFavoriteJob(jobData.id)}
+                >
                     <div className="flex items-center gap-2 text-primary transition-colors delay-75 duration-300 group-hover:text-white">
-                        <p>Add To Friend</p>
+                        <p>{isFavorite ? 'Remove From' : 'Add To'} Favorites</p>
                     </div>
                 </Button>
                 <a
                     href={route('report.abuse', {
-                        slug: jobData.slug
+                        slug: jobData.slug,
                     })}
                 >
                     <Button className="group h-fit cursor-pointer rounded-2xl border border-red-500 bg-transparent px-7 py-3 transition-colors delay-75 duration-300 hover:bg-red-500">

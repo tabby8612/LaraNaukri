@@ -1,5 +1,6 @@
 import Searchjobhero from '@/components/sections/searchjobhero';
 import { Card, CardContent } from '@/components/ui/card';
+import ApplyJob from '@/components/ui/cards/ApplyJob';
 import BenefitCard from '@/components/ui/cards/BenefitCard';
 import CompanyOverviewCard from '@/components/ui/cards/CompanyOverviewCard';
 import DescriptionCard from '@/components/ui/cards/DescriptionCard';
@@ -7,17 +8,21 @@ import JobIntroCard from '@/components/ui/cards/JobIntroCard';
 import RelatedJobs from '@/components/ui/cards/RelatedJobs';
 import SkillCard from '@/components/ui/cards/SkillCard';
 import AppLayout from '@/layouts/app/app-layout';
-import { FilteredJobs } from '@/types';
-import { Button } from '@headlessui/react';
+
+import { Candidate, FilteredJobs } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { Send } from 'lucide-react';
 
 type SelectedJobProps = {
     selectedJob: FilteredJobs;
+    candidate: Candidate;
+    alreadyApplied: boolean;
+    isFavorite: boolean;
 };
 export default function JobView() {
     const props = usePage<SelectedJobProps>().props;
-    const { selectedJob } = props;
+
+    const { selectedJob, candidate, alreadyApplied, isFavorite } = props;
 
     return (
         <AppLayout page="jobs">
@@ -35,18 +40,29 @@ export default function JobView() {
                     </p>
                 </div>
                 <div>
-                    <Button className="cursor-pointer rounded-xl bg-primary px-10 py-7 text-lg font-semibold text-white">
-                        <div className="flex items-center gap-2">
-                            <Send fill="white" />
-                            <p>Apply Now</p>
-                        </div>
-                    </Button>
+                    {candidate &&
+                        (alreadyApplied ? (
+                            <div className="flex cursor-no-drop items-center gap-2 rounded-xl bg-gray-300 px-10 py-4 font-semibold text-black">
+                                <p>You've already applied for this job</p>
+                            </div>
+                        ) : (
+                            <ApplyJob
+                                trigger={
+                                    <div className="flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-10 py-4 text-lg font-semibold text-white">
+                                        <Send fill="white" />
+                                        <p>Apply Now</p>
+                                    </div>
+                                }
+                                candidate={candidate}
+                                job={selectedJob}
+                            />
+                        ))}
                 </div>
             </main>
 
             <section className="mx-auto my-10 flex size-10/12 justify-between gap-7">
                 <div className="w-7/12">
-                    <JobIntroCard jobData={selectedJob} />
+                    <JobIntroCard jobData={selectedJob} isFavorite={isFavorite} />
 
                     <DescriptionCard type="Job" description={selectedJob.description} />
 

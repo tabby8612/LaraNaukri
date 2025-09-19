@@ -49,11 +49,13 @@ Route::get("related-cities/{stateID}", [HomeController::class, "relatedCities"])
 Route::get("latest-blogposts", [BlogpostController::class, "latestBlogPosts"])->name("latest.blogposts");
 Route::get("all-blogcategories", [BlogCategoriesController::class, "allBlogCategories"])->name("all.blogcategories.api");
 
+// --------------- Candidates
+Route::get("candidate/fetch/{user}", [CandidateController::class, "fetchCandidate"])->name('fetch.candidate');
+Route::get("featured-candidates", [CandidateController::class, "featuredCandidate"])->name("featured.candidates");
 
-// ------------ Candidate
+// ------------ Others
 Route::get("fetch/{column}", [HomeController::class, "fetch"])->name("fetch");
 
-Route::get("featured-candidates", [CandidateController::class, "featuredCandidate"])->name("featured.candidates");
 
 
 
