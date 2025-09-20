@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\Industry;
 use App\Models\Job;
 use Barryvdh\Debugbar\Facades\Debugbar;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Inertia\Inertia;
 use Storage;
@@ -63,9 +65,25 @@ class CompanyController extends Controller {
             ->except(["companies.email", "companies.password"])
             ->toArray();
 
+        $isFollower = false;
+
+        if (Auth::user()) {
+
+            /**
+             * @var Candidate $candidate
+             */
+            $candidate = Auth::user()->candidate;
+
+            $result = $candidate->companies()->find($company['id']);
+
+            if (isset($result)) $isFollower = true;
+
+        }
+
         return Inertia::render("company-view", [
             "companyData" => $company,
-            "openJobs" => $openJobs
+            "openJobs" => $openJobs,
+            "isFollower" => $isFollower
         ]);
     }
 

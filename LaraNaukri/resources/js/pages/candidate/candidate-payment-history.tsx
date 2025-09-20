@@ -1,6 +1,10 @@
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
+import { Payment } from '@/types';
+import { usePage } from '@inertiajs/react';
 
 export default function CandidatePaymentHistory() {
+    const { payments } = usePage<{ payments: Payment[] }>().props;
+    console.log(payments);
     return (
         <AppCandidateLayout displaySearch={false} page="payment-history" titleText="Payment History">
             <table className="w-full">
@@ -15,30 +19,17 @@ export default function CandidatePaymentHistory() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className="odd:bg-green-100">
-                        <td className="px-3">Featured Profile</td>
-                        <td className="px-3">USD 10</td>
-                        <td className="px-3">60</td>
-                        <td className="px-3">Offline (Added by Admin)</td>
-                        <td className="px-3">04-05-2025</td>
-                        <td className="px-3">03-07-2025</td>
-                    </tr>
-                    <tr className="odd:bg-green-100">
-                        <td className="px-3">Featured Profile</td>
-                        <td className="px-3">USD 10</td>
-                        <td className="px-3">60</td>
-                        <td className="px-3">Offline (Added by Admin)</td>
-                        <td className="px-3">04-05-2025</td>
-                        <td className="px-3">03-07-2025</td>
-                    </tr>
-                    <tr className="odd:bg-green-100">
-                        <td className="px-3">Featured Profile</td>
-                        <td className="px-3">USD 10</td>
-                        <td className="px-3">60</td>
-                        <td className="px-3">Offline (Added by Admin)</td>
-                        <td className="px-3">04-05-2025</td>
-                        <td className="px-3">03-07-2025</td>
-                    </tr>
+                    {payments.length > 0 &&
+                        payments.map((payment) => (
+                            <tr className="odd:bg-green-100" key={payment.id}>
+                                <td className="px-3">{payment.name}</td>
+                                <td className="px-3 text-center">USD {payment.price}</td>
+                                <td className="px-3 text-center">{payment.length}</td>
+                                <td className="px-3 text-center">{payment.method}</td>
+                                <td className="px-3 text-center">{payment.start_date}</td>
+                                <td className="px-3 text-center">{payment.end_date}</td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
         </AppCandidateLayout>

@@ -3,6 +3,7 @@ import { RoundRemoveRedEye } from '@/SVGs/Eye';
 import { MonitorFill16 } from '@/SVGs/Monitor';
 import { Speed } from '@/SVGs/Speedometer';
 import { User } from '@/SVGs/User';
+import { Candidate } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { LanguagesIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -15,13 +16,16 @@ type Props = {
             id: number;
             name: string;
         };
+        candidate: Candidate;
     };
 };
 export default function Nav({ page }: { page: string }) {
     const [isNavSticky, setNavSticky] = useState(false);
     const [userOptions, setUserOptions] = useState(false);
     const { auth } = usePage<Props>().props;
-    const { user } = auth;
+    const { user, candidate } = auth;
+
+    console.log(user, candidate);
 
     useEffect(() => {
         function handleScroll() {
@@ -93,8 +97,8 @@ export default function Nav({ page }: { page: string }) {
                                 onMouseLeave={() => setUserOptions(false)}
                             >
                                 <img
-                                    src="https://www.sharjeelanjum.com/demos/jobsportal-update/user_images/-1741437874-596.jpg"
-                                    alt={user.name}
+                                    src={`/storage/${candidate.image_path || '/candidates/default.png'}`}
+                                    alt={candidate.first_name}
                                     className="size-9 rounded-full outline-2 outline-primary"
                                 />
 

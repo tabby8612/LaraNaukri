@@ -43,6 +43,7 @@ class HandleInertiaRequests extends Middleware {
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
                 'user' => $request->user(),
+                'candidate' => $request->user()?->isCandidate() ? $request->user()->candidate : null
             ],
             "message" => Session::pull("message"),
             'ziggy' => fn(): array => [

@@ -56,6 +56,7 @@ export type Company = {
     slug: string;
     industry: Industry;
     jobs_count: number;
+    jobs: FilteredJobs[];
 };
 
 type Job = {
@@ -70,6 +71,7 @@ type Job = {
     salary_to?: string | number;
     featured?: boolean;
     JobID?: string;
+    companies: Company;
 };
 
 type FilteredJobs = {
@@ -195,6 +197,7 @@ type Candidate = {
     languages: CandidateLanguage[];
     resume_path: string;
     projects: Project[];
+    applications: Application[];
 
     profession: string;
     is_featured: number;
@@ -357,4 +360,30 @@ type Application = {
     created_at: string;
     updated_at: string;
     job: FilteredJobs;
+};
+
+type Alert = {
+    id: string;
+    name: string;
+    candidate_id: string;
+    country_id: string;
+    state_id: string;
+    city_id: string;
+    created_at: string;
+    country: Country | null;
+    state: State | null;
+    city: City | null;
+};
+
+type Payment = {
+    id: string;
+    candidate_id: string;
+    name: string;
+    price: string;
+    length: string;
+    method: string;
+    start_date: string;
+    end_date: string;
+    created_at: string;
+    updated_at: string;
 };

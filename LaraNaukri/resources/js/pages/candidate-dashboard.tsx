@@ -26,7 +26,7 @@ export default function CandidateDashboard() {
             <section id="profile-image" className="relative mt-5">
                 <img
                     src={`/storage/${candidate.cover_image_path ? candidate.cover_image_path : 'user_images/default.png'}`}
-                    alt={candidate.name}
+                    alt={candidate.first_name}
                     className="h-60 w-full rounded-2xl"
                 />
                 <SquarePen className="absolute top-3 right-5 size-10 cursor-pointer rounded-full bg-white p-2 drop-shadow-xl drop-shadow-black/30" />
@@ -35,10 +35,28 @@ export default function CandidateDashboard() {
 
             <section className="mt-30">
                 <h1 className="font-montserrat text-2xl font-semibold">My Applied Jobs</h1>
-                <p>No Applied Jobs Found</p>
+
+                <div className="mt-2 grid grid-cols-3 gap-5">
+                    {candidate.applications.length > 0 &&
+                        candidate.applications.map((application) => (
+                            <FeaturedJobCard
+                                JobID={application.job.id}
+                                companyImageURL={application.job.companies.image_path}
+                                companyName={application.job.companies.name}
+                                companySlug={application.job.companies.slug}
+                                featured={application.job.featured}
+                                location={application.job.location}
+                                postedDate={application.job.created_at}
+                                salary={application.job.salary_from}
+                                title={application.job.title}
+                                type={application.job.type}
+                                companyID={`${application.job.companies.id}`}
+                            />
+                        ))}
+                </div>
             </section>
 
-            <section className="mt-20">
+            {/* <section className="mt-20">
                 <h1 className="font-montserrat text-2xl font-semibold">Recommended Jobs</h1>
                 <div className="mt-2 grid grid-cols-3 gap-5">
                     <FeaturedJobCard
@@ -68,7 +86,7 @@ export default function CandidateDashboard() {
                         companyID="259"
                     />
                 </div>
-            </section>
+            </section> */}
         </AppCandidateLayout>
     );
 }

@@ -7,6 +7,7 @@ use App\Models\Application;
 use App\Models\Candidate;
 use App\Models\Category;
 use App\Models\City;
+use App\Models\Company;
 use App\Models\Country;
 use App\Models\Industry;
 use App\Models\Job;
@@ -69,7 +70,7 @@ class CandidateController extends Controller {
         $user_id = Auth::id();
 
         $candidate = Candidate::where("user_id", "=", $user_id)
-            ->with("user:id,email")
+            ->with(["user:id,email", "applications", "applications.job.companies"])
             ->first()
             ->toArray();
 
@@ -345,5 +346,40 @@ class CandidateController extends Controller {
 
 
         return Inertia::render('candidate/favorite-jobs', compact('favoriteJobs'));
+    }
+
+    public function followingCompanies() {
+
+        $candidate = Candidate::where("id", "=", Auth::user()->candidate->id)
+            ->with(['companies', 'companies.industry', 'companies.jobs'])
+            ->first()
+            ->toArray();
+
+        // dd($candidate['companies']);
+
+        return Inertia::render("candidate/my-followings", [
+            "companies" => $candidate['companies']
+        ]);
+    }
+
+    public function followCompany(Company $company) {
+
+        /**
+         * @var Candidate $candidate
+         */
+        $candidate = Auth::user()->candidate;
+
+        $candidate->companies()->toggle($company->id);
+
+        return back();
+    }
+
+    public function logout() {
+
+        Auth::logout();
+
+        Session::regenerateToken();
+
+        return back();
     }
 }

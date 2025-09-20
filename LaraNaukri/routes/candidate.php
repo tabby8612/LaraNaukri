@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CandidateExperienceController;
 use App\Http\Controllers\CandidateSkillController;
 use App\Http\Controllers\DegreeTypeController;
 use App\Http\Controllers\EducationController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\SkillController;
@@ -78,12 +80,22 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::get("favorite-jobs", [CandidateController::class, 'showFavoriteJobs'])->name("favoriteJobs");
     Route::post("toggle-favorite-jobs/{job}", [CandidateController::class, "toggleFavoriteJob"])->name("toggleFavoriteJob");
 
+    // -- Job Alerts
+    Route::get("jobs-alert", [AlertController::class, 'index'])->name("jobsAlert");
+    Route::post("set-alert", [AlertController::class, 'store'])->name("setAlert");
+    Route::delete("remove-alert/{alert}", [AlertController::class, 'delete'])->name("removeAlert");
 
-    Route::get("jobs-alert", fn() => Inertia::render("candidate/jobs-alert"))->name("jobsAlert");
-    Route::get("payment-history", action: fn() => Inertia::render("candidate/candidate-payment-history"))->name("PaymentHistory");
+    //-- Payments
+    Route::get("payment-history", [PaymentController::class, 'index'])->name("PaymentHistory");
+
+    // -- Candidate-Company Relation
+    Route::get("my-followings", [CandidateController::class, 'followingCompanies'])->name("followings");
+    Route::post("company-follow/{company}", [CandidateController::class, 'followCompany'])->name("followCompany");
+
+    //--- Logout
+    Route::get("logout", [CandidateController::class, 'logout'])->name("logout");
+
     Route::get("my-messages", fn() => Inertia::render("candidate/my-messages"))->name("messages");
-    Route::get("my-followings", fn() => Inertia::render("candidate/my-followings"))->name("followings");
-    Route::get("logout", fn() => Inertia::render("candidate-dashboard"))->name("logout");
 
 });
 

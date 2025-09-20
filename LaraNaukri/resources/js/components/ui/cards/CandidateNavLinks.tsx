@@ -119,7 +119,7 @@ export default function CandidateNavLinks({ page = 'dashboard' }: { page: string
                     <p className={`group-hover:text-primary ${page === 'messages' ? 'text-primary' : 'text-gray-500'}`}>Messages</p>
                 </li>
             </a>
-            <a href="">
+            <a href={route('candidate.logout')}>
                 <li className="group mt-4 flex items-center gap-2 hover:cursor-pointer">
                     <Exit className={`size-5 group-hover:text-primary ${page === 'logout' ? 'text-primary' : 'text-gray-500'}`} />
                     <p className={`group-hover:text-primary ${page === 'logout' ? 'text-primary' : 'text-gray-500'}`}>Logout</p>

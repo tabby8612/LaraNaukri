@@ -11,16 +11,17 @@ import { BriefcaseBusinessIcon, Building2Icon, CakeIcon, Landmark, Users, Verifi
 type Props = {
     companyData: Company;
     openJobs: FilteredJobs[];
+    isFollower: boolean;
 };
 export default function CompanyView() {
     const props = usePage<Props>().props;
-    const { companyData, openJobs } = props;
+    const { companyData, openJobs, isFollower } = props;
 
     return (
         <AppLayout page="">
             <section className="mx-auto mt-18 flex w-10/12 gap-10">
                 <div className="w-7/12">
-                    <CompanyIntro companyData={companyData} />
+                    <CompanyIntro companyData={companyData} isFollower={isFollower} />
                     <DescriptionCard type="Company" description={companyData.description} />
                 </div>
 

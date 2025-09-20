@@ -93,6 +93,10 @@ class Candidate extends Model {
         return $this->belongsToMany(Job::class, 'candidate_job_favorite')->withTimestamps();
     }
 
+    public function companies(): BelongsToMany {
+        return $this->belongsToMany(Company::class)->withTimestamps();
+    }
+
 
 
 

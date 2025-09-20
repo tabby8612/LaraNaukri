@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class User extends Authenticatable {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -47,7 +48,11 @@ class User extends Authenticatable {
 
     protected function candidate(): HasOne {
         return $this->hasOne(Candidate::class);
+    }
 
+
+    public function isCandidate(): bool {
+        return $this->role == 'candidate';
     }
 
 
