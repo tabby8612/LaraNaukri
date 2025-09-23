@@ -25,8 +25,6 @@ export default function Nav({ page }: { page: string }) {
     const { auth } = usePage<Props>().props;
     const { user, candidate } = auth;
 
-    console.log(user, candidate);
-
     useEffect(() => {
         function handleScroll() {
             const coordsY = window.scrollY;

@@ -198,6 +198,9 @@ type Candidate = {
     resume_path: string;
     projects: Project[];
     applications: Application[];
+    resumes_count: string;
+    companies_count: string;
+    profile_views: string;
 
     profession: string;
     is_featured: number;

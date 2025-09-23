@@ -1,10 +1,33 @@
-import { useState } from 'react';
+import { router } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 
 const CustomSwitch = () => {
     const [isChecked, setIsChecked] = useState(false);
 
+    useEffect(() => {
+        async function getStatus() {
+            const response = await fetch(route('candidate.work.status'));
+            const data = await response.json();
+            setIsChecked(data.status);
+        }
+
+        getStatus();
+    }, []);
+
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
+
+        router.put(
+            route('candidate.update.status'),
+            {
+                status: !isChecked,
+            },
+            {
+                preserveScroll: true,
+                preserveState: true,
+                showProgress: false,
+            },
+        );
     };
 
     return (

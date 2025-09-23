@@ -11,6 +11,8 @@ use App\Models\Company;
 use App\Models\Country;
 use App\Models\Industry;
 use App\Models\Job;
+use App\Models\Package;
+use App\Models\PaymentHistory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -26,6 +28,10 @@ use PhpParser\Node\Scalar\Float_;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Browsershot\Browsershot;
+use Srmklive\PayPal\Facades\PayPal;
+use Stripe\Checkout\Session as CheckoutSession;
+use Stripe\Stripe;
+use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class CandidateController extends Controller {
     //
@@ -71,12 +77,37 @@ class CandidateController extends Controller {
 
         $candidate = Candidate::where("user_id", "=", $user_id)
             ->with(["user:id,email", "applications", "applications.job.companies"])
+            ->withCount("companies", 'resumes')
             ->first()
             ->toArray();
 
         return Inertia::render("candidate-dashboard", [
             "candidate" => $candidate
         ]);
+    }
+
+    public function getStatus() {
+        $candidate = Auth::user()?->candidate;
+
+        $status = Cache::remember("CandidateWorkStatus-{$candidate->id}", 60 * 60 * 24, function () use ($candidate) {
+
+            return $candidate->open_to_work;
+        });
+
+        return response()->json(compact('status'));
+    }
+
+    public function updateStatus(Request $request) {
+        $candidateID = Auth::user()?->candidate->id;
+        $status = $request->status;
+
+        DB::table("candidates")
+            ->where("id", "=", $candidateID)
+            ->update([
+                "open_to_work" => $status
+            ]);
+
+        Cache::forget("CandidateWorkStatus-{$candidateID}");
     }
 
     public function show() {
@@ -381,5 +412,106 @@ class CandidateController extends Controller {
         Session::regenerateToken();
 
         return back();
+    }
+
+    public function stripeCheckout(Request $request) {
+        $candidateID = Auth::user()->candidate->id;
+        $package = Package::where('name', 'like', '%featured%')->first();
+
+        // dd($package);
+
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
+        $YOUR_DOMAIN = $request->server->get('HTTP_REFERER');
+        $successURL = "{$YOUR_DOMAIN}?payment=success";
+        $cancelURL = "{$YOUR_DOMAIN}?payment=cancel";
+
+        $checkout_session = CheckoutSession::create([
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => [
+                        'name' => $package->name
+                    ],
+                    'unit_amount' => $package->price * 100
+                ],
+                'quantity' => 1
+
+            ]],
+            'mode' => 'payment',
+            'success_url' => $successURL,
+            'cancel_url' => $cancelURL,
+            'customer_email' => Auth::user()?->email,
+            'metadata' => [
+                'candidate_id' => $candidateID,
+                'package_id' => $package->id,
+                'method' => "stripe"
+
+            ],
+
+        ]);
+
+        return Inertia::location($checkout_session->url);
+    }
+
+    public function paypalCheckout(Request $request) {
+        // dd($request->all());
+        $package = Package::where('name', 'like', '%featured%')->first();
+
+        $provider = new PayPalClient;
+        $provider->getAccessToken();
+        $provider->setApiCredentials(config('paypal'));
+
+        $data = [
+            "intent" => 'CAPTURE',
+            'application_context' => [
+                'return_url' => route('candidate.paypal.success'),
+                'cancel_url' => route('candidate.paypal.cancel'),
+            ],
+            "purchase_units" => [
+                [
+                    'amount' => [
+                        "currency_code" => "USD",
+                        "value" => $package->price
+                    ]
+                ]
+            ]
+        ];
+
+        $order = $provider->createOrder($data);
+        $url = collect($order['links'])->where('rel', '=', 'approve')->first()['href'];
+
+        return Inertia::location($url);
+
+    }
+
+    public function paypalSuccess(Request $request) {
+        // dd($request->query('token'));
+        // dd($request->query('PayerID'));
+
+        $token = $request->token;
+
+        $provider = new PayPalClient;
+        $provider->getAccessToken();
+        $provider->setApiCredentials(config('paypal'));
+
+        $order = $provider->capturePaymentOrder($token);
+
+        $candidateID = Auth::user()->candidate->id;
+        $package = Package::where('name', 'like', '%featured%')->first();
+
+        if (isset($order) && $order['status'] == 'COMPLETED') {
+
+
+            PaymentHistory::create([
+                'candidate_id' => $candidateID,
+                'package_id' => $package->id,
+                'method' => 'Paypal',
+            ]);
+
+            return to_route("candidate.dashboard")->with('message', "Purchase Successful");
+        }
+
+
     }
 }

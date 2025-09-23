@@ -9,18 +9,36 @@ import { User } from '@/SVGs/User';
 import { Candidate } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { SquarePen } from 'lucide-react';
+import { useState } from 'react';
 
 export default function CandidateDashboard() {
     const { candidate } = usePage<{ candidate: Candidate }>().props;
-    console.log(candidate);
+    const [showAllJobs, setShowAllJobs] = useState(false);
+
+    let filteredAppliedJobs = candidate.applications;
+
+    if (!showAllJobs && candidate.applications.length > 3) {
+        filteredAppliedJobs = Array.from({ length: 3 }).map((el, index) => (el = candidate.applications[index]));
+        console.log(filteredAppliedJobs);
+    }
 
     return (
         <AppCandidateLayout page="dashboard" titleText="Welcome to Candidate Dashboard" displaySearch>
             <section id="dashboard-overview" className="flex gap-5">
-                <DashboardOverviewWidget SVGIcon={RoundRemoveRedEye} link="" mainText="179" secondaryText="Profile Views" />
-                <DashboardOverviewWidget SVGIcon={User} link="" mainText="7" secondaryText="Followings" />
-                <DashboardOverviewWidget SVGIcon={Job} link="" mainText="1" secondaryText="My CV List" />
-                <DashboardOverviewWidget SVGIcon={Message} link="" mainText="0" secondaryText="Messages" />
+                <DashboardOverviewWidget SVGIcon={RoundRemoveRedEye} link="" mainText={candidate.profile_views} secondaryText="Profile Views" />
+                <DashboardOverviewWidget
+                    SVGIcon={User}
+                    link={route('candidate.followings')}
+                    mainText={candidate.companies_count}
+                    secondaryText="Followings"
+                />
+                <DashboardOverviewWidget
+                    SVGIcon={Job}
+                    link={route('candidate.downloadResume')}
+                    mainText={candidate.resumes_count}
+                    secondaryText="My CV List"
+                />
+                <DashboardOverviewWidget SVGIcon={Message} link={route('candidate.messages')} mainText="0" secondaryText="Messages" />
             </section>
 
             <section id="profile-image" className="relative mt-5">
@@ -37,8 +55,8 @@ export default function CandidateDashboard() {
                 <h1 className="font-montserrat text-2xl font-semibold">My Applied Jobs</h1>
 
                 <div className="mt-2 grid grid-cols-3 gap-5">
-                    {candidate.applications.length > 0 &&
-                        candidate.applications.map((application) => (
+                    {filteredAppliedJobs.length > 0 &&
+                        filteredAppliedJobs.map((application) => (
                             <FeaturedJobCard
                                 JobID={application.job.id}
                                 companyImageURL={application.job.companies.image_path}
@@ -51,9 +69,13 @@ export default function CandidateDashboard() {
                                 title={application.job.title}
                                 type={application.job.type}
                                 companyID={`${application.job.companies.id}`}
+                                key={application.id}
                             />
                         ))}
                 </div>
+                <p className="mt-3 cursor-pointer text-right font-bold text-primary" onClick={() => setShowAllJobs(!showAllJobs)}>
+                    {showAllJobs ? 'Show (3)' : 'Show All'}
+                </p>
             </section>
 
             {/* <section className="mt-20">

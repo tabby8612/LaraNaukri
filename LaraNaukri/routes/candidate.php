@@ -23,6 +23,9 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::get("edit-profile", [CandidateController::class, "show"])->name("editProfile");
     Route::post("update-profile", [CandidateController::class, "update"])->name("updateProfile");
 
+    Route::get('status', [CandidateController::class, "getStatus"])->name("work.status");
+    Route::put('update-status', [CandidateController::class, "updateStatus"])->name("update.status");
+
 
     //-- Resume Calls
     Route::get("build-resume", [ResumeController::class, "index"])->name("buildResume"); //shows listings of resumes
@@ -87,6 +90,11 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
 
     //-- Payments
     Route::get("payment-history", [PaymentController::class, 'index'])->name("PaymentHistory");
+    Route::post("stripe-checkout", [CandidateController::class, 'stripeCheckout'])->name("stripe.checkout");
+    Route::post("paypal-checkout", [CandidateController::class, 'paypalCheckout'])->name("paypal.checkout");
+    Route::get('success', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('paypal-success', [CandidateController::class, 'paypalSuccess'])->name('paypal.success');
+    Route::get('paypal-cancel', [CandidateController::class, 'paypalCancel'])->name('paypal.cancel');
 
     // -- Candidate-Company Relation
     Route::get("my-followings", [CandidateController::class, 'followingCompanies'])->name("followings");
@@ -95,6 +103,9 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     //--- Logout
     Route::get("logout", [CandidateController::class, 'logout'])->name("logout");
 
+
+
+    //--- Messages
     Route::get("my-messages", fn() => Inertia::render("candidate/my-messages"))->name("messages");
 
 });

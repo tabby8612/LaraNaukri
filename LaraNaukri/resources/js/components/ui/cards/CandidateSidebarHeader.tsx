@@ -1,10 +1,18 @@
-import { CreditCard } from '@/SVGs/CreditCard';
 import { Paypal } from '@/SVGs/Paypal';
 import { Stripe } from '@/SVGs/Stripe';
+import { router } from '@inertiajs/react';
 import { Bell, Briefcase, CrownIcon, Eye, TrendingUp, ZapIcon } from 'lucide-react';
 import { Ribbon } from '../Ribbon';
 
 export default function CandidateSidebarHeader() {
+    function handleStripe() {
+        router.post(route('candidate.stripe.checkout'));
+    }
+
+    function handlePaypal() {
+        router.post(route('candidate.paypal.checkout'));
+    }
+
     return (
         <div className="rounded-lg border-t-5 border-green-600 bg-green-800 p-8">
             <div className="flex items-center gap-3 font-montserrat text-2xl font-semibold text-white">
@@ -42,7 +50,10 @@ export default function CandidateSidebarHeader() {
                 </li>
             </ul>
             <section id="payment-buttons" className="mt-7">
-                <div className="group relative my-3 flex cursor-pointer items-center gap-3 overflow-hidden rounded-full bg-white p-1">
+                <div
+                    className="group relative my-3 flex cursor-pointer items-center gap-3 overflow-hidden rounded-full bg-white p-1"
+                    onClick={handlePaypal}
+                >
                     <div className="bg-primary-2 z-10 rounded-full bg-primary p-3">
                         <Paypal className="size-6 text-white" />
                     </div>
@@ -51,7 +62,10 @@ export default function CandidateSidebarHeader() {
                     </p>
                     <div className="absolute right-0 bottom-0 z-[5] h-full w-full translate-x-70 translate-y-10 rounded-full bg-black transition-transform delay-100 duration-500 group-hover:-translate-x-0 group-hover:-translate-y-0" />
                 </div>
-                <div className="group relative my-3 flex cursor-pointer items-center gap-3 overflow-hidden rounded-full bg-white p-1">
+                <div
+                    className="group relative my-3 flex cursor-pointer items-center gap-3 overflow-hidden rounded-full bg-white p-1"
+                    onClick={handleStripe}
+                >
                     <div className="bg-primary-2 z-10 rounded-full bg-primary p-3">
                         <Stripe className="size-6 text-white" />
                     </div>
@@ -60,7 +74,7 @@ export default function CandidateSidebarHeader() {
                     </p>
                     <div className="absolute right-0 bottom-0 z-[5] h-full w-full translate-x-70 translate-y-10 rounded-full bg-black transition-transform delay-100 duration-500 group-hover:-translate-x-0 group-hover:-translate-y-0" />
                 </div>
-                <div className="group relative my-3 flex cursor-pointer items-center gap-3 overflow-hidden rounded-full bg-white p-1">
+                {/* <div className="group relative my-3 flex cursor-pointer items-center gap-3 overflow-hidden rounded-full bg-white p-1">
                     <div className="bg-primary-2 z-10 rounded-full bg-primary p-3">
                         <CreditCard className="size-6 text-white" />
                     </div>
@@ -68,7 +82,7 @@ export default function CandidateSidebarHeader() {
                         Paystack
                     </p>
                     <div className="absolute right-0 bottom-0 z-[5] h-full w-full translate-x-70 translate-y-10 rounded-full bg-black transition-transform delay-100 duration-500 group-hover:-translate-x-0 group-hover:-translate-y-0" />
-                </div>
+                </div> */}
             </section>
         </div>
     );
