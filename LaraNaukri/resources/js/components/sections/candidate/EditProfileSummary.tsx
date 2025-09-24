@@ -14,7 +14,8 @@ export default function EditProfileSummary({ summary }: { summary: string }) {
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         console.log(`Summary Submitted`);
-        post(route('candidate.updateProfile'), {
+
+        post(route('candidate.updateProfileSummary'), {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {

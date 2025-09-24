@@ -34,6 +34,7 @@ export default function EditPersonalInformation({ data, setData }: Props) {
                     value={data.first_name}
                     label="First Name"
                     onChange={(e) => setData('first_name', e.target.value)}
+                    isrequired
                 />
                 <CustomInputField
                     type="text"
@@ -42,6 +43,7 @@ export default function EditPersonalInformation({ data, setData }: Props) {
                     value={data.last_name}
                     label="Last Name"
                     onChange={(e) => setData('last_name', e.target.value)}
+                    isrequired
                 />
             </div>
             <div className="mt-3 flex w-full gap-3">
@@ -49,28 +51,31 @@ export default function EditPersonalInformation({ data, setData }: Props) {
                     label="Gender"
                     name="gender_id"
                     fetchTable="genders"
-                    selectedID={data.gender_id}
+                    value={data.gender_id}
                     onChange={(e) => setData('gender_id', +e.target.value)}
+                    isrequired
                 />
                 <CustomSelectField
                     label="Marital Status"
                     name="marital_status_id"
                     fetchTable="marital_status"
-                    selectedID={data.marital_status_id}
+                    value={data.marital_status_id}
                     onChange={(e) => setData('marital_status_id', +e.target.value)}
+                    isrequired
                 />
             </div>
 
             <div className="mt-3 flex gap-3">
-                <CountryStateCity countryID={`${data.country_id}`} stateID={data.state_id} cityID={data.city_id} />
+                <CountryStateCity countryID={`${data.country_id}`} stateID={data.state_id} cityID={data.city_id} isrequired />
             </div>
             <div className="mt-3 flex gap-3">
                 <CustomSelectField
                     label="Nationality"
                     name="nationality_id"
                     fetchTable="nationalities"
-                    selectedID={data.nationality_id}
+                    value={data.nationality_id}
                     onChange={(e) => setData('nationality_id', +e.target.value)}
+                    isrequired
                 />
 
                 <CustomDatePicker
@@ -78,6 +83,7 @@ export default function EditPersonalInformation({ data, setData }: Props) {
                     name="date_of_birth"
                     date={data.date_of_birth}
                     onChange={(e) => setData('date_of_birth', e.target.value)}
+                    isrequired
                 />
             </div>
             <div className="mt-3 flex gap-3">
@@ -88,6 +94,7 @@ export default function EditPersonalInformation({ data, setData }: Props) {
                     value={data.phone}
                     label="Phone"
                     onChange={(e) => setData('phone', e.target.value)}
+                    isrequired
                 />
                 <CustomInputField
                     type="tel"
@@ -104,6 +111,7 @@ export default function EditPersonalInformation({ data, setData }: Props) {
                     name="street-address"
                     value={data.address}
                     onChange={(e) => setData('address', e.target.value)}
+                    isrequired
                 />
             </div>
             <hr className="my-7 rounded-2xl border border-gray-300" />

@@ -21,7 +21,7 @@ export default function EditProfile() {
     const { candidate } = usePage<Props>().props;
     const [successMessage, showSuccessMessage] = useState<string | null>(null);
 
-    const { data, setData, post } = useForm({
+    const { data, setData, post, errors } = useForm({
         email: candidate.user.email,
         password: '',
         first_name: candidate.first_name,
@@ -48,6 +48,10 @@ export default function EditProfile() {
         cover_image_path: candidate.cover_image_path,
     });
 
+    console.log(errors);
+    console.log(Object.values(errors));
+    const inputErrors: string[] | [] = errors ? Object.values(errors) : [];
+
     function formHandler(e: FormEvent<HTMLFormElement | HTMLButtonElement>) {
         e.preventDefault();
         post(route('candidate.updateProfile'), {
@@ -66,8 +70,20 @@ export default function EditProfile() {
                     <p className="cursor-pointer">X</p>
                 </div>
             )}
+
+            {inputErrors.length > 0 && (
+                <div className="pb-7 text-red-500">
+                    <p>There are errors in the submitted form</p>
+                    <ul className="mt-2 ml-7 list-disc">
+                        {inputErrors.map((error) => (
+                            <li>{error}</li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+
             <form className="rounded-2xl bg-green-50 p-7" onSubmit={(e) => formHandler(e)} encType="mulmultipart/form-data">
-                <EditProfileAccountInformation email={data.email} password={data.password} setData={setData} />
+                <EditProfileAccountInformation email={data.email} password={data.password} setData={setData} isrequired />
 
                 <h1 className="font-montserrat text-2xl font-bold">Personal Information</h1>
                 <div className="flex gap-3">

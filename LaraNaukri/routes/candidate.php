@@ -4,10 +4,14 @@ use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CandidateExperienceController;
+use App\Http\Controllers\CandidateFavoritesController;
+use App\Http\Controllers\CandidateLanguageController;
+use App\Http\Controllers\CandidatePaymentController;
 use App\Http\Controllers\CandidateSkillController;
 use App\Http\Controllers\DegreeTypeController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaymentHistoryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\SkillController;
@@ -22,6 +26,7 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::get("dashboard", [CandidateController::class, "dashboard"])->name("dashboard");
     Route::get("edit-profile", [CandidateController::class, "show"])->name("editProfile");
     Route::post("update-profile", [CandidateController::class, "update"])->name("updateProfile");
+    Route::post("update-profile-summary", [CandidateController::class, "updateSummary"])->name("updateProfileSummary");
 
     Route::get('status', [CandidateController::class, "getStatus"])->name("work.status");
     Route::put('update-status', [CandidateController::class, "updateStatus"])->name("update.status");
@@ -60,10 +65,10 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::delete("skills-delete/{candidateSkill}", [CandidateSkillController::class, "delete"])->name("skillDelete");
 
     //-- Languages Calls
-    Route::get("candidateLanguages", [CandidateController::class, "candidateLanguages"])->name("languages");
-    Route::post("languages-add", [CandidateController::class, "languageAttach"])->name("languageAdd");
-    Route::put("languages-update/{candidateLanguage}", [CandidateController::class, "languageUpdate"])->name("languageUpdate");
-    Route::delete("languages-delete/{candidateLanguage}", [CandidateController::class, "languagedelete"])->name("languageDelete");
+    Route::get("candidateLanguages", [CandidateLanguageController::class, "candidateLanguages"])->name("languages");
+    Route::post("languages-add", [CandidateLanguageController::class, "languageAttach"])->name("languageAdd");
+    Route::put("languages-update/{candidateLanguage}", [CandidateLanguageController::class, "languageUpdate"])->name("languageUpdate");
+    Route::delete("languages-delete/{candidateLanguage}", [CandidateLanguageController::class, "languagedelete"])->name("languageDelete");
 
 
     //-- Resume Show
@@ -74,14 +79,15 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     //-- Public Profile
     Route::get("view-public-profile/{user}", [CandidateController::class, "viewPublicProfile"])->name("viewPublicProfile")->withoutMiddleware('IsCandidate');
 
-
     //-- Applications
     Route::get("my-job-application", [CandidateController::class, "jobApplications"])->name("jobApplications");
     Route::post("application-store", [ApplicationController::class, 'store'])->name('applicationStore');
 
-    // -- Favorite Jobs
-    Route::get("favorite-jobs", [CandidateController::class, 'showFavoriteJobs'])->name("favoriteJobs");
-    Route::post("toggle-favorite-jobs/{job}", [CandidateController::class, "toggleFavoriteJob"])->name("toggleFavoriteJob");
+    // -- Favorite Jobs and Companies
+    Route::get("favorite-jobs", [CandidateFavoritesController::class, 'favoriteJobs'])->name("favoriteJobs");
+    Route::get("my-followings", [CandidateFavoritesController::class, 'favoriteCompanies'])->name("followings");
+    Route::post("toggle-favorite-jobs/{job}", [CandidateFavoritesController::class, "toggleFavoriteJob"])->name("toggleFavoriteJob");
+    Route::post("company-follow/{company}", [CandidateFavoritesController::class, 'togglefavoriteCompany'])->name("followCompany");
 
     // -- Job Alerts
     Route::get("jobs-alert", [AlertController::class, 'index'])->name("jobsAlert");
@@ -89,16 +95,12 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::delete("remove-alert/{alert}", [AlertController::class, 'delete'])->name("removeAlert");
 
     //-- Payments
-    Route::get("payment-history", [PaymentController::class, 'index'])->name("PaymentHistory");
-    Route::post("stripe-checkout", [CandidateController::class, 'stripeCheckout'])->name("stripe.checkout");
-    Route::post("paypal-checkout", [CandidateController::class, 'paypalCheckout'])->name("paypal.checkout");
-    Route::get('success', [PaymentController::class, 'success'])->name('payment.success');
-    Route::get('paypal-success', [CandidateController::class, 'paypalSuccess'])->name('paypal.success');
-    Route::get('paypal-cancel', [CandidateController::class, 'paypalCancel'])->name('paypal.cancel');
+    Route::get("candidate-payment-history", [PaymentHistoryController::class, 'candidatePaymentHistory'])->name("PaymentHistory");
 
-    // -- Candidate-Company Relation
-    Route::get("my-followings", [CandidateController::class, 'followingCompanies'])->name("followings");
-    Route::post("company-follow/{company}", [CandidateController::class, 'followCompany'])->name("followCompany");
+    Route::post("stripe-checkout", [CandidatePaymentController::class, 'stripeCheckout'])->name("stripe.checkout");
+    Route::post("paypal-checkout", [CandidatePaymentController::class, 'paypalCheckout'])->name("paypal.checkout");
+    Route::get('paypal-success', [CandidatePaymentController::class, 'paypalSuccess'])->name('paypal.success');
+    Route::get('paypal-cancel', [CandidatePaymentController::class, 'paypalCancel'])->name('paypal.cancel');
 
     //--- Logout
     Route::get("logout", [CandidateController::class, 'logout'])->name("logout");

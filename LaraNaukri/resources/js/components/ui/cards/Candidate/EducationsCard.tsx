@@ -1,30 +1,30 @@
 import { Education } from '@/types';
-import { useEffect, useState } from 'react';
+import { router, usePage } from '@inertiajs/react';
 import { Card } from '../../card';
 import AddEducation from '../AddEducation';
 import EducationCard from './EducationCard';
 
 export default function EducationsCard() {
-    const [educations, setEducation] = useState<Education[] | []>([]);
+    const { educations } = usePage<{ educations: Education[] }>().props;
 
-    async function getEducations() {
-        const response = await fetch(route('candidate.educations'));
-        const data = await response.json();
-
-        setEducation(data);
+    function refreshHandler() {
+        router.get(
+            route('candidate.buildResume'),
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+            },
+        );
     }
-
-    useEffect(() => {
-        getEducations();
-    }, []);
 
     return (
         <Card className="mt-10 border-gray-200 p-7 shadow-xl">
             <div className="flex items-center justify-between">
                 <h1 className="font-montserrat text-2xl font-bold">Education</h1>
-                <AddEducation trigger="+" refreshFn={getEducations} />
+                <AddEducation trigger="+" refreshFn={refreshHandler} />
             </div>
-            {educations.length > 0 && <EducationCard educations={educations} refreshFn={getEducations} />}
+            {educations.length > 0 && <EducationCard educations={educations} refreshFn={refreshHandler} viewOnly={false} />}
             {educations.length < 1 && <p>No Education To Show. Click '+' To Add Education</p>}
         </Card>
     );

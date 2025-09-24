@@ -14,6 +14,7 @@ export default function EditProfileVideo({ videoProfile, setData }: Props) {
                     name="video-links"
                     value={videoProfile}
                     onChange={(e) => setData('video_profile', e.target.value)}
+                    isrequired
                 />
             </div>
             <hr className="my-7 rounded-2xl border border-gray-300" />

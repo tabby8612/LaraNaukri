@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidate;
 use App\Models\Resume;
+use App\Service\CandidateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,13 +15,23 @@ class ResumeController extends Controller {
      * Display a listing of the resource.
      */
 
+    public function __construct(protected CandidateService $candidateService) {
+    }
+
     public function index() {
         //
-        $candidateID = Auth::user()->candidate->id;
+        $relations = ["resumes", "projects", "experiences.country", "experiences.city", "educations.country", 'educations.city', 'skills.skill', 'skills.experience', 'languages'];
+        $candidate = $this->candidateService->fetchCandidate(Auth::id(), $relations);
 
-        $resumes = Resume::where("candidate_id", $candidateID)->get()->toArray();
+        return Inertia::render("candidate/build-resume", [
+            "resumes" => $candidate['resumes'],
+            "projects" => $candidate['projects'],
+            "experiences" => $candidate['experiences'],
+            "educations" => $candidate['educations'],
+            "skills" => $candidate['skills'],
+            "languages" => $candidate['languages']
 
-        return Inertia::render("candidate/build-resume", ["resumes" => $resumes]);
+        ]);
     }
 
     /**

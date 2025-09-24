@@ -97,6 +97,10 @@ class Candidate extends Model {
         return $this->belongsToMany(Company::class)->withTimestamps();
     }
 
+    public function payments(): HasMany {
+        return $this->hasMany(PaymentHistory::class);
+    }
+
 
 
 

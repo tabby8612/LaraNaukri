@@ -1,10 +1,10 @@
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
-import { Payment } from '@/types';
+import { PaymentHistory } from '@/types';
 import { usePage } from '@inertiajs/react';
 
 export default function CandidatePaymentHistory() {
-    const { payments } = usePage<{ payments: Payment[] }>().props;
-    console.log(payments);
+    const { paymentHistories } = usePage<{ paymentHistories: PaymentHistory[] }>().props;
+    console.log(paymentHistories);
     return (
         <AppCandidateLayout displaySearch={false} page="payment-history" titleText="Payment History">
             <table className="w-full">
@@ -19,15 +19,15 @@ export default function CandidatePaymentHistory() {
                     </tr>
                 </thead>
                 <tbody>
-                    {payments.length > 0 &&
-                        payments.map((payment) => (
-                            <tr className="odd:bg-green-100" key={payment.id}>
-                                <td className="px-3">{payment.name}</td>
-                                <td className="px-3 text-center">USD {payment.price}</td>
-                                <td className="px-3 text-center">{payment.length}</td>
-                                <td className="px-3 text-center">{payment.method}</td>
-                                <td className="px-3 text-center">{payment.start_date}</td>
-                                <td className="px-3 text-center">{payment.end_date}</td>
+                    {paymentHistories.length > 0 &&
+                        paymentHistories.map((paymentHistory) => (
+                            <tr className="odd:bg-green-100" key={paymentHistory.id}>
+                                <td className="px-3">{paymentHistory.package.name}</td>
+                                <td className="px-3 text-center">USD {paymentHistory.package.price}</td>
+                                <td className="px-3 text-center">{paymentHistory.package.num_days}</td>
+                                <td className="px-3 text-center">{paymentHistory.method}</td>
+                                <td className="px-3 text-center">{paymentHistory.start_date}</td>
+                                <td className="px-3 text-center">{paymentHistory.end_date}</td>
                             </tr>
                         ))}
                 </tbody>

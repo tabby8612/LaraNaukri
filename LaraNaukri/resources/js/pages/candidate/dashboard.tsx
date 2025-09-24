@@ -7,7 +7,7 @@ import { Job } from '@/SVGs/Job';
 import { Message } from '@/SVGs/Message';
 import { User } from '@/SVGs/User';
 import { Candidate } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 import { SquarePen } from 'lucide-react';
 import { useState } from 'react';
 
@@ -19,7 +19,6 @@ export default function CandidateDashboard() {
 
     if (!showAllJobs && candidate.applications.length > 3) {
         filteredAppliedJobs = Array.from({ length: 3 }).map((el, index) => (el = candidate.applications[index]));
-        console.log(filteredAppliedJobs);
     }
 
     return (
@@ -47,7 +46,10 @@ export default function CandidateDashboard() {
                     alt={candidate.first_name}
                     className="h-60 w-full rounded-2xl"
                 />
-                <SquarePen className="absolute top-3 right-5 size-10 cursor-pointer rounded-full bg-white p-2 drop-shadow-xl drop-shadow-black/30" />
+                <SquarePen
+                    className="absolute top-3 right-5 size-10 cursor-pointer rounded-full bg-white p-2 drop-shadow-xl drop-shadow-black/30"
+                    onClick={() => router.get(route('candidate.editProfile'))}
+                />
                 <IntroCard candidate={candidate} />
             </section>
 
@@ -76,6 +78,30 @@ export default function CandidateDashboard() {
                 <p className="mt-3 cursor-pointer text-right font-bold text-primary" onClick={() => setShowAllJobs(!showAllJobs)}>
                     {showAllJobs ? 'Show (3)' : 'Show All'}
                 </p>
+            </section>
+
+            <section className="p-7">
+                <h1 className="my-3 font-montserrat text-2xl font-semibold">Premium Package</h1>
+                {candidate.active_package ? (
+                    <div className="rounded-xl bg-green-50 p-7">
+                        <h2 className="font-montserrat text-2xl font-semibold">
+                            Your Package is:{' '}
+                            <span className="text-primary">
+                                {candidate.active_package.package.name} - ${candidate.active_package.package.price}
+                            </span>
+                        </h2>
+                        <h2 className="mt-5 font-montserrat text-2xl font-semibold">
+                            Your Package Duration:{' '}
+                            <span className="text-primary">
+                                {candidate.active_package.start_date} - {candidate.active_package.end_date}
+                            </span>
+                        </h2>
+                    </div>
+                ) : (
+                    <div className="rounded-xl bg-green-50 p-7">
+                        <p>No Premium Package Is Activated</p>
+                    </div>
+                )}
             </section>
 
             {/* <section className="mt-20">

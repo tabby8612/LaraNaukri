@@ -4,8 +4,9 @@ type Props = {
     email: string;
     password: string;
     setData: (type: string, val: string) => void;
+    isrequired?: boolean;
 };
-export default function EditProfileAccountInformation({ email, password, setData }: Props) {
+export default function EditProfileAccountInformation({ email, password, setData, isrequired = false }: Props) {
     return (
         <>
             <h1 className="font-montserrat text-2xl font-bold">Account Information</h1>
@@ -17,6 +18,7 @@ export default function EditProfileAccountInformation({ email, password, setData
                     value={email}
                     label="Email"
                     onChange={(e) => setData('email', e.target.value)}
+                    isrequired={isrequired}
                 />
                 <CustomInputField
                     type="password"
@@ -25,6 +27,7 @@ export default function EditProfileAccountInformation({ email, password, setData
                     value={password}
                     label="Password"
                     onChange={(e) => setData('password', e.target.value)}
+                    isrequired={isrequired}
                 />
             </div>
             <hr className="my-7 rounded-2xl border border-gray-300" />

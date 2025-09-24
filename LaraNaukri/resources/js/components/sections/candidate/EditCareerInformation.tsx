@@ -33,14 +33,16 @@ export default function EditCareerInformation({
                     name="experience_id"
                     fetchTable="experiences"
                     onChange={(e) => setData('experience_id', e.target.value)}
-                    selectedID={experience_id}
+                    value={experience_id}
+                    isrequired
                 />
                 <CustomSelectField
                     label="Career Level"
                     name="career_level_id"
                     fetchTable="career_levels"
-                    selectedID={career_level_id}
+                    value={career_level_id}
                     onChange={(e) => setData('career_level_id', e.target.value)}
+                    isrequired
                 />
             </div>
             <div className="mt-3 flex gap-3">
@@ -48,15 +50,17 @@ export default function EditCareerInformation({
                     label="Select Industry"
                     name="industry_id"
                     fetchTable="industries"
-                    selectedID={industry_id}
+                    value={industry_id}
                     onChange={(e) => setData('industry_id', e.target.value)}
+                    isrequired
                 />
                 <CustomSelectField
                     label="Select Category"
                     name="category_id"
                     fetchTable="categories"
-                    selectedID={category_id}
+                    value={category_id}
                     onChange={(e) => setData('category_id', e.target.value)}
+                    isrequired
                 />
             </div>
 
@@ -69,6 +73,7 @@ export default function EditCareerInformation({
                     placeholder="Current Salary"
                     value={`${salary_from}`}
                     onChange={(e) => setData('salary_from', e.target.value)}
+                    isrequired
                 />
                 <CustomInputField
                     label="Expected Salary"
@@ -77,6 +82,7 @@ export default function EditCareerInformation({
                     placeholder="Expected Salary"
                     value={`${salary_to}`}
                     onChange={(e) => setData('salary_to', e.target.value)}
+                    isrequired
                 />
             </div>
             <div className="my-7 flex items-center gap-3">

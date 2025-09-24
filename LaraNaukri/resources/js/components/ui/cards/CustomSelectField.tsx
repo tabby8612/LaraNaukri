@@ -5,12 +5,20 @@ type Props = {
     label: string;
     name: string;
     fetchTable: string;
+    isrequired?: boolean;
     items?: {
         name: string;
         id: number | string;
     }[];
 };
-export default function CustomSelectField({ label, name, items, fetchTable, ...props }: InputHTMLAttributes<HTMLSelectElement> & Props) {
+export default function CustomSelectField({
+    label,
+    name,
+    items,
+    fetchTable,
+    isrequired = false,
+    ...props
+}: InputHTMLAttributes<HTMLSelectElement> & Props) {
     const [fetchItems, setFetchItems] = useState(items ?? []);
 
     useEffect(() => {
@@ -29,12 +37,13 @@ export default function CustomSelectField({ label, name, items, fetchTable, ...p
 
     return (
         <div className="w-full">
-            <Label htmlFor={name} className="tracking-wider text-gray-500">
+            <Label htmlFor={name} className={`tracking-wider text-gray-500 ${isrequired && "after:ml-0.5 after:text-red-500 after:content-['*']"} `}>
                 {label}
             </Label>
             <select
                 name={name}
                 id={name}
+                required={isrequired}
                 className="h-10 w-full rounded border-2 border-gray-300 bg-white focus-visible:outline-2 focus-visible:outline-primary"
                 {...props}
             >

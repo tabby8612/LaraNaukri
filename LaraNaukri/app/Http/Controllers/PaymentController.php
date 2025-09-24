@@ -14,30 +14,6 @@ use Stripe\StripeClient;
 
 class PaymentController extends Controller {
     //
-    public function index() {
-
-        $candidateID = Auth::user()->candidate->id;
-
-        $payments = Payment::where('candidate_id', '=', $candidateID)
-            ->get()
-            ->toArray();
-
-        return Inertia::render("candidate/candidate-payment-history", compact('payments'));
-    }
-
-    public function success() {
-        dump(env('STRIPE_SECRET_KEY'));
-        $stripe = new StripeClient(env('STRIPE_SECRET_KEY'));
-
-        dump($stripe);
-        dump($stripe->checkout);
-        dump($stripe->checkout->sessions);
-
-        $session = $stripe->checkout->sessions->retrieve($_GET['session_id']);
-        dump($session);
-        $customer = $stripe->customers->retrieve($session->customer);
-        dd($customer);
-    }
 
     public function webhook(Request $request) {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));

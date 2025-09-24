@@ -201,6 +201,7 @@ type Candidate = {
     resumes_count: string;
     companies_count: string;
     profile_views: string;
+    active_package: PaymentHistory | null;
 
     profession: string;
     is_featured: number;
@@ -389,4 +390,24 @@ type Payment = {
     end_date: string;
     created_at: string;
     updated_at: string;
+};
+
+type Package = {
+    id: string;
+    name: string;
+    price: string;
+    num_days: string | null;
+    num_listings: string | null;
+    for: string;
+};
+
+type PaymentHistory = {
+    id: string;
+    candidate_id: string;
+    package_id: string;
+    method: string;
+    start_date: string;
+    end_date: string;
+    canddiate: Candidate;
+    package: Package;
 };
