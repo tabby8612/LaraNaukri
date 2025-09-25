@@ -132,6 +132,12 @@ class CompanyController extends Controller {
         ]);
     }
 
+    public function dashboard() {
+        dd("in dashboard");
+
+        Inertia::render("employer/dashboard");
+    }
+
 
 
 }

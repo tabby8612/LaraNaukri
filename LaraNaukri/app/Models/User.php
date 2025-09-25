@@ -22,6 +22,7 @@ class User extends Authenticatable {
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -50,9 +51,17 @@ class User extends Authenticatable {
         return $this->hasOne(Candidate::class);
     }
 
+    protected function company(): HasOne {
+        return $this->hasOne(Company::class);
+    }
+
 
     public function isCandidate(): bool {
         return $this->role == 'candidate';
+    }
+
+    public function isEmployer(): bool {
+        return $this->role == 'employer';
     }
 
 

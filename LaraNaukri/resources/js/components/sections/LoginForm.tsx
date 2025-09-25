@@ -4,7 +4,11 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Button } from '../ui/UnusedUI/button';
 import { Input } from '../ui/UnusedUI/input';
 
-export default function LoginForm() {
+type Props = {
+    type?: 'candidate' | 'employer';
+};
+
+export default function LoginForm({ type = 'candidate' }: Props) {
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
@@ -28,7 +32,9 @@ export default function LoginForm() {
 
     function submitHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        post(route('candidate.verify'));
+
+        if (type === 'candidate') post(route('candidate.verify'));
+        if (type === 'employer') post(route('employer.login'));
     }
 
     return (

@@ -9,7 +9,7 @@ export default function CompanyRegister() {
                 <div className="mx-auto flex flex-col items-center justify-center">
                     <h1 className="text-2xl font-bold">Register as Employer</h1>
 
-                    <RegisterForm />
+                    <RegisterForm type="employer" />
                     <div className="mt-6 flex items-center justify-center gap-1 text-xl">
                         <User />
                         Have Account?{' '}

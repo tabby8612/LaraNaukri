@@ -13,6 +13,8 @@ class Company extends Model {
     /** @use HasFactory<\Database\Factories\CompanyFactory> */
     use HasFactory;
 
+    protected $guarded = [];
+
 
     public function jobs(): HasMany {
         return $this->hasMany(Job::class);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\UserCreated;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,29 +15,19 @@ class UserController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
+    public function storeCandidate(UserRequest $userRequest) {
         //
-        // dd($request->all());
-
-        // dump($request->only(["firstName", "lastName", "email", "password"]));
-
-        $request->validate([
-            "firstName" => ["required", "min:3"],
-            "lastName" => ["required", "min:3"],
-            "email" => ["required", "min:3", "email", "unique:users,email"],
-            "password" => ["required", "min:5", "confirmed"],
-            "terms" => ["accepted"]
-        ]);
+        $validated = $userRequest->validated();
 
         $user = User::create([
-            "name" => $request->firstName . $request->lastName,
-            "email" => $request->email,
-            "password" => Hash::make($request->password),
+            "name" => "{$validated['firstName']} {$validated['lastName']}",
+            "email" => $validated['email'],
+            "password" => Hash::make($validated['password']),
             "role" => "candidate"
         ]);
 
         // Event UserCreated will create an entry in the Candidate table.
-        UserCreated::dispatch($user);
+        UserCreated::dispatch($user, $user->role);
 
         //Set The Authention To Login
         Auth::login($user);
@@ -44,17 +35,36 @@ class UserController extends Controller {
         return redirect(route("candidate.dashboard"));
     }
 
+    public function storeEmployer(UserRequest $userRequest) {
+
+        $validated = $userRequest->validated();
+
+        $user = User::create([
+            "name" => "{$validated['firstName']} {$validated['lastName']}",
+            "email" => $validated['email'],
+            "password" => Hash::make($validated['password']),
+            "role" => "employer"
+        ]);
+
+        UserCreated::dispatch($user, $user->role);
+
+        // Auth::login($user);
+
+        return redirect(route("employer.dashboard"));
+
+
+    }
+
     public function verify(Request $request) {
 
-        $request->validate([
+        $validate = $request->validate([
             "email" => ["required", "min:3", "email"],
             "password" => ["required", "min:5"],
         ]);
 
         $user = User::where("email", "=", $request->email)->firstOrFail();
 
-
-        if (password_verify($request->password, $user->password)) {
+        if (Auth::attempt($validate) && $user->isCandidate()) {
             Auth::login($user);
             return to_route("candidate.dashboard");
         } else {
@@ -62,5 +72,25 @@ class UserController extends Controller {
                 "invalidCombination" => "Invalid email and password combination"
             ]);
         }
+    }
+
+    public function verifyEmployer(Request $request) {
+        // dd($request->all());
+
+        $validated = $request->validate([
+            "email" => ["required", "min:3", "email"],
+            "password" => ["required", "min:5"],
+        ]);
+
+        $user = User::where("email", "=", $validated['email'])->firstOrFail();
+
+        if (Auth::attempt($validated) && $user->isEmployer()) {
+            return to_route("employer.dashboard");
+        } else {
+            return back()->withErrors([
+                "invalidCombination" => "Invalid email and password combination"
+            ]);
+        }
+
     }
 }

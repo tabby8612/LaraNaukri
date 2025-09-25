@@ -31,14 +31,6 @@ Route::get("/all-categories", [CategoryController::class, "index"])->name("all.c
 
 Route::get("/companies", [CompanyController::class, "index"])->name("companies");
 
-Route::get("/company-login", function () {
-    return Inertia::render("company-login");
-})->name("company.login");
-
-Route::get("/company-register", function () {
-    return Inertia::render("company-register");
-})->name("company.register");
-
 Route::get("/company/{slug}", [CompanyController::class, "show"])->name("company.view");
 
 Route::get("/featured-companies", function () {
@@ -59,16 +51,17 @@ Route::get("/blog/category/{id}", [BlogCategoriesController::class, "show"])->na
 
 // ----------- Login/Register Routes
 
-Route::get("/candidate-login", function () {
-    return Inertia::render("candidate-login");
-})->name("candidate.login");
-
-Route::get("/candidate-register", function () {
-    return Inertia::render("candidate-register");
-})->name("candidate.register");
-
+Route::get("/candidate-login", fn() => Inertia::render("candidate-login"))->name("candidate.login");
+Route::get("/candidate-register", fn() => Inertia::render("candidate-register"))->name("candidate.register");
 Route::post("/candidate-verify", [UserController::class, "verify"])->name("candidate.verify");
-Route::post("/candidate-register", [UserController::class, "store"])->name("candidate.register");
+Route::post("/candidate-register", [UserController::class, "storeCandidate"])->name("candidate.register");
+
+Route::get("/company-login", fn() => Inertia::render("employer/company-login"))->name("company.login");
+Route::get("/company-register", fn() => Inertia::render("employer/company-register"))->name("company.register");
+Route::post("/company-register", [UserController::class, "storeEmployer"])->name("employer.register");
+Route::post("/company-login", [UserController::class, "verifyEmployer"])->name("employer.login");
+
+
 
 //------------- Payment Routes
 Route::post('/stripe/webhook', [PaymentController::class, 'webhook'])->name('stripe.webhook');
@@ -108,3 +101,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
 require __DIR__ . '/candidate.php';
+require __DIR__ . '/employer.php';

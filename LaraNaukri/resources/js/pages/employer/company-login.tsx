@@ -20,7 +20,7 @@ export default function CompanyLogin() {
                     <p className="w-1/3 text-center">Or login with your account</p>
                     <hr className="h-0.5 w-1/3 border border-gray-300" />
                 </div>
-                <LoginForm />
+                <LoginForm type="employer" />
                 <div className="my-6 flex items-center justify-center gap-1 text-xl">
                     <User />
                     New User?{' '}

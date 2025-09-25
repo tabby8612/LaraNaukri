@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Candidate extends Model {
     //
     protected $fillable = [
-        "user_id", "name"
+        "user_id", "first_name"
     ];
 
     //--- Relationships

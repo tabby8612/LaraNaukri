@@ -13,7 +13,11 @@ type RegisterFormData = {
     terms: boolean;
 };
 
-export default function RegisterForm() {
+type Props = {
+    type?: 'candidate' | 'employer';
+};
+
+export default function RegisterForm({ type = 'candidate' }: Props) {
     const { data, setData, post, errors } = useForm<RegisterFormData>({
         firstName: '',
         lastName: '',
@@ -25,7 +29,9 @@ export default function RegisterForm() {
 
     function submitHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        post(route('candidate.register'));
+
+        if (type === 'candidate') post(route('candidate.register'));
+        if (type === 'employer') post(route('employer.register'));
     }
 
     return (
@@ -104,7 +110,7 @@ export default function RegisterForm() {
             </div>
             {errors.terms && <div className="mt-1 text-sm text-red-500">{errors.terms}</div>}
 
-            <Button className="mt-7 size-full bg-primary text-lg tracking-wider text-white uppercase">Register</Button>
+            <Button className="mt-7 size-full cursor-pointer bg-primary text-lg tracking-wider text-white uppercase">Register</Button>
         </form>
     );
 }

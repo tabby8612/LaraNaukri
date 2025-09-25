@@ -4,6 +4,7 @@ import { MonitorFill16 } from '@/SVGs/Monitor';
 import { Speed } from '@/SVGs/Speedometer';
 import { User } from '@/SVGs/User';
 import { Candidate } from '@/types';
+import { Company } from '@/types/employer';
 import { Link, usePage } from '@inertiajs/react';
 import { LanguagesIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -15,15 +16,17 @@ type Props = {
         user: {
             id: number;
             name: string;
+            role: 'candidate' | 'employer';
         };
         candidate: Candidate;
+        employer: Company;
     };
 };
 export default function Nav({ page }: { page: string }) {
     const [isNavSticky, setNavSticky] = useState(false);
     const [userOptions, setUserOptions] = useState(false);
     const { auth } = usePage<Props>().props;
-    const { user, candidate } = auth;
+    const { user, candidate, employer } = auth;
 
     useEffect(() => {
         function handleScroll() {
@@ -88,15 +91,15 @@ export default function Nav({ page }: { page: string }) {
                                 Contact us
                             </li>
                         </a>
-                        {user ? (
+                        {user && user.role === 'candidate' && (
                             <li
                                 className="relative cursor-pointer"
                                 onMouseEnter={() => setUserOptions(true)}
                                 onMouseLeave={() => setUserOptions(false)}
                             >
                                 <img
-                                    src={`/storage/${candidate.image_path || '/candidates/default.png'}`}
-                                    alt={candidate.first_name}
+                                    src={`/storage/${candidate?.image_path || '/candidates/default.png'}`}
+                                    alt={candidate?.first_name}
                                     className="size-9 rounded-full outline-2 outline-primary"
                                 />
 
@@ -142,6 +145,70 @@ export default function Nav({ page }: { page: string }) {
                                             </Link>
 
                                             <Link href={route('candidate.logout')}>
+                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
+                                                    <Exit className="size-4" />
+                                                    <p>Logout</p>
+                                                </li>
+                                            </Link>
+                                        </ul>
+                                    </div>
+                                )}
+                            </li>
+                        )}
+                        {user && user.role === 'employer' ? (
+                            <li
+                                className="relative cursor-pointer"
+                                onMouseEnter={() => setUserOptions(true)}
+                                onMouseLeave={() => setUserOptions(false)}
+                            >
+                                <img
+                                    src={`/storage/${employer.image_path || '/companies/default.png'}`}
+                                    alt={employer.name}
+                                    className="size-9 rounded-full outline-2 outline-primary"
+                                />
+
+                                {userOptions && (
+                                    <div
+                                        className={`absolute -left-[600%] flex size-0 flex-col opacity-100 shadow-2xs duration-500 peer-hover:-translate-y-0 peer-hover:opacity-100`}
+                                    >
+                                        <ul
+                                            onMouseEnter={() => setUserOptions(true)}
+                                            onMouseLeave={() => setUserOptions(false)}
+                                            className="w-3xs rounded-b-xl border-2 border-gray-200 bg-white shadow-2xl peer-hover:-translate-y-0"
+                                        >
+                                            <Link href={route('employer.dashboard')}>
+                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
+                                                    <Speed className="size-6" />
+                                                    <p>Dashboard</p>
+                                                </li>
+                                            </Link>
+
+                                            <Link href={route('employer.editProfile')}>
+                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
+                                                    <User className="size-5" />
+                                                    <p>Company Profile</p>
+                                                </li>
+                                            </Link>
+
+                                            <Link
+                                                href={route('employer.viewPublicProfile', {
+                                                    id: user.id,
+                                                })}
+                                            >
+                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
+                                                    <RoundRemoveRedEye className="size-5" />
+                                                    <p>View Public Profile</p>
+                                                </li>
+                                            </Link>
+
+                                            <Link href={route('employer.postJob')}>
+                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
+                                                    <MonitorFill16 className="mr-1 size-4" />
+                                                    <p>Post Job</p>
+                                                </li>
+                                            </Link>
+
+                                            <Link href={route('employer.logout')}>
                                                 <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
                                                     <Exit className="size-4" />
                                                     <p>Logout</p>
