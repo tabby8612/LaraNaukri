@@ -5,9 +5,9 @@ import { Button } from '../UnusedUI/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogOverlay, DialogTitle, DialogTrigger } from '../UnusedUI/dialog';
 import CountryStateCity from './CountryStateCity';
 import CustomInputField from './CustomInputField';
-import { CustomMultiSelect } from './CustomMultiSelect';
 import CustomSelectField from './CustomSelectField';
 import DegreeLevelsTypes from './DegreeLevelsTypes';
+import { MultiSubjectSelector } from './MultiSubjectSelector';
 
 type Props = {
     trigger?: string | ReactNode;
@@ -104,7 +104,7 @@ export default function AddEducation({ trigger, type = 'create', education, refr
                                 </div>
 
                                 <div className="w-full">
-                                    <CustomMultiSelect data={education?.subjects ?? []} setData={setData} />
+                                    <MultiSubjectSelector data={education?.subjects ?? []} setData={setData} />
                                 </div>
 
                                 <div>

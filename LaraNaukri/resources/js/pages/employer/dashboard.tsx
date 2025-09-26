@@ -78,7 +78,7 @@ export default function Dashboard() {
                 <h1 className="my-5 font-montserrat text-2xl font-bold">Upgrade Job Packages</h1>
                 <div className="grid grid-cols-3 gap-10">
                     {premiumJobsPackages.map((premiumPackage) => (
-                        <PackageCard premiumPackage={premiumPackage} type="job" />
+                        <PackageCard premiumPackage={premiumPackage} type="job" key={premiumPackage.id} />
                     ))}
                 </div>
             </section>
@@ -92,7 +92,7 @@ export default function Dashboard() {
                 <h1 className="my-5 font-montserrat text-2xl font-bold">Upgrade CV Packages</h1>
                 <div className="grid grid-cols-3 gap-10">
                     {premiumCVPackages.map((premiumPackage) => (
-                        <PackageCard premiumPackage={premiumPackage} type="cv" />
+                        <PackageCard premiumPackage={premiumPackage} type="cv" key={premiumPackage.id} />
                     ))}
                 </div>
             </section>

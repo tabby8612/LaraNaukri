@@ -17,6 +17,7 @@ Route::get('/', [HomeController::class, "index"])->name('home');
 // ----------- Jobs Routes
 
 Route::get("/search-jobs", [JobController::class, "searchJobs"])->name("search.jobs");
+Route::get("/search-talent", fn() => Inertia::render("searchTalent"))->name("search.talent");
 
 Route::get("/job/{slug}", [JobController::class, "show"])->name("job.view");
 

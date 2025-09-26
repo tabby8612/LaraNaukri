@@ -6,6 +6,7 @@ import { Message } from '@/SVGs/Message';
 import { MonitorFill16 } from '@/SVGs/Monitor';
 import { Pencil } from '@/SVGs/Pencil';
 import { User } from '@/SVGs/User';
+import { Company } from '@/types/employer';
 import { usePage } from '@inertiajs/react';
 import { Search, SquareChartGantt, Users } from 'lucide-react';
 
@@ -15,6 +16,7 @@ export default function EmployerNavLinks({ page = 'dashboard' }: { page: string 
             user: {
                 id: string;
             };
+            employer: Company;
         };
     }>().props;
 
@@ -34,7 +36,7 @@ export default function EmployerNavLinks({ page = 'dashboard' }: { page: string 
             </a>
             <a
                 href={route('employer.viewPublicProfile', {
-                    id: auth.user.id,
+                    slug: auth.employer.slug,
                 })}
             >
                 <li className="group mt-4 flex items-center gap-2 hover:cursor-pointer">
@@ -54,8 +56,8 @@ export default function EmployerNavLinks({ page = 'dashboard' }: { page: string 
             </a>
             <a href={route('employer.manageJobs')}>
                 <li className="group mt-4 flex items-center gap-2 hover:cursor-pointer">
-                    <SquareChartGantt className={`size-5 group-hover:text-primary ${page === 'manageJob' ? 'text-primary' : 'text-gray-500'}`} />
-                    <p className={`group-hover:text-primary ${page === 'manageJob' ? 'text-primary' : 'text-gray-500'}`}>Manage Jobs</p>
+                    <SquareChartGantt className={`size-5 group-hover:text-primary ${page === 'manageJobs' ? 'text-primary' : 'text-gray-500'}`} />
+                    <p className={`group-hover:text-primary ${page === 'manageJobs' ? 'text-primary' : 'text-gray-500'}`}>Manage Jobs</p>
                 </li>
             </a>
             <a href={route('employer.packages')}>
@@ -67,9 +69,9 @@ export default function EmployerNavLinks({ page = 'dashboard' }: { page: string 
             <a href={route('employer.paymentHistory')}>
                 <li className="group mt-4 flex items-center gap-2 hover:cursor-pointer">
                     <FileInvoiceDollar
-                        className={`size-5 group-hover:text-primary ${page === 'PaymentHistory' ? 'text-primary' : 'text-gray-500'}`}
+                        className={`size-5 group-hover:text-primary ${page === 'paymentHistory' ? 'text-primary' : 'text-gray-500'}`}
                     />
-                    <p className={`group-hover:text-primary ${page === 'PaymentHistory' ? 'text-primary' : 'text-gray-500'}`}>Payment History</p>
+                    <p className={`group-hover:text-primary ${page === 'paymentHistory' ? 'text-primary' : 'text-gray-500'}`}>Payment History</p>
                 </li>
             </a>
             <a href={route('employer.unlockedUsers')}>

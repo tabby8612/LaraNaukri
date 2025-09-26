@@ -17,11 +17,15 @@ export default function CompanyIntro({ companyData, isFollower }: { companyData:
         <>
             <Card className="gap-1 border border-gray-200 py-0 shadow-transparent">
                 <Card className="flex flex-row gap-3 border-0 px-6 shadow-transparent">
-                    <img src={`/storage/${companyData.image_path}`} alt={companyData.name} className="size-24 border-4 border-white" />
+                    <img
+                        src={`/storage/${companyData.image_path ?? 'companies/default.png'}`}
+                        alt={companyData.name}
+                        className="size-24 border-4 border-white"
+                    />
                     <Card className="inset-0 mt-0 gap-0 border-0 py-0 shadow-transparent">
                         <CardTitle className="font-montserrat text-lg font-bold">{companyData.name}</CardTitle>
                         <CardContent className="mt-0 px-0 py-0">
-                            <p className="text-lg">{companyData.industry.name}</p>
+                            <p className="text-lg">{companyData.industry?.name}</p>
                             <div className="my-3 flex items-center gap-2">
                                 <ResetTime className="text-primary" />
                                 <p>Member Since, {companyData.founded}</p>

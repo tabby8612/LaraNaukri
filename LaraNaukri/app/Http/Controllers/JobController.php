@@ -117,6 +117,7 @@ class JobController extends Controller {
 
     public function filterJobs(Request $request) {
         $filters = $request->all();
+
         $query = Job::with(["city", "companies:id,name,image_path"]);
 
         foreach ($filters as $key => $value) {
@@ -146,6 +147,8 @@ class JobController extends Controller {
         }
 
         $data = $query->get()->toArray();
+
+        // dd($data);
 
 
         return Inertia::render(

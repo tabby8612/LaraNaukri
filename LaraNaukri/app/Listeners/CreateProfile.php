@@ -7,6 +7,8 @@ use App\Models\Candidate;
 use App\Models\Company;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Str;
+
 
 class CreateProfile {
     /**
@@ -27,7 +29,8 @@ class CreateProfile {
         if ($role == 'employer') {
             Company::create([
                 "user_id" => $user->id,
-                "name" => $user->name
+                "name" => $user->name,
+                "slug" => Str::slug("{$user->name}-{$user->id}")
             ]);
         }
 

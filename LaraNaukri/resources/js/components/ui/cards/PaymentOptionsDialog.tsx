@@ -2,7 +2,7 @@ import { Paypal } from '@/SVGs/Paypal';
 import { Stripe } from '@/SVGs/Stripe';
 import { ReactNode, useState } from 'react';
 import PaymentButton from '../PaymentButton';
-import { Dialog, DialogClose, DialogContent, DialogOverlay, DialogTitle, DialogTrigger } from '../UnusedUI/dialog';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogTitle, DialogTrigger } from '../UnusedUI/dialog';
 
 export default function PaymentOptionsDialog({ trigger }: { trigger?: string | ReactNode }) {
     const [closeDialog, setCloseDialog] = useState(false);
@@ -15,6 +15,7 @@ export default function PaymentOptionsDialog({ trigger }: { trigger?: string | R
                 <DialogClose className="bg-gray-500" />
                 <DialogContent className="translate-y-[-50%] bg-white data-[state=closed]:animate-closeDialog data-[state=open]:animate-openDialog">
                     <DialogTitle>Buy Now</DialogTitle>
+                    <DialogDescription className="size-0" />
                     <hr className="border-gray-400" />
                     <h1 className="text-center font-montserrat text-2xl font-semibold text-primary">Please Choose Your Payment Method To Pay</h1>
                     <h2 className="text-center text-xl">

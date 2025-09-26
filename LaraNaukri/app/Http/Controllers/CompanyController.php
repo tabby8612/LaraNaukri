@@ -6,6 +6,7 @@ use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\Industry;
 use App\Models\Job;
+use App\Models\User;
 use Barryvdh\Debugbar\Facades\Debugbar;
 
 use Illuminate\Http\Request;
@@ -65,10 +66,13 @@ class CompanyController extends Controller {
             ->except(["companies.email", "companies.password"])
             ->toArray();
 
+        /**
+         * @var User
+         */
+        $user = Auth::user();
         $isFollower = false;
 
-        if (Auth::user()) {
-
+        if ($user?->isCandidate()) {
             /**
              * @var Candidate $candidate
              */

@@ -61,13 +61,24 @@ export default function Nav({ page }: { page: string }) {
                             </li>
                         </a>
 
-                        <a href={route('search.jobs')}>
-                            <li
-                                className={`${page === 'jobs' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
-                            >
-                                Jobs
-                            </li>
-                        </a>
+                        {employer ? (
+                            <a href={route('search.talent')}>
+                                <li
+                                    className={`${page === 'talent' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
+                                >
+                                    Search Talent
+                                </li>
+                            </a>
+                        ) : (
+                            <a href={route('search.jobs')}>
+                                <li
+                                    className={`${page === 'jobs' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
+                                >
+                                    Jobs
+                                </li>
+                            </a>
+                        )}
+
                         <a href={route('companies')}>
                             <li
                                 className={`${page === 'companies' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
@@ -192,7 +203,7 @@ export default function Nav({ page }: { page: string }) {
 
                                             <Link
                                                 href={route('employer.viewPublicProfile', {
-                                                    id: user.id,
+                                                    slug: employer.slug,
                                                 })}
                                             >
                                                 <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">

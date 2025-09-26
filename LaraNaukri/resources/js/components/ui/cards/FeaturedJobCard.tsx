@@ -1,8 +1,12 @@
 import { LightningBolt } from '@/SVGs/Bolt';
 import { Job } from '@/SVGs/Job';
 import { Location } from '@/SVGs/Location';
+import { router } from '@inertiajs/react';
+import { Edit, Trash } from 'lucide-react';
 import { Card } from '../card';
+import { Badge } from '../UnusedUI/badge';
 import { Button } from '../UnusedUI/button';
+import DeleteConfirmation from './DeleteConfirmation';
 
 type JobsProps = {
     title: string;
@@ -17,6 +21,8 @@ type JobsProps = {
     JobID: string;
     companySlug: string;
     removeFavoriteFn?: (id: string) => void;
+    showCompanyDetails?: boolean;
+    showEditOptions?: boolean;
 };
 
 export default function FeaturedJobCard({
@@ -31,6 +37,8 @@ export default function FeaturedJobCard({
     JobID,
     companySlug,
     removeFavoriteFn,
+    showCompanyDetails = true,
+    showEditOptions = false,
 }: JobsProps) {
     return (
         <Card className="relative gap-0 rounded-4xl border-gray-300 p-5 shadow-2xs transition-all delay-100 duration-300 hover:translate-y-[-7px] hover:border-primary hover:shadow-xl">
@@ -65,19 +73,47 @@ export default function FeaturedJobCard({
                 <Location className="size-5 text-primary" />
                 <strong>{location}</strong>
             </div>
-            <div className="mt-4 flex items-center justify-between rounded-xl bg-gray-200/60 px-3 py-3">
-                <div>
-                    <p>{postedDate}</p>
-                    <a
-                        href={route('company.view', {
-                            slug: companySlug,
-                        })}
-                    >
-                        <p className="font-montserrat font-bold transition-colors delay-100 duration-300 hover:text-primary">{companyName}</p>
-                    </a>
+
+            {showCompanyDetails && (
+                <div className="mt-4 flex items-center justify-between rounded-xl bg-gray-200/60 px-3 py-3">
+                    <div>
+                        <p>{postedDate}</p>
+                        <a
+                            href={route('company.view', {
+                                slug: companySlug,
+                            })}
+                        >
+                            <p className="font-montserrat font-bold transition-colors delay-100 duration-300 hover:text-primary">{companyName}</p>
+                        </a>
+                    </div>
+                    <img src={`/storage/${companyImageURL}`} alt={companyName} className="size-16 rounded-full border-4 border-white" />
                 </div>
-                <img src={`/storage/${companyImageURL}`} alt={companyName} className="size-16 rounded-full border-4 border-white" />
-            </div>
+            )}
+
+            {showEditOptions && (
+                <div className="mt-3 flex gap-3">
+                    <Button
+                        className="cursor-pointer px-6 py-5 text-white"
+                        onClick={() => router.get(route('employer.listAppliedUsers', { id: JobID }))}
+                    >
+                        Candidates{'  '}
+                        <Badge variant={'default'} className="bg-white text-black">
+                            10
+                        </Badge>
+                    </Button>
+                    <Button
+                        className="cursor-pointer bg-amber-400 py-5 text-black hover:bg-amber-400 hover:brightness-105"
+                        onClick={() => router.get(route('employer.editJob', { id: JobID }))}
+                    >
+                        <Edit />
+                    </Button>
+                    <DeleteConfirmation
+                        deleteFn={() => router.get(route('employer.deleteJob', { id: JobID }))}
+                        trigger={<Trash className="size-10 rounded-lg bg-red-400 p-3 text-black" />}
+                    />
+                </div>
+            )}
+
             {removeFavoriteFn && (
                 <Button className="mt-5 w-28 cursor-pointer bg-red-500 font-montserrat font-bold text-white" onClick={() => removeFavoriteFn(JobID)}>
                     X Remove

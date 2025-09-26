@@ -9,7 +9,7 @@ type Props = {
     setData: (attribute: string, val: Subject[]) => void;
 };
 
-export function CustomMultiSelect({ data, setData }: Props) {
+export function MultiSubjectSelector({ data, setData }: Props) {
     const [subjects, setSubjects] = useState<Subject[] | []>([]);
     const [suggestions, setSuggestions] = useState<Subject[] | []>([]);
     const [selectedSubjects, setSelectedSubjects] = useState<Subject[] | []>(data);

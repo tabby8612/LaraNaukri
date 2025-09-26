@@ -2,7 +2,6 @@ import JobSearchResults from '@/components/sections/job-search-results';
 import Searchjobhero from '@/components/sections/searchjobhero';
 import SearchFilter from '@/components/ui/cards/SearchFilter';
 import AppLayout from '@/layouts/app/app-layout';
-import { DocumentText } from '@/SVGs/Document';
 import { FilteredJobs } from '@/types';
 import { router, usePage } from '@inertiajs/react';
 import { SearchCheckIcon } from 'lucide-react';
@@ -12,7 +11,7 @@ type CustomPageProps = {
     filteredJobs: FilteredJobs[] | undefined;
 };
 
-export default function SearchJobs() {
+export default function SearchTalent() {
     const props = usePage<CustomPageProps>().props;
     const { filteredJobs } = props;
     const [allJobs, setAllJobs] = useState<FilteredJobs[] | null>(null);
@@ -24,6 +23,8 @@ export default function SearchJobs() {
             if (!response.ok) throw new Error('Unable to fetch data');
 
             const data = await response.json();
+
+            console.log(data);
 
             setAllJobs(data);
         }
@@ -44,8 +45,6 @@ export default function SearchJobs() {
         const buttons = document.querySelectorAll<HTMLButtonElement>("button[role='checkbox'][data-state='checked']");
 
         const selectedItems: Record<string, string[]> = {};
-
-        console.log(buttons[0].name);
         buttons.forEach((item) => {
             if (!selectedItems[item.dataset.filter!]) {
                 selectedItems[item.dataset.filter!] = [item.value];
@@ -53,8 +52,6 @@ export default function SearchJobs() {
                 selectedItems[item.dataset.filter!].push(item.value);
             }
         });
-
-        console.log(selectedItems);
 
         router.post(route('filter.jobs'), selectedItems);
     }
@@ -64,10 +61,6 @@ export default function SearchJobs() {
             <Searchjobhero />
             <section className="mx-auto flex w-[95%] p-10">
                 <div id="search-filter" className="mr-6 w-1/4">
-                    <div className="flex cursor-pointer items-center gap-3 rounded-lg bg-primary px-3 py-3 text-lg font-semibold text-white">
-                        <DocumentText />
-                        <p className="">Upload Your Document</p>
-                    </div>
                     <form onSubmit={(e) => handleSubmit(e)}>
                         {allJobs && <SearchFilter widgetTitle="title" data={allJobs} filterKey="title" />}
                         {allJobs && <SearchFilter widgetTitle="type" data={allJobs} filterKey="type" />}
