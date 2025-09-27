@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogCategoriesController;
 use App\Http\Controllers\BlogpostController;
+use App\Http\Controllers\CandidateSearchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\HomeController;
@@ -16,11 +17,17 @@ Route::get('/', [HomeController::class, "index"])->name('home');
 
 // ----------- Jobs Routes
 
-Route::get("/search-jobs", [JobController::class, "searchJobs"])->name("search.jobs");
-Route::get("/search-talent", fn() => Inertia::render("searchTalent"))->name("search.talent");
+Route::get("search-jobs", [JobController::class, "searchJobs"])->name("search.jobs");
+Route::post("search-jobs", [JobController::class, "filterJobs"])->name("filter.jobs");
+
 
 Route::get("/job/{slug}", [JobController::class, "show"])->name("job.view");
 
+
+// ----------- Candidate Routes
+Route::get("/search-talent", [CandidateSearchController::class, 'index'])->name("search.talent");
+Route::post("/search-talent", [CandidateSearchController::class, 'searchTalent'])->name("search.talent");
+Route::post("/filter-talent", [CandidateSearchController::class, 'filterTalent'])->name("filter.talent");
 
 
 // ----------- Category/Functional-Area Routes

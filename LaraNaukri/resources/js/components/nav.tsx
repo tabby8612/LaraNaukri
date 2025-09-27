@@ -26,7 +26,7 @@ export default function Nav({ page }: { page: string }) {
     const [isNavSticky, setNavSticky] = useState(false);
     const [userOptions, setUserOptions] = useState(false);
     const { auth } = usePage<Props>().props;
-    const { user, candidate, employer } = auth;
+    // const { user, candidate, employer } = auth;
 
     useEffect(() => {
         function handleScroll() {
@@ -61,7 +61,7 @@ export default function Nav({ page }: { page: string }) {
                             </li>
                         </a>
 
-                        {employer ? (
+                        {auth?.employer ? (
                             <a href={route('search.talent')}>
                                 <li
                                     className={`${page === 'talent' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
@@ -102,15 +102,15 @@ export default function Nav({ page }: { page: string }) {
                                 Contact us
                             </li>
                         </a>
-                        {user && user.role === 'candidate' && (
+                        {auth?.user && auth?.user.role === 'candidate' && (
                             <li
                                 className="relative cursor-pointer"
                                 onMouseEnter={() => setUserOptions(true)}
                                 onMouseLeave={() => setUserOptions(false)}
                             >
                                 <img
-                                    src={`/storage/${candidate?.image_path || '/candidates/default.png'}`}
-                                    alt={candidate?.first_name}
+                                    src={`/storage/${auth.candidate?.image_path || '/candidates/default.png'}`}
+                                    alt={auth.candidate?.first_name}
                                     className="size-9 rounded-full outline-2 outline-primary"
                                 />
 
@@ -139,7 +139,7 @@ export default function Nav({ page }: { page: string }) {
 
                                             <Link
                                                 href={route('candidate.viewPublicProfile', {
-                                                    id: user.id,
+                                                    id: auth?.user.id,
                                                 })}
                                             >
                                                 <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
@@ -166,15 +166,15 @@ export default function Nav({ page }: { page: string }) {
                                 )}
                             </li>
                         )}
-                        {user && user.role === 'employer' ? (
+                        {auth?.user && auth?.user.role === 'employer' && (
                             <li
                                 className="relative cursor-pointer"
                                 onMouseEnter={() => setUserOptions(true)}
                                 onMouseLeave={() => setUserOptions(false)}
                             >
                                 <img
-                                    src={`/storage/${employer.image_path || '/companies/default.png'}`}
-                                    alt={employer.name}
+                                    src={`/storage/${auth?.employer.image_path || '/companies/default.png'}`}
+                                    alt={auth?.employer.name}
                                     className="size-9 rounded-full outline-2 outline-primary"
                                 />
 
@@ -203,7 +203,7 @@ export default function Nav({ page }: { page: string }) {
 
                                             <Link
                                                 href={route('employer.viewPublicProfile', {
-                                                    slug: employer.slug,
+                                                    slug: auth?.employer.slug,
                                                 })}
                                             >
                                                 <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
@@ -229,7 +229,9 @@ export default function Nav({ page }: { page: string }) {
                                     </div>
                                 )}
                             </li>
-                        ) : (
+                        )}
+
+                        {!auth?.user && (
                             <div className="flex items-center gap-7">
                                 <li
                                     className={`${page === 'login' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}

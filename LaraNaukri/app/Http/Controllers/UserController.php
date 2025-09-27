@@ -65,9 +65,9 @@ class UserController extends Controller {
         $user = User::where("email", "=", $request->email)->firstOrFail();
 
         if (Auth::attempt($validate) && $user->isCandidate()) {
-            Auth::login($user);
             return to_route("candidate.dashboard");
         } else {
+            Auth::logout();
             return back()->withErrors([
                 "invalidCombination" => "Invalid email and password combination"
             ]);
@@ -87,6 +87,7 @@ class UserController extends Controller {
         if (Auth::attempt($validated) && $user->isEmployer()) {
             return to_route("employer.dashboard");
         } else {
+            Auth::logout();
             return back()->withErrors([
                 "invalidCombination" => "Invalid email and password combination"
             ]);

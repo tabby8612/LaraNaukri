@@ -411,3 +411,9 @@ type PaymentHistory = {
     canddiate: Candidate;
     package: Package;
 };
+
+type CandidateGroup = {
+    id: string;
+    name: string;
+    candidate_count: string;
+};

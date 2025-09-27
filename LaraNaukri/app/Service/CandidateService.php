@@ -16,8 +16,68 @@ class CandidateService {
         //
     }
 
-    public function test() {
-        return "yes working";
+    /**
+     * @param [string $column, string $operator, string $value]  $conditions
+     * @param string[] $relations
+     * @return array
+     */
+
+    public function searchCandidates(array $conditions, $relations = []) {
+
+        $query = Candidate::with($relations);
+
+        foreach ($conditions as $index => $condition) {
+            [$columnName, $operator, $value] = $condition;
+            $query->where($columnName, $operator, $value, "or");
+        }
+
+        $candidates = $query->get()->toArray();
+
+        return $candidates;
+    }
+
+    /**
+     * @param [string column, string operator, string[] ids ]  $conditions
+     * @param string[] $relations
+     * @return array
+     */
+
+    public function filterCandidates(array $conditions, $relations = []) {
+
+        $query = Candidate::with($relations);
+
+        foreach ($conditions as $condition) {
+            [$columnName, $operator, $value] = $condition;
+
+            foreach ($value as $id) {
+                $query->where($columnName, $operator, $id, "or");
+            }
+        }
+
+        $candidates = $query->get()->toArray();
+
+        return $candidates;
+    }
+
+    public function groupCandidates(string $relationTable, string $relatedColumn) {
+        $groupedRelationCount = DB::table("candidates")
+            ->select(["{$relationTable}.id", "{$relationTable}.name", DB::raw("COUNT(*) AS 'candidate_count'")])
+            ->join($relationTable, "{$relationTable}.id", '=', $relatedColumn)
+            ->groupBy(["{$relationTable}.id", "{$relationTable}.name"])
+            ->get()
+            ->toArray();
+
+        return $groupedRelationCount;
+    }
+
+    public function fetchCandidates(array $relations = [], array $relationsCount = [], array $get = ['*']) {
+
+        $candidates = Candidate::with($relations ?? [])
+            ->withCount($relationsCount ?? [])
+            ->get($get)
+            ->toArray();
+
+        return $candidates;
     }
 
     public function fetchCandidate(string $userID, array $relations = [], array $relationsCount = [], array $get = ['*']) {

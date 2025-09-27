@@ -45,7 +45,6 @@ export default function SearchJobs() {
 
         const selectedItems: Record<string, string[]> = {};
 
-        console.log(buttons[0].name);
         buttons.forEach((item) => {
             if (!selectedItems[item.dataset.filter!]) {
                 selectedItems[item.dataset.filter!] = [item.value];
@@ -53,8 +52,6 @@ export default function SearchJobs() {
                 selectedItems[item.dataset.filter!].push(item.value);
             }
         });
-
-        console.log(selectedItems);
 
         router.post(route('filter.jobs'), selectedItems);
     }

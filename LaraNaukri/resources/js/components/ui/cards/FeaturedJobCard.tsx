@@ -40,6 +40,8 @@ export default function FeaturedJobCard({
     showCompanyDetails = true,
     showEditOptions = false,
 }: JobsProps) {
+    // console.log(title, type, location, postedDate, companyName, companyImageURL, companySlug);
+
     return (
         <Card className="relative gap-0 rounded-4xl border-gray-300 p-5 shadow-2xs transition-all delay-100 duration-300 hover:translate-y-[-7px] hover:border-primary hover:shadow-xl">
             {featured && (

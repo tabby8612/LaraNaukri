@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\Candidate;
 use App\Models\Category;
+use App\Models\City;
+use App\Models\Company;
 use App\Models\Country;
 use App\Models\Job;
 use Carbon\Carbon;
@@ -118,7 +120,7 @@ class JobController extends Controller {
     public function filterJobs(Request $request) {
         $filters = $request->all();
 
-        $query = Job::with(["city", "companies:id,name,image_path"]);
+        $query = Job::with(["city", "companies"]);
 
         foreach ($filters as $key => $value) {
             switch ($key) {
@@ -128,28 +130,37 @@ class JobController extends Controller {
                         ->where('countries.name', "=", $value);
                     break;
                 case 'city':
-                    $query->join("cities", "cities.id", "=", "jobs_listings.city_id")
-                        ->where('cities.name', "=", $value);
+                    foreach ($value as $filterValue) {
+                        $city = City::where("name", "like", "%{$filterValue}%")->first();
+                        $query->with("city")->where('city_id', '=', $city->id, 'and');
+                    }
                     break;
                 case 'category':
-                    $query->join("categories", "categories.id", "=", "jobs_listings.category_id")
-                        ->where('categories.name', "=", $value);
+                    foreach ($value as $filterValue) {
+                        $category = Category::where("name", "like", "%{$filterValue}%")->first();
+                        $query->with("category")->where('category_id', '=', $category->id, 'and');
+                    }
                     break;
                 case 'company':
-                    $query->join("companies", "companies.id", "=", "jobs_listings.company_id")
-                        ->where('companies.name', "=", $value);
+                    foreach ($value as $filterValue) {
+                        $company = Company::where("name", "like", "%{$filterValue}%")->first();
+                        $query->with("companies")->where('company_id', '=', $company->id, 'and');
+                    }
                     break;
                 default:
-                    $query->where($key, "=", $value);
+                    foreach ($value as $filterValue) {
+                        $query = $query->where($key, "=", $filterValue, 'and');
+                    }
                     break;
             }
 
         }
 
+        // $query->dumpRawSql();
+
         $data = $query->get()->toArray();
 
         // dd($data);
-
 
         return Inertia::render(
             "search-jobs",

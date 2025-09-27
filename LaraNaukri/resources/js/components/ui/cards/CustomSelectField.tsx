@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { Label } from '@radix-ui/react-label';
 import { InputHTMLAttributes, useEffect, useState } from 'react';
 
@@ -10,6 +11,8 @@ type Props = {
         name: string;
         id: number | string;
     }[];
+    className?: string;
+    showLabel?: boolean;
 };
 export default function CustomSelectField({
     label,
@@ -17,6 +20,8 @@ export default function CustomSelectField({
     items,
     fetchTable,
     isrequired = false,
+    className,
+    showLabel = true,
     ...props
 }: InputHTMLAttributes<HTMLSelectElement> & Props) {
     const [fetchItems, setFetchItems] = useState(items ?? []);
@@ -37,14 +42,23 @@ export default function CustomSelectField({
 
     return (
         <div className="w-full">
-            <Label htmlFor={name} className={`tracking-wider text-gray-500 ${isrequired && "after:ml-0.5 after:text-red-500 after:content-['*']"} `}>
-                {label}
-            </Label>
+            {showLabel && (
+                <Label
+                    htmlFor={name}
+                    className={`tracking-wider text-gray-500 ${isrequired && "after:ml-0.5 after:text-red-500 after:content-['*']"} `}
+                >
+                    {label}
+                </Label>
+            )}
+
             <select
                 name={name}
                 id={name}
                 required={isrequired}
-                className="h-10 w-full rounded border-2 border-gray-300 bg-white focus-visible:outline-2 focus-visible:outline-primary"
+                className={cn(
+                    'h-10 w-full rounded border-2 border-gray-300 bg-white focus-visible:outline-2 focus-visible:outline-primary',
+                    className,
+                )}
                 {...props}
             >
                 <option value="0">Select {label}</option>

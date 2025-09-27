@@ -23,7 +23,7 @@ Route::get('/user', function (Request $request) {
 Route::get("/all-jobs", [JobController::class, "all"])->name("all.jobs.api");
 Route::get("/find-jobs/{text}", [JobController::class, "findJobs"])->name("find.jobs.api");
 Route::get("latest-jobs", [JobController::class, "latestJobs"])->name("latest.jobs");
-Route::post("filter-jobs", [JobController::class, "filterJobs"])->name("filter.jobs");
+
 Route::get("related-jobs", [JobController::class, "relatedJobs"])->name("related.jobs.api");
 
 

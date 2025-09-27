@@ -1,68 +1,54 @@
-import JobSearchResults from '@/components/sections/job-search-results';
-import Searchjobhero from '@/components/sections/searchjobhero';
-import SearchFilter from '@/components/ui/cards/SearchFilter';
+import CandidateSearchResults from '@/components/sections/candidate-search-result';
+import SearchTalentHero from '@/components/sections/searchTalentHero';
+import CandidateSearchFilter from '@/components/ui/cards/CandidateSearchFilter';
 import AppLayout from '@/layouts/app/app-layout';
-import { FilteredJobs } from '@/types';
-import { router, usePage } from '@inertiajs/react';
+import { Candidate, CandidateGroup } from '@/types';
+import { router, useForm, usePage } from '@inertiajs/react';
 import { SearchCheckIcon } from 'lucide-react';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 type CustomPageProps = {
-    filteredJobs: FilteredJobs[] | undefined;
+    allCandidates: Candidate[];
+    searchedCandidates: Candidate[];
+    groupByCountry: CandidateGroup[];
+    groupByState: CandidateGroup[];
+    groupByCity: CandidateGroup[];
 };
 
 export default function SearchTalent() {
-    const props = usePage<CustomPageProps>().props;
-    const { filteredJobs } = props;
-    const [allJobs, setAllJobs] = useState<FilteredJobs[] | null>(null);
+    const { allCandidates, searchedCandidates, groupByCountry, groupByState, groupByCity } = usePage<CustomPageProps>().props;
+    const [filteredCandidates, setFilteredCandidates] = useState(searchedCandidates);
 
-    useEffect(() => {
-        async function getAllJobs() {
-            const response = await fetch(route('all.jobs.api'));
+    const { data, setData, post } = useForm({
+        country_id: [] as number[],
+        state_id: [] as number[],
+        city_id: [] as number[],
+    });
 
-            if (!response.ok) throw new Error('Unable to fetch data');
-
-            const data = await response.json();
-
-            console.log(data);
-
-            setAllJobs(data);
-        }
-
-        getAllJobs();
-    }, []);
-
-    /**
-     * this function is responible for sending POST request to ask for filtered data
-     * @param e FormEvent
-     * @returns null
-     *
-     */
-
-    function handleSubmit(e: FormEvent) {
+    function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const buttons = document.querySelectorAll<HTMLButtonElement>("button[role='checkbox'][data-state='checked']");
-
-        const selectedItems: Record<string, string[]> = {};
-        buttons.forEach((item) => {
-            if (!selectedItems[item.dataset.filter!]) {
-                selectedItems[item.dataset.filter!] = [item.value];
-            } else {
-                selectedItems[item.dataset.filter!].push(item.value);
-            }
-        });
-
-        router.post(route('filter.jobs'), selectedItems);
+        const filterData = router.post(route('filter.talent'), { data });
+        console.log(filterData);
+    }
+    function handleChange(attr: keyof typeof data, value: string) {
+        if (data[attr].includes(+value)) {
+            setData(attr, [...data[attr].filter((el) => el !== +value)]);
+        } else {
+            setData(attr, [...data[attr], +value]);
+        }
     }
 
     return (
-        <AppLayout page="jobs">
-            <Searchjobhero />
+        <AppLayout page="talents">
+            <SearchTalentHero />
             <section className="mx-auto flex w-[95%] p-10">
                 <div id="search-filter" className="mr-6 w-1/4">
+                    <CandidateSearchFilter widgetTitle="Country" data={groupByCountry} onChangeFn={(val) => handleChange('country_id', val)} />
+                    <CandidateSearchFilter widgetTitle="State" data={groupByState} onChangeFn={(val) => handleChange('state_id', val)} />
+                    <CandidateSearchFilter widgetTitle="City" data={groupByCity} onChangeFn={(val) => handleChange('city_id', val)} />
                     <form onSubmit={(e) => handleSubmit(e)}>
-                        {allJobs && <SearchFilter widgetTitle="title" data={allJobs} filterKey="title" />}
+                        {/*    {allJobs && <SearchFilter widgetTitle="title" data={allJobs} filterKey="title" />}
                         {allJobs && <SearchFilter widgetTitle="type" data={allJobs} filterKey="type" />}
                         {allJobs && <SearchFilter widgetTitle="shift" data={allJobs} filterKey="shift" />}
                         {allJobs && <SearchFilter widgetTitle="Functional Area" data={allJobs} filterKey="category" />}
@@ -72,16 +58,14 @@ export default function SearchTalent() {
                         {allJobs && <SearchFilter widgetTitle="company" data={allJobs} filterKey="company" />}
                         {allJobs && <SearchFilter widgetTitle="city" data={allJobs} filterKey="city" />}
                         {allJobs && <SearchFilter widgetTitle="career_level" data={allJobs} filterKey="career_level" />}
-
-                        {allJobs && (
-                            <button className="flex cursor-pointer items-center justify-center gap-3 bg-primary px-3 py-3 text-lg font-semibold text-white">
-                                <SearchCheckIcon />
-                                <p className="">Search Job</p>
-                            </button>
-                        )}
+*/}
+                        <button className="flex cursor-pointer items-center justify-center gap-3 bg-primary px-3 py-3 text-lg font-semibold text-white">
+                            <SearchCheckIcon />
+                            <p className="">Search Job</p>
+                        </button>
                     </form>
                 </div>
-                <JobSearchResults jobs={filteredJobs} />
+                <CandidateSearchResults candidates={searchedCandidates?.length > 0 ? searchedCandidates : allCandidates} />
             </section>
         </AppLayout>
     );
