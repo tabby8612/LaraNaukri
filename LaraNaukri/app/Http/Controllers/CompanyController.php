@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\CompanyService;
+use App\Http\Requests\CompanyProfileRequest;
+use App\JobService;
 use App\Models\Candidate;
 use App\Models\Company;
 use App\Models\Industry;
 use App\Models\Job;
 use App\Models\User;
+use App\Service\CandidateService;
 use Barryvdh\Debugbar\Facades\Debugbar;
 
+use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Inertia\Inertia;
@@ -19,9 +25,14 @@ use function PHPUnit\Framework\arrayHasKey;
 
 class CompanyController extends Controller {
     //
+    //--- Dependency Injection
+    public function __construct(
+        protected CompanyService $companyService,
+        protected JobService $jobService,
+        protected CandidateService $candidateService) {
+    }
 
     //---- API CALLS
-
     /**
      * 
      * api calls to retrieve top companies
@@ -53,36 +64,23 @@ class CompanyController extends Controller {
     }
 
 
-    public function show(Request $request) {
-        $company = Company::with("industry")
-            ->where("slug", "=", $request->slug)
-            ->firstOrFail()
-            ->toArray();
 
-        $openJobs = Job::with("city", "category", "companies:id,name,image_path")
-            ->where("company_id", "=", $company["id"])
-            ->where("is_open", "=", 1)
-            ->get()
-            ->except(["companies.email", "companies.password"])
-            ->toArray();
+
+    //---- WEB VIEW CALLS //
+
+    public function show(Request $request) {
+        $company = $this->companyService->findCompanyWithSlug($request->slug);
+
+        $companyID = $company['id'];
+        $relations = ["city", "category", "companies:id,name,image_path"];
+
+        $openJobs = $this->jobService->companyOpenJobs($companyID, $relations);
 
         /**
          * @var User
          */
         $user = Auth::user();
-        $isFollower = false;
-
-        if ($user?->isCandidate()) {
-            /**
-             * @var Candidate $candidate
-             */
-            $candidate = Auth::user()->candidate;
-
-            $result = $candidate->companies()->find($company['id']);
-
-            if (isset($result)) $isFollower = true;
-
-        }
+        $isFollower = $user?->isCandidate() ? $this->candidateService->hasFollowedCompany(Auth::id(), $companyID) : false;
 
         return Inertia::render("company-view", [
             "companyData" => $company,
@@ -90,9 +88,6 @@ class CompanyController extends Controller {
             "isFollower" => $isFollower
         ]);
     }
-
-    //---- WEB VIEW CALLS //
-
 
     public function index(Request $request) {
         $filters = $request->only(["name", "country", "city", "industries"]);
@@ -137,10 +132,44 @@ class CompanyController extends Controller {
     }
 
     public function dashboard() {
-        dd("in dashboard");
-
-        Inertia::render("employer/dashboard");
+        return Inertia::render("employer/dashboard");
     }
+
+
+    public function showEditPage() {
+
+        $company = $this->companyService->findCompany(Auth::user()?->id, "user");
+
+        return Inertia::render("employer/editProfile", compact("company"));
+    }
+
+    public function store(CompanyProfileRequest $companyProfileRequest) {
+        // dd($companyProfileRequest->all());
+
+        $validated = $companyProfileRequest->validated();
+        $userID = Auth::id();
+
+        $newEmail = Arr::pull($validated, "email");
+        $newPassword = Arr::pull($validated, "password");
+
+        if (isset($newEmail)) $this->companyService->updateEmail($userID, $newEmail);
+        if (isset($newPassword)) $this->companyService->updatePassword($userID, $newPassword);
+
+        if ($companyProfileRequest->hasFile("image_path")) {
+            $file = Arr::pull($validated, "image_path");
+            $this->companyService->updateFile(Auth::id(), $file);
+        }
+
+        $validated["user_id"] = $userID;
+        Arr::pull($validated, "image_path");
+
+        $this->companyService->updateCompanyProfile(Auth::id(), $validated);
+
+
+        return to_route("employer.editProfile")->with("message", "Successfully Updated");
+    }
+
+
 
 
 

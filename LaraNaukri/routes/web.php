@@ -27,7 +27,7 @@ Route::get("/job/{slug}", [JobController::class, "show"])->name("job.view");
 // ----------- Candidate Routes
 Route::get("/search-talent", [CandidateSearchController::class, 'index'])->name("search.talent");
 Route::post("/search-talent", [CandidateSearchController::class, 'searchTalent'])->name("search.talent");
-Route::post("/filter-talent", [CandidateSearchController::class, 'filterTalent'])->name("filter.talent");
+Route::get("/filter-talent", [CandidateSearchController::class, 'filterTalent'])->name("filter.talent");
 
 
 // ----------- Category/Functional-Area Routes
@@ -40,6 +40,7 @@ Route::get("/all-categories", [CategoryController::class, "index"])->name("all.c
 Route::get("/companies", [CompanyController::class, "index"])->name("companies");
 
 Route::get("/company/{slug}", [CompanyController::class, "show"])->name("company.view");
+
 
 Route::get("/featured-companies", function () {
     return Inertia::render("featured-companies");

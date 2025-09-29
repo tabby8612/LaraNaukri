@@ -3,22 +3,33 @@ import { ChangeEvent, useState } from 'react';
 import { Card } from '../card';
 import { Label } from '../UnusedUI/label';
 
-type Props = { profileImage: string; label: string; name: string };
+type Props = { profileImage: string | null; label: string; name: string; setData: (attr: string, file: File | null) => void };
 
-export default function CustomUploadField({ profileImage, label, name }: Props) {
+export default function CustomUploadField({ profileImage, label, name, setData }: Props) {
+    const isImageNull = profileImage === null ? true : false;
+
     const [photoImg, setProfileImg] = useState({
-        src: `/storage/${profileImage}`,
+        src: isImageNull ? `/storage/default.png` : `/storage/${profileImage}`,
         name: '',
     });
 
     function handleProfilePhoto(e: ChangeEvent<HTMLInputElement>) {
-        const filePreview = URL.createObjectURL(e.target.files![0]);
-        // setData('image_path', e.target.files![0]);
+        if (e.target.files!.length > 0) {
+            const filePreview = URL.createObjectURL(e.target.files![0]);
+            setData('image_path', e.target.files![0]);
 
-        setProfileImg({
-            src: filePreview,
-            name: e.target.files![0].name,
-        });
+            setProfileImg({
+                src: filePreview,
+                name: e.target.files![0].name,
+            });
+        } else {
+            setData('image_path', null);
+
+            setProfileImg({
+                src: photoImg.src,
+                name: photoImg.name,
+            });
+        }
     }
 
     return (

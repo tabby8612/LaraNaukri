@@ -1,3 +1,5 @@
+import { User } from '.';
+
 export type Company = {
     id: string;
     user_id: string;
@@ -13,6 +15,20 @@ export type Company = {
     created_at: string;
     updated_at: string;
     slug: null | string;
+    url: string;
+    phone: string;
+    facebook: string;
+    twitter: string;
+    linkedin: string;
+    pinterest: string;
+    country_id: string;
+    state_id: string;
+    city_id: string;
+    hr_name: string;
+    hr_email: string;
+    hr_designation: string;
+    reg_number: string;
+    user: User;
 };
 
 export type JobPackage = {

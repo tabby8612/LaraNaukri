@@ -6,9 +6,11 @@ use Inertia\Inertia;
 
 Route::prefix("employer")->name("employer.")->middleware("IsEmployer")->group(function () {
 
-    Route::get("dashboard", fn() => Inertia::render("employer/dashboard"))->name('dashboard');
-    Route::get("edit-profile", fn() => Inertia::render("employer/editProfile"))->name('editProfile');
-    Route::get("view-public-profile/{slug}", [CompanyController::class, 'show'])->name('viewPublicProfile');
+    Route::get("dashboard", [CompanyController::class, 'dashboard'])->name('dashboard');
+    Route::get("edit-profile", [CompanyController::class, 'showEditPage'])->name('editProfile');
+    Route::post("edit-profile", [CompanyController::class, 'store'])->name('store');
+
+
     Route::get("post-job", fn() => Inertia::render("employer/postJob"))->name('postJob');
     Route::get("manage-jobs", fn() => Inertia::render("employer/manageJobs"))->name('manageJobs');
     Route::get("list-applied-users/{id}", fn() => Inertia::render("employer/listAppliedUsers"))->name('listAppliedUsers');

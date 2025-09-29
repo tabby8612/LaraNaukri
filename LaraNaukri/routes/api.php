@@ -3,6 +3,7 @@
 use App\Http\Controllers\BlogCategoriesController;
 use App\Http\Controllers\BlogpostController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CandidateSearchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CompanyController;
@@ -52,6 +53,7 @@ Route::get("all-blogcategories", [BlogCategoriesController::class, "allBlogCateg
 // --------------- Candidates
 Route::get("candidate/fetch/{user}", [CandidateController::class, "fetchCandidate"])->name('fetch.candidate');
 Route::get("featured-candidates", [CandidateController::class, "featuredCandidate"])->name("featured.candidates");
+
 
 // ------------ Others
 Route::get("fetch/{column}", [HomeController::class, "fetch"])->name("fetch");

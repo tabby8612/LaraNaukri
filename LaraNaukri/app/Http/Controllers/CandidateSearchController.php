@@ -6,6 +6,7 @@ use App\Models\Candidate;
 use App\Service\CandidateService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class CandidateSearchController extends Controller {
@@ -26,9 +27,15 @@ class CandidateSearchController extends Controller {
         $groupByCountry = $this->candidateService->groupCandidates("countries", "country_id");
         $groupByState = $this->candidateService->groupCandidates("states", "state_id");
         $groupByCity = $this->candidateService->groupCandidates("cities", "city_id");
+        $groupByExperience = $this->candidateService->groupCandidates("experiences", "experience_id");
+        $groupByCareerLevels = $this->candidateService->groupCandidates("career_levels", "career_level_id");
+        $groupByGender = $this->candidateService->groupCandidates("genders", "gender_id");
+
+
 
         return Inertia::render("searchTalent", compact([
-            "allCandidates", "groupByCountry", "groupByState", "groupByCity"
+            "allCandidates", "groupByCountry", "groupByState", "groupByCity",
+            "groupByExperience", "groupByCareerLevels", "groupByGender"
         ]));
     }
 
@@ -57,7 +64,7 @@ class CandidateSearchController extends Controller {
     }
 
     public function filterTalent(Request $request) {
-        $filters = $request->only(["country_id", "state_id", "city_id"]);
+        $filters = $request->only(["country_id", "state_id", "city_id", "experience_id", "career_level_id", "gender_id"]);
         $relations = ["country", "state", "city"];
 
         $conditions = [];
@@ -68,7 +75,7 @@ class CandidateSearchController extends Controller {
 
         $searchedCandidates = $this->candidateService->filterCandidates($conditions, $relations);
 
-        return response()->json([
+        return back()->with([
             "searchedCandidates" => $searchedCandidates
         ]);
 

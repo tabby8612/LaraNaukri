@@ -12,8 +12,8 @@ export default function GroupFilterItem({ name, count, columnName, id, onChangeF
     return (
         <div className="my-2 flex justify-between">
             <div className="flex items-center gap-3">
-                <Checkbox id={id} name={columnName} value={id} onCheckedChange={() => onChangeFn(id)} data-filter={columnName} />
-                <label htmlFor={id}>{name}</label>
+                <Checkbox id={name} name={columnName} value={id} onCheckedChange={() => onChangeFn(id)} data-filter={columnName} />
+                <label htmlFor={name}>{name}</label>
             </div>
             <p>{count}</p>
         </div>

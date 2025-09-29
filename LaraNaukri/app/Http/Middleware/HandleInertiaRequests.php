@@ -45,9 +45,9 @@ class HandleInertiaRequests extends Middleware {
                 'user' => $request->user(),
                 'candidate' => $request->user()?->isCandidate() ? $request->user()->candidate : null,
                 'employer' => $request->user()?->isEmployer() ? $request->user()->company : null,
-
             ],
             "message" => Session::pull("message"),
+            "searchedCandidates" => Session::pull("searchedCandidates"),
             'ziggy' => fn(): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

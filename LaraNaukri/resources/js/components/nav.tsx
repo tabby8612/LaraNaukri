@@ -202,7 +202,7 @@ export default function Nav({ page }: { page: string }) {
                                             </Link>
 
                                             <Link
-                                                href={route('employer.viewPublicProfile', {
+                                                href={route('company.view', {
                                                     slug: auth?.employer.slug,
                                                 })}
                                             >

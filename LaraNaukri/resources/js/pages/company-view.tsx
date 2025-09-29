@@ -5,7 +5,7 @@ import { default as DescriptionCard } from '@/components/ui/cards/DescriptionCar
 import FeaturedJobCard from '@/components/ui/cards/FeaturedJobCard';
 import AppLayout from '@/layouts/app/app-layout';
 import { Company, FilteredJobs } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { BriefcaseBusinessIcon, Building2Icon, CakeIcon, Landmark, Users, VerifiedIcon } from 'lucide-react';
 
 type Props = {
@@ -19,6 +19,10 @@ export default function CompanyView() {
 
     return (
         <AppLayout page="">
+            <Head>
+                <title>{`${companyData.name}'s Company Page`}</title>
+                <meta name="description" content={`${companyData.name} company's page`} />
+            </Head>
             <section className="mx-auto mt-18 flex w-10/12 gap-10">
                 <div className="w-7/12">
                     <CompanyIntro companyData={companyData} isFollower={isFollower} />

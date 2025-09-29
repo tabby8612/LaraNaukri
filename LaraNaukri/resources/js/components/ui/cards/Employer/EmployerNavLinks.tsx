@@ -35,7 +35,7 @@ export default function EmployerNavLinks({ page = 'dashboard' }: { page: string 
                 </li>
             </a>
             <a
-                href={route('employer.viewPublicProfile', {
+                href={route('company.view', {
                     slug: auth.employer.slug,
                 })}
             >

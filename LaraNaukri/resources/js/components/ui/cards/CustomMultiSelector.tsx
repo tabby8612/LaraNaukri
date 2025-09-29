@@ -8,12 +8,12 @@ type Items = Subject[] | Skill[] | [];
 
 type Props = {
     data: Items;
-    setData?: (attribute: string, val: Items) => void;
+    onChangeFn: (id: string) => void;
     fetchTable: string;
     label: string;
 };
 
-export function CustomMultiSelector({ data, fetchTable, label }: Props) {
+export function CustomMultiSelector({ data, fetchTable, label, onChangeFn }: Props) {
     const [items, setitems] = useState<Items>([]);
     const searchRef = useRef<HTMLInputElement | null>(null);
     const [suggestions, setSuggestions] = useState<Items>([]);
@@ -33,8 +33,9 @@ export function CustomMultiSelector({ data, fetchTable, label }: Props) {
     function selectSubject(selectedSubject: Subject) {
         if (selectedSubjects.find((subject) => subject.id === selectedSubject.id)) return;
 
+        onChangeFn(selectedSubject.id);
+
         setSelectedSubjects((prevSubjects) => {
-            // setData('subjects', [...prevSubjects, selectedSubject]);
             return [...prevSubjects, selectedSubject];
         });
     }

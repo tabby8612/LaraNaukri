@@ -7,64 +7,195 @@ import CustomSelectField from '@/components/ui/cards/CustomSelectField';
 import CustomTextArea from '@/components/ui/cards/CustomTextArea';
 import { Button } from '@/components/ui/UnusedUI/button';
 import AppEmployerLayout from '@/layouts/app/app-employer-layout';
+import { useForm } from '@inertiajs/react';
 import { ArrowRightCircle } from 'lucide-react';
 import { useState } from 'react';
 
 export default function PostJob() {
     const [isExternal, setIsExternal] = useState(false);
+    const { data, setData } = useForm({
+        title: '',
+        description: '',
+        benefits: '',
+        skills: [] as string[],
+        country_id: '',
+        state_id: '',
+        city_id: '',
+        salary_from: '',
+        salary_to: '',
+        hide_salary: 'No',
+        career_level: '',
+        category_id: '',
+        type: '',
+        shift: '',
+        positions: '',
+        gender: '',
+        apply_before: '',
+        job_degree: '',
+        experience: '',
+        is_freelance: '',
+        is_external: '',
+        external_url: '',
+        is_open: 1,
+    });
 
     return (
         <AppEmployerLayout displaySearch={false} page="postJob" titleText="Job Details">
             <form className="flex w-full flex-col gap-5 rounded-2xl bg-green-50 p-7" encType="multipart/formData">
                 <h1 className="mt-5 font-montserrat text-xl font-bold">Job Details</h1>
-                <CustomInputField label="Title" name="title" placeholder="Job Title" type="text" value={''} isrequired />
-                <CustomTextArea label="Description" name="description" value={''} isrequired />
-                <CustomTextArea label="Benefits" name="benefits" value={''} isrequired />
-                <CustomMultiSelector label="Skills" fetchTable="skills" data={[]} />
+                <CustomInputField
+                    label="Title"
+                    name="title"
+                    placeholder="Job Title"
+                    type="text"
+                    value={data.title}
+                    onChange={(e) => setData('title', e.target.value)}
+                    isrequired
+                />
+                <CustomTextArea
+                    label="Description"
+                    name="description"
+                    value={data.description}
+                    onChange={(e) => setData('description', e.target.value)}
+                    isrequired
+                />
+                <CustomTextArea
+                    label="Benefits"
+                    name="benefits"
+                    value={data.benefits}
+                    onChange={(e) => setData('benefits', e.target.value)}
+                    isrequired
+                />
+                <CustomMultiSelector
+                    label="Skills"
+                    fetchTable="skills"
+                    data={data.skills}
+                    onChangeFn={(e: string) => setData('skills', [...data.skills, e])}
+                />
                 <div className="flex gap-5">
-                    <CountryStateCity countryID="277" stateID={0} cityID={0} isrequired />
+                    <CountryStateCity countryID={data.country_id} stateID={+data.state_id} cityID={+data.city_id} isrequired />
                 </div>
 
                 <div className="flex gap-5">
-                    <CustomInputField label="Salary From" name="salary_from" placeholder="Salary From" type="number" isrequired value={''} />
-                    <CustomInputField label="Salary To" name="salary_to" placeholder="Salary To" type="number" isrequired value={''} />
+                    <CustomInputField
+                        label="Salary From"
+                        name="salary_from"
+                        placeholder="Salary From"
+                        type="number"
+                        isrequired
+                        value={data.salary_from}
+                        onChange={(e) => setData('salary_from', e.target.value)}
+                    />
+                    <CustomInputField
+                        label="Salary To"
+                        name="salary_to"
+                        placeholder="Salary To"
+                        type="number"
+                        isrequired
+                        value={data.salary_to}
+                        onChange={(e) => setData('salary_to', e.target.value)}
+                    />
                 </div>
 
                 <div className="flex gap-10">
                     <CustomSelectField label="Salary Currency" name="currency" fetchTable="" items={[{ id: 'usd', name: 'USD' }]} />
                     <CustomSelectField label="Select Salary Period" name="period" fetchTable="" items={[{ id: 'weekly', name: 'Weekly' }]} />
                     <div className="size-12 w-full">
-                        <CustomRadioGroup label="Hide Salary" options={['Yes', 'No']} onChangeFn={() => {}} selectedText="No" layout="horizontal" />
+                        <CustomRadioGroup
+                            label="Hide Salary"
+                            options={['Yes', 'No']}
+                            onChangeFn={(val) => setData('hide_salary', val)}
+                            selectedText={data.hide_salary}
+                            layout="horizontal"
+                        />
                     </div>
                 </div>
 
                 <div className="flex gap-5">
-                    <CustomSelectField label="Career Level" fetchTable="career_levels" name="career_level" />
-                    <CustomSelectField label="Functional Level" fetchTable="categories" name="categories_id" />
+                    <CustomSelectField
+                        label="Career Level"
+                        fetchTable="career_levels"
+                        name="career_level"
+                        value={data.career_level}
+                        onChange={(e) => setData('career_level', e.target.value)}
+                    />
+                    <CustomSelectField
+                        label="Functional Level"
+                        fetchTable="categories"
+                        name="categories_id"
+                        value={data.category_id}
+                        onChange={(e) => setData('category_id', e.target.value)}
+                    />
                 </div>
 
                 <div className="flex gap-5">
-                    <CustomSelectField label="Job Type" fetchTable="" name="job_type" items={[{ id: 'contract', name: 'Contract' }]} />
-                    <CustomSelectField label="Functional Level" fetchTable="categories" name="categories_id" />
+                    <CustomSelectField
+                        label="Job Type"
+                        fetchTable=""
+                        name="type"
+                        items={[{ id: 'contract', name: 'Contract' }]}
+                        value={data.type}
+                        onChange={(e) => setData('type', e.target.value)}
+                    />
+                    <CustomSelectField
+                        label="Job Shift"
+                        fetchTable=""
+                        name="job_shift_id"
+                        items={[{ id: 'first_shift', name: 'First Shift (Day)' }]}
+                        value={data.shift}
+                        onChange={(e) => setData('shift', e.target.value)}
+                    />
                 </div>
 
                 <div className="flex gap-5">
-                    <CustomSelectField label="Positions" fetchTable="" name="positions" items={[{ id: '1', name: '1' }]} />
-                    <CustomSelectField label="Gender" fetchTable="" name="categories_id" items={[{ id: 'male', name: 'Male' }]} />
+                    <CustomSelectField
+                        label="Positions"
+                        fetchTable=""
+                        name="positions"
+                        items={[{ id: '1', name: '1' }]}
+                        value={data.positions}
+                        onChange={(e) => setData('positions', e.target.value)}
+                    />
+                    <CustomSelectField
+                        label="Gender"
+                        fetchTable=""
+                        name="categories_id"
+                        items={[{ id: 'male', name: 'Male' }]}
+                        value={data.gender}
+                        onChange={(e) => setData('gender', e.target.value)}
+                    />
                 </div>
 
                 <div className="flex gap-5">
-                    <CustomDatePicker label="Job Expiry Date" date="2025-11-11" />
-                    <CustomSelectField label="Degree Level" name="degree_level" fetchTable="degree_levels" />
+                    <CustomDatePicker label="Job Expiry Date" date={data.apply_before} onChange={(e) => setData('apply_before', e.target.value)} />
+                    <CustomSelectField
+                        label="Degree Level"
+                        name="degree_level"
+                        fetchTable="degree_levels"
+                        value={data.career_level}
+                        onChange={(e) => setData('career_level', e.target.value)}
+                    />
                 </div>
 
                 <div className="flex items-center justify-center gap-5">
                     <div className="w-1/2">
-                        <CustomSelectField label="Job Experience" name="job_experience_level" fetchTable="experiences" />
+                        <CustomSelectField
+                            label="Job Experience"
+                            name="job_experience_level"
+                            fetchTable="experiences"
+                            value={data.experience}
+                            onChange={(e) => setData('experience', e.target.value)}
+                        />
                     </div>
 
                     <div className="w-1/2">
-                        <CustomRadioGroup label="Is Freelance?" onChangeFn={() => {}} options={['Yes', 'No']} selectedText="No" layout="horizontal" />
+                        <CustomRadioGroup
+                            label="Is Freelance?"
+                            onChangeFn={(val) => setData('is_freelance', val)}
+                            options={['Yes', 'No']}
+                            selectedText={data.is_freelance}
+                            layout="horizontal"
+                        />
                     </div>
                 </div>
 
@@ -72,16 +203,26 @@ export default function PostJob() {
                     <div className="w-1/4">
                         <CustomRadioGroup
                             label="Is this External Job?"
-                            onChangeFn={() => setIsExternal(!isExternal)}
+                            onChangeFn={() => {
+                                setIsExternal(!isExternal);
+                                setData('is_external', isExternal ? 'Yes' : 'No');
+                            }}
                             options={['Yes', 'No']}
-                            selectedText={isExternal ? 'Yes' : 'No'}
+                            selectedText={data.is_external}
                             layout="horizontal"
                         />
                     </div>
 
                     {isExternal && (
                         <div className="w-3/4">
-                            <CustomInputField label="External Link" name="external_link" placeholder="External Link" type="url" value={''} />
+                            <CustomInputField
+                                label="External Link"
+                                name="external_link"
+                                placeholder="External Link"
+                                type="url"
+                                value={data.external_url}
+                                onChange={(e) => setData('external_url', e.target.value)}
+                            />
                         </div>
                     )}
                 </div>

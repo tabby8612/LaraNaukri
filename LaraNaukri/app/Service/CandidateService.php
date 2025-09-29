@@ -171,4 +171,10 @@ class CandidateService {
             return $activePackage;
         }
     }
+
+    public function hasFollowedCompany(string $userID, string $companyID) {
+        $candidate = Candidate::where("user_id", $userID)->first();
+        $result = $candidate->companies()->find($companyID);
+        return isset($result);
+    }
 }

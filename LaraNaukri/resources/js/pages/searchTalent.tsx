@@ -13,23 +13,35 @@ type CustomPageProps = {
     groupByCountry: CandidateGroup[];
     groupByState: CandidateGroup[];
     groupByCity: CandidateGroup[];
+    groupByExperience: CandidateGroup[];
+    groupByCareerLevels: CandidateGroup[];
+    groupByGender: CandidateGroup[];
 };
 
 export default function SearchTalent() {
     const { allCandidates, searchedCandidates, groupByCountry, groupByState, groupByCity } = usePage<CustomPageProps>().props;
+    const { groupByExperience, groupByCareerLevels, groupByGender } = usePage<CustomPageProps>().props;
     const [filteredCandidates, setFilteredCandidates] = useState(searchedCandidates);
 
-    const { data, setData, post } = useForm({
+    const { data, setData } = useForm({
         country_id: [] as number[],
         state_id: [] as number[],
         city_id: [] as number[],
+        experience_id: [] as number[],
+        career_level_id: [] as number[],
+        gender_id: [] as number[],
     });
 
-    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        const filterData = router.post(route('filter.talent'), { data });
-        console.log(filterData);
+        router.get(route('filter.talent'), data, {
+            onSuccess: (page) => {
+                console.log(page.props.searchedCandidates);
+                setFilteredCandidates(page.props.searchedCandidates as Candidate[]);
+            },
+            onError: (errors) => console.log(errors),
+        });
     }
     function handleChange(attr: keyof typeof data, value: string) {
         if (data[attr].includes(+value)) {
@@ -47,25 +59,25 @@ export default function SearchTalent() {
                     <CandidateSearchFilter widgetTitle="Country" data={groupByCountry} onChangeFn={(val) => handleChange('country_id', val)} />
                     <CandidateSearchFilter widgetTitle="State" data={groupByState} onChangeFn={(val) => handleChange('state_id', val)} />
                     <CandidateSearchFilter widgetTitle="City" data={groupByCity} onChangeFn={(val) => handleChange('city_id', val)} />
+                    <CandidateSearchFilter
+                        widgetTitle="Experience"
+                        data={groupByExperience}
+                        onChangeFn={(val) => handleChange('experience_id', val)}
+                    />
+                    <CandidateSearchFilter
+                        widgetTitle="Career Level"
+                        data={groupByCareerLevels}
+                        onChangeFn={(val) => handleChange('career_level_id', val)}
+                    />
+                    <CandidateSearchFilter widgetTitle="Gender" data={groupByGender} onChangeFn={(val) => handleChange('gender_id', val)} />
                     <form onSubmit={(e) => handleSubmit(e)}>
-                        {/*    {allJobs && <SearchFilter widgetTitle="title" data={allJobs} filterKey="title" />}
-                        {allJobs && <SearchFilter widgetTitle="type" data={allJobs} filterKey="type" />}
-                        {allJobs && <SearchFilter widgetTitle="shift" data={allJobs} filterKey="shift" />}
-                        {allJobs && <SearchFilter widgetTitle="Functional Area" data={allJobs} filterKey="category" />}
-                        {allJobs && <SearchFilter widgetTitle="gender" data={allJobs} filterKey="gender" />}
-                        {allJobs && <SearchFilter widgetTitle="degree" data={allJobs} filterKey="degree" />}
-                        {allJobs && <SearchFilter widgetTitle="country" data={allJobs} filterKey="country" />}
-                        {allJobs && <SearchFilter widgetTitle="company" data={allJobs} filterKey="company" />}
-                        {allJobs && <SearchFilter widgetTitle="city" data={allJobs} filterKey="city" />}
-                        {allJobs && <SearchFilter widgetTitle="career_level" data={allJobs} filterKey="career_level" />}
-*/}
                         <button className="flex cursor-pointer items-center justify-center gap-3 bg-primary px-3 py-3 text-lg font-semibold text-white">
                             <SearchCheckIcon />
                             <p className="">Search Job</p>
                         </button>
                     </form>
                 </div>
-                <CandidateSearchResults candidates={searchedCandidates?.length > 0 ? searchedCandidates : allCandidates} />
+                <CandidateSearchResults candidates={filteredCandidates?.length > 0 ? filteredCandidates : allCandidates} />
             </section>
         </AppLayout>
     );
