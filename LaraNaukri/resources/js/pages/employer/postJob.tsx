@@ -7,18 +7,27 @@ import CustomSelectField from '@/components/ui/cards/CustomSelectField';
 import CustomTextArea from '@/components/ui/cards/CustomTextArea';
 import { Button } from '@/components/ui/UnusedUI/button';
 import AppEmployerLayout from '@/layouts/app/app-employer-layout';
-import { useForm } from '@inertiajs/react';
+import { Item } from '@/types';
+import { useForm, usePage } from '@inertiajs/react';
 import { ArrowRightCircle } from 'lucide-react';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
+type CustomPageProps = {
+    currencies: Item[];
+    salaryPeriods: Item[];
+    jobTypes: Item[];
+    jobShifts: Item[];
+};
 export default function PostJob() {
     const [isExternal, setIsExternal] = useState(false);
-    const { data, setData } = useForm({
+    const { currencies, salaryPeriods, jobTypes, jobShifts } = usePage<CustomPageProps>().props;
+
+    const { data, setData, post } = useForm({
         title: '',
         description: '',
         benefits: '',
         skills: [] as string[],
-        country_id: '',
+        country_id: '277',
         state_id: '',
         city_id: '',
         salary_from: '',
@@ -33,15 +42,21 @@ export default function PostJob() {
         apply_before: '',
         job_degree: '',
         experience: '',
-        is_freelance: '',
-        is_external: '',
+        is_freelance: 'No',
+        is_external: 'No',
         external_url: '',
         is_open: 1,
     });
 
+    function submitHandler(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+
+        post(route('employer.postJob'));
+    }
+
     return (
         <AppEmployerLayout displaySearch={false} page="postJob" titleText="Job Details">
-            <form className="flex w-full flex-col gap-5 rounded-2xl bg-green-50 p-7" encType="multipart/formData">
+            <form className="flex w-full flex-col gap-5 rounded-2xl bg-green-50 p-7" encType="multipart/formData" onSubmit={(e) => submitHandler(e)}>
                 <h1 className="mt-5 font-montserrat text-xl font-bold">Job Details</h1>
                 <CustomInputField
                     label="Title"
@@ -73,7 +88,7 @@ export default function PostJob() {
                     onChangeFn={(e: string) => setData('skills', [...data.skills, e])}
                 />
                 <div className="flex gap-5">
-                    <CountryStateCity countryID={data.country_id} stateID={+data.state_id} cityID={+data.city_id} isrequired />
+                    <CountryStateCity countryID={data.country_id} stateID={+data.state_id} cityID={+data.city_id} setData={setData} isrequired />
                 </div>
 
                 <div className="flex gap-5">
@@ -98,8 +113,8 @@ export default function PostJob() {
                 </div>
 
                 <div className="flex gap-10">
-                    <CustomSelectField label="Salary Currency" name="currency" fetchTable="" items={[{ id: 'usd', name: 'USD' }]} />
-                    <CustomSelectField label="Select Salary Period" name="period" fetchTable="" items={[{ id: 'weekly', name: 'Weekly' }]} />
+                    <CustomSelectField label="Salary Currency" name="currency" fetchTable="" items={currencies} />
+                    <CustomSelectField label="Select Salary Period" name="period" fetchTable="" items={salaryPeriods} />
                     <div className="size-12 w-full">
                         <CustomRadioGroup
                             label="Hide Salary"
@@ -133,7 +148,7 @@ export default function PostJob() {
                         label="Job Type"
                         fetchTable=""
                         name="type"
-                        items={[{ id: 'contract', name: 'Contract' }]}
+                        items={jobTypes}
                         value={data.type}
                         onChange={(e) => setData('type', e.target.value)}
                     />
@@ -141,7 +156,7 @@ export default function PostJob() {
                         label="Job Shift"
                         fetchTable=""
                         name="job_shift_id"
-                        items={[{ id: 'first_shift', name: 'First Shift (Day)' }]}
+                        items={jobShifts}
                         value={data.shift}
                         onChange={(e) => setData('shift', e.target.value)}
                     />
@@ -152,7 +167,7 @@ export default function PostJob() {
                         label="Positions"
                         fetchTable=""
                         name="positions"
-                        items={[{ id: '1', name: '1' }]}
+                        items={Array.from({ length: 20 }).map((_, index) => ({ id: `${index + 1}`, name: `${index + 1}` }))}
                         value={data.positions}
                         onChange={(e) => setData('positions', e.target.value)}
                     />
@@ -160,7 +175,10 @@ export default function PostJob() {
                         label="Gender"
                         fetchTable=""
                         name="categories_id"
-                        items={[{ id: 'male', name: 'Male' }]}
+                        items={[
+                            { id: 'male', name: 'Male' },
+                            { id: 'female', name: 'Female' },
+                        ]}
                         value={data.gender}
                         onChange={(e) => setData('gender', e.target.value)}
                     />
@@ -172,8 +190,8 @@ export default function PostJob() {
                         label="Degree Level"
                         name="degree_level"
                         fetchTable="degree_levels"
-                        value={data.career_level}
-                        onChange={(e) => setData('career_level', e.target.value)}
+                        value={data.job_degree}
+                        onChange={(e) => setData('job_degree', e.target.value)}
                     />
                 </div>
 

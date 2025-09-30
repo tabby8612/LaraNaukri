@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CurrencyEnums;
+use App\Enums\JobShift;
+use App\Enums\JobType;
+use App\Enums\SalaryPeriod;
+use App\JobService;
 use App\Models\Application;
 use App\Models\Candidate;
 use App\Models\Category;
@@ -18,6 +23,9 @@ use Storage;
 use Termwind\Components\Raw;
 
 class JobController extends Controller {
+
+    public function __construct(protected JobService $jobService) {
+    }
     // ------------------ <API CALLS> -----------------------
 
     public function findJobs(Request $request) {
@@ -224,6 +232,25 @@ class JobController extends Controller {
         ]);
 
 
+    }
+
+    public function create() {
+
+        $currencies = $this->jobService->getEnumValues(CurrencyEnums::class);
+        $salaryPeriods = $this->jobService->getEnumValues(SalaryPeriod::class);
+        $jobTypes = $this->jobService->getEnumValues(JobType::class);
+        $jobShifts = $this->jobService->getEnumValues(JobShift::class);
+
+        return Inertia::render("employer/postJob", [
+            "currencies" => $currencies,
+            "salaryPeriods" => $salaryPeriods,
+            "jobTypes" => $jobTypes,
+            "jobShifts" => $jobShifts
+        ]);
+    }
+
+    public function store(Request $request) {
+        dd($request->all());
     }
 
 

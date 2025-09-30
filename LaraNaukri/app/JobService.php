@@ -2,7 +2,10 @@
 
 namespace App;
 
+use App\Enums\CurrencyEnums;
+use App\Enums\SalaryPeriod;
 use App\Models\Job;
+use BackedEnum;
 
 class JobService {
     /**
@@ -21,4 +24,13 @@ class JobService {
 
         return $companyOpenJobs;
     }
+
+    public function getEnumValues(string $backedEnum) {
+        $currencies = collect($backedEnum::cases())
+            ->map(fn($enum) => ["id" => $enum->value, "name" => $enum->label()])->toArray();
+
+        return $currencies;
+    }
+
+
 }

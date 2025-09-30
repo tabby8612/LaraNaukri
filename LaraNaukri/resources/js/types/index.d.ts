@@ -417,3 +417,8 @@ type CandidateGroup = {
     name: string;
     candidate_count: string;
 };
+
+type Item = {
+    id: string;
+    name: string;
+};

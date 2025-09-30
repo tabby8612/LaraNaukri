@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { Item } from '@/types';
 import { Label } from '@radix-ui/react-label';
 import { InputHTMLAttributes, useEffect, useState } from 'react';
 
@@ -7,10 +8,7 @@ type Props = {
     name: string;
     fetchTable: string;
     isrequired?: boolean;
-    items?: {
-        name: string;
-        id: number | string;
-    }[];
+    items?: Item[];
     className?: string;
     showLabel?: boolean;
 };

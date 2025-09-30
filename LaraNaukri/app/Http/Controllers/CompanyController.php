@@ -135,7 +135,6 @@ class CompanyController extends Controller {
         return Inertia::render("employer/dashboard");
     }
 
-
     public function showEditPage() {
 
         $company = $this->companyService->findCompany(Auth::user()?->id, "user");
