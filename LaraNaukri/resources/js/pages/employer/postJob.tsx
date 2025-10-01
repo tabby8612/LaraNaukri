@@ -22,7 +22,7 @@ export default function PostJob() {
     const [isExternal, setIsExternal] = useState(false);
     const { currencies, salaryPeriods, jobTypes, jobShifts } = usePage<CustomPageProps>().props;
 
-    const { data, setData, post } = useForm({
+    const { data, setData, post, errors } = useForm({
         title: '',
         description: '',
         benefits: '',
@@ -40,13 +40,19 @@ export default function PostJob() {
         positions: '',
         gender: '',
         apply_before: '',
-        job_degree: '',
-        experience: '',
+        degree: '',
+        experience_id: '',
         is_freelance: 'No',
         is_external: 'No',
+        is_featured: 0,
         external_url: '',
+        currency: '',
+        period: '',
+        location: '',
         is_open: 1,
     });
+
+    console.log(errors);
 
     function submitHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -84,7 +90,7 @@ export default function PostJob() {
                 <CustomMultiSelector
                     label="Skills"
                     fetchTable="skills"
-                    data={data.skills}
+                    data={[]}
                     onChangeFn={(e: string) => setData('skills', [...data.skills, e])}
                 />
                 <div className="flex gap-5">
@@ -113,8 +119,22 @@ export default function PostJob() {
                 </div>
 
                 <div className="flex gap-10">
-                    <CustomSelectField label="Salary Currency" name="currency" fetchTable="" items={currencies} />
-                    <CustomSelectField label="Select Salary Period" name="period" fetchTable="" items={salaryPeriods} />
+                    <CustomSelectField
+                        label="Salary Currency"
+                        name="currency"
+                        fetchTable=""
+                        items={currencies}
+                        value={data.currency}
+                        onChange={(e) => setData('currency', e.target.value)}
+                    />
+                    <CustomSelectField
+                        label="Select Salary Period"
+                        name="period"
+                        fetchTable=""
+                        items={salaryPeriods}
+                        value={data.period}
+                        onChange={(e) => setData('period', e.target.value)}
+                    />
                     <div className="size-12 w-full">
                         <CustomRadioGroup
                             label="Hide Salary"
@@ -135,7 +155,7 @@ export default function PostJob() {
                         onChange={(e) => setData('career_level', e.target.value)}
                     />
                     <CustomSelectField
-                        label="Functional Level"
+                        label="Functional Area"
                         fetchTable="categories"
                         name="categories_id"
                         value={data.category_id}
@@ -190,8 +210,8 @@ export default function PostJob() {
                         label="Degree Level"
                         name="degree_level"
                         fetchTable="degree_levels"
-                        value={data.job_degree}
-                        onChange={(e) => setData('job_degree', e.target.value)}
+                        value={data.degree}
+                        onChange={(e) => setData('degree', e.target.value)}
                     />
                 </div>
 
@@ -201,8 +221,8 @@ export default function PostJob() {
                             label="Job Experience"
                             name="job_experience_level"
                             fetchTable="experiences"
-                            value={data.experience}
-                            onChange={(e) => setData('experience', e.target.value)}
+                            value={data.experience_id}
+                            onChange={(e) => setData('experience_id', e.target.value)}
                         />
                     </div>
 

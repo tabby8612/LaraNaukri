@@ -16,10 +16,11 @@ type JobsProps = {
     companyName: string;
     companyID?: string;
     companyImageURL: string;
-    salary: string | number;
+    salary: string | number | undefined;
     featured: boolean;
     JobID: string;
     companySlug: string;
+    jobSlug?: string;
     removeFavoriteFn?: (id: string) => void;
     showCompanyDetails?: boolean;
     showEditOptions?: boolean;
@@ -39,6 +40,7 @@ export default function FeaturedJobCard({
     removeFavoriteFn,
     showCompanyDetails = true,
     showEditOptions = false,
+    jobSlug,
 }: JobsProps) {
     // console.log(title, type, location, postedDate, companyName, companyImageURL, companySlug);
 
@@ -56,7 +58,7 @@ export default function FeaturedJobCard({
             <h1 className="mt-4 font-montserrat text-lg font-semibold transition-colors delay-100 duration-300 hover:text-primary">
                 <a
                     href={route('job.view', {
-                        slug: `${title.toLowerCase().replaceAll(' ', '-')}-${JobID}`,
+                        slug: jobSlug ? jobSlug : `${title.toLowerCase().replaceAll(' ', '-')}-${JobID}`,
                     })}
                 >
                     {title}

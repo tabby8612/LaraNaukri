@@ -9,12 +9,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
+
 
 class Job extends Model {
     /** @use HasFactory<\Database\Factories\JobFactory> */
     use HasFactory;
 
     protected $table = "jobs_listings";
+    protected $guarded = [];
 
     // --- Relations
 
@@ -22,8 +25,8 @@ class Job extends Model {
         return $this->belongsTo(Company::class, "company_id");
     }
 
-    public function skills(): HasMany {
-        return $this->hasMany(Skill::class);
+    public function skills(): BelongsToMany {
+        return $this->belongsToMany(Skill::class, "jobs_listings_skills");
     }
 
     public function category(): BelongsTo {
@@ -38,7 +41,7 @@ class Job extends Model {
         return $this->belongsToMany(Candidate::class, 'candidate_job_favorite');
     }
 
-    // --- Getters
+    // --- Mutators
 
     protected function createdAt(): Attribute {
         return Attribute::make(function ($value) {
@@ -46,6 +49,42 @@ class Job extends Model {
             return "$dt->day/$dt->month/$dt->year";
         });
     }
+
+    protected function hideSalary(): Attribute {
+        return Attribute::make(set: fn($val) => $val == 'No' ? 0 : 1);
+    }
+    protected function isFreelance(): Attribute {
+        return Attribute::set(set: fn($val) => $val == 'No' ? 0 : 1);
+    }
+    protected function isExternal(): Attribute {
+        return Attribute::set(set: fn($val) => $val == 'No' ? 0 : 1);
+    }
+
+    protected function applyBefore(): Attribute {
+        return Attribute::make(
+            get: fn($value) => Carbon::parse($value)->format('o-m-d'),
+            set: fn($value) => new Carbon($value)
+        );
+    }
+
+    protected function countryId(): Attribute {
+        return Attribute::set(set: function ($value, $attributes) {
+            $country = Country::where("id", $value)->first();
+            $attributes["location"] = $country?->name;
+            $attributes["country_id"] = $value;
+
+            return $attributes;
+        });
+    }
+
+    protected function degree(): Attribute {
+        return Attribute::set(function ($value) {
+            $degree = DegreeLevel::where("id", $value)->first();
+            return $degree?->name;
+        });
+    }
+
+
 
 
 }

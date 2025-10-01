@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Company;
+use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -69,6 +70,23 @@ class CompanyService {
         DB::table("companies")
             ->where("user_id", $userID)
             ->update($updateValues);
+    }
+
+    public function jobs(array $jobs) {
+        $activeJobs = [];
+        $expiredJobs = [];
+
+        foreach ($jobs as $job) {
+            $today = Carbon::now();
+            $expiryDate = Carbon::parse($job['apply_before']);
+
+            $expiryDate->isAfter($today) ? $activeJobs[] = $job : $expiredJobs[] = $job;
+        }
+
+        return [
+            "activeJobs" => $activeJobs,
+            "expiredJobs" => $expiredJobs
+        ];
     }
 
 }

@@ -12,7 +12,7 @@ use App\Models\Job;
 use App\Models\User;
 use App\Service\CandidateService;
 use Barryvdh\Debugbar\Facades\Debugbar;
-
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -166,6 +166,21 @@ class CompanyController extends Controller {
 
 
         return to_route("employer.editProfile")->with("message", "Successfully Updated");
+    }
+
+    public function manageJobs() {
+
+        $company = $this->companyService->findCompany(Auth::id(), ['jobs', "industry", "jobs.companies"]);
+        $jobs = [];
+
+        if (isset($company["jobs"])) {
+            $jobs = $this->companyService->jobs($company["jobs"]);
+        }
+
+        return Inertia::render("employer/manageJobs", [
+            "activeJobs" => $jobs['activeJobs'] ?? [],
+            "expiredJobs" => $jobs['expiredJobs'] ?? [],
+        ]);
     }
 
 

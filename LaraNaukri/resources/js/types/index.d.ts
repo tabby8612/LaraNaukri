@@ -60,6 +60,7 @@ export type Company = {
 };
 
 type Job = {
+    id: string;
     title: string;
     type: string;
     location: string;
@@ -70,6 +71,10 @@ type Job = {
     salary_from?: string | number;
     salary_to?: string | number;
     featured?: boolean;
+    is_featured: boolean;
+    created_at: string;
+    slug: string;
+
     JobID?: string;
     companies: Company;
 };

@@ -16,7 +16,7 @@ Route::prefix("employer")->name("employer.")->middleware("IsEmployer")->group(fu
     Route::post("post-job", [JobController::class, 'store'])->name('postJob');
 
 
-    Route::get("manage-jobs", fn() => Inertia::render("employer/manageJobs"))->name('manageJobs');
+    Route::get("manage-jobs", [CompanyController::class, 'manageJobs'])->name('manageJobs');
     Route::get("list-applied-users/{id}", fn() => Inertia::render("employer/listAppliedUsers"))->name('listAppliedUsers');
     Route::get("edit-job/{id}", fn() => Inertia::render("employer/postJob"))->name('editJob');
     Route::get("delete-job/{id}", fn() => Inertia::render("employer/postJob"))->name('deleteJob');

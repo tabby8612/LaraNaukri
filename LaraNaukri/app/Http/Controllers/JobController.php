@@ -6,21 +6,21 @@ use App\Enums\CurrencyEnums;
 use App\Enums\JobShift;
 use App\Enums\JobType;
 use App\Enums\SalaryPeriod;
+use App\Http\Requests\JobRequest;
 use App\JobService;
 use App\Models\Application;
 use App\Models\Candidate;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Company;
-use App\Models\Country;
 use App\Models\Job;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Storage;
-use Termwind\Components\Raw;
+
 
 class JobController extends Controller {
 
@@ -249,8 +249,19 @@ class JobController extends Controller {
         ]);
     }
 
-    public function store(Request $request) {
-        dd($request->all());
+    public function store(JobRequest $jobRequest) {
+        $validated = $jobRequest->validated();
+
+        $skills = Arr::pull($validated, "skills", []);
+        $validated['company_id'] = Company::where("user_id", Auth::id())->first()->id;
+
+        $newPost = Job::create($validated);
+        $newPost->slug = Str::slug($newPost->title . '-' . $newPost->id);
+        $newPost->save();
+
+        $newPost->skills()->attach($skills);
+
+        return to_route("employer.manageJobs");
     }
 
 
