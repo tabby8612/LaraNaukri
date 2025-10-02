@@ -33,6 +33,8 @@ export default function JobSearchResults({ jobs }: { jobs: FilteredJobs[] | unde
                             featured={job.featured}
                             salary={job.salary_to}
                             companySlug={job.companies.slug}
+                            jobSlug={job.slug}
+                            currencySymbol={job.currency}
                         />
                     ))}
             </div>

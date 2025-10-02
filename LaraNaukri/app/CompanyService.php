@@ -19,9 +19,10 @@ class CompanyService {
         //        
     }
 
-    public function findCompany(string $userID, string|array $relations = []) {
+    public function findCompany(string $userID, string|array $relations = [], string|array $withCount = []) {
         $company = Company::where("user_id", $userID)
             ->with($relations)
+            ->withCount($withCount)
             ->firstOrFail()
             ->toArray();
 

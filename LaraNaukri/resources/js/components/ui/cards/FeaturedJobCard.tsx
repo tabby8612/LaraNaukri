@@ -24,6 +24,8 @@ type JobsProps = {
     removeFavoriteFn?: (id: string) => void;
     showCompanyDetails?: boolean;
     showEditOptions?: boolean;
+    applicationsCount?: number;
+    currencySymbol?: string;
 };
 
 export default function FeaturedJobCard({
@@ -41,6 +43,8 @@ export default function FeaturedJobCard({
     showCompanyDetails = true,
     showEditOptions = false,
     jobSlug,
+    applicationsCount,
+    currencySymbol = '$',
 }: JobsProps) {
     // console.log(title, type, location, postedDate, companyName, companyImageURL, companySlug);
 
@@ -68,7 +72,7 @@ export default function FeaturedJobCard({
             {salary && (
                 <div className="mt-3 flex items-center gap-2">
                     <p>
-                        Salary: <span className="font-semibold">${salary}</span>
+                        Salary: <span className="font-semibold">{`${currencySymbol} ${salary}`}</span>
                     </p>
                 </div>
             )}
@@ -102,7 +106,7 @@ export default function FeaturedJobCard({
                     >
                         Candidates{'  '}
                         <Badge variant={'default'} className="bg-white text-black">
-                            10
+                            {`${applicationsCount}`}
                         </Badge>
                     </Button>
                     <Button

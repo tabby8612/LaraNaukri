@@ -110,6 +110,8 @@ class Candidate extends Model {
 
 
 
+
+
     //--- Getters
     protected function dateOfBirth(): Attribute {
         return Attribute::make(

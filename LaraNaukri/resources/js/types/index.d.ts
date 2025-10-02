@@ -61,6 +61,22 @@ export type Company = {
 
 type Job = {
     id: string;
+    apply_before: string;
+    benefits: string;
+    career_level: string;
+    category_id: string;
+    city_id: string;
+    country_id: string;
+    company_id: string;
+    currency: string;
+    degree: string;
+    description: string;
+    experience_id: string;
+    external_url: string | null;
+    gender: string;
+    hide_salary: boolean;
+    is_external: boolean;
+    shift: string;
     title: string;
     type: string;
     location: string;
@@ -77,6 +93,7 @@ type Job = {
 
     JobID?: string;
     companies: Company;
+    applications: Application[];
 };
 
 type FilteredJobs = {
@@ -96,7 +113,6 @@ type FilteredJobs = {
     created_at: string;
     featured: boolean;
     is_featured: boolean;
-    companies: Company;
     salary_to?: number;
     city: City;
     location: string;
@@ -105,6 +121,7 @@ type FilteredJobs = {
     apply_before: string;
     slug: string;
     description: string;
+    currency: string;
     companies: Company;
 };
 
@@ -369,6 +386,7 @@ type Application = {
     created_at: string;
     updated_at: string;
     job: FilteredJobs;
+    candidate: Candidate;
 };
 
 type Alert = {

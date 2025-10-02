@@ -15,7 +15,7 @@ enum CurrencyEnums: string {
             self::POUND => "Pound (£)",
             self::DOLLAR => "USD ($)",
             self::EURO => "EURO (€)",
-            self::DIHRAM => "AED  (د.إ)",
+            self::DIHRAM => "AED (د.إ)",
             self::YEN => "JPY (¥)",
         };
     }

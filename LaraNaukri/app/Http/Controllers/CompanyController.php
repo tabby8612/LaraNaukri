@@ -170,7 +170,10 @@ class CompanyController extends Controller {
 
     public function manageJobs() {
 
-        $company = $this->companyService->findCompany(Auth::id(), ['jobs', "industry", "jobs.companies"]);
+        $relations = ["jobs", "industry", "jobs.companies", "jobs.applications", "jobs.applications.candidate"];
+
+
+        $company = $this->companyService->findCompany(Auth::id(), $relations);
         $jobs = [];
 
         if (isset($company["jobs"])) {

@@ -32,5 +32,14 @@ class JobService {
         return $currencies;
     }
 
+    public function getJob(string $jobID, string|array $relations = []) {
+        $job = Job::where("id", '=', $jobID)
+            ->with($relations)
+            ->first()
+            ->toArray();
+
+        return $job;
+    }
+
 
 }

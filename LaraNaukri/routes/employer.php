@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CompanyJobController;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,7 +18,9 @@ Route::prefix("employer")->name("employer.")->middleware("IsEmployer")->group(fu
 
 
     Route::get("manage-jobs", [CompanyController::class, 'manageJobs'])->name('manageJobs');
-    Route::get("list-applied-users/{id}", fn() => Inertia::render("employer/listAppliedUsers"))->name('listAppliedUsers');
+
+    Route::get("list-applied-users/{job}", [CompanyJobController::class, 'kanbanBoard'])->name('listAppliedUsers');
+
     Route::get("edit-job/{id}", fn() => Inertia::render("employer/postJob"))->name('editJob');
     Route::get("delete-job/{id}", fn() => Inertia::render("employer/postJob"))->name('deleteJob');
     Route::get("company-packages", fn() => Inertia::render("employer/companyPackages"))->name('packages');

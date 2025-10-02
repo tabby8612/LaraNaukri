@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CurrencyEnums;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,6 +41,12 @@ class Job extends Model {
     protected function favorites(): BelongsToMany {
         return $this->belongsToMany(Candidate::class, 'candidate_job_favorite');
     }
+
+    public function applications(): HasMany {
+        return $this->hasMany(Application::class);
+    }
+
+
 
     // --- Mutators
 
@@ -83,6 +90,12 @@ class Job extends Model {
             return $degree?->name;
         });
     }
+
+    protected function currency(): Attribute {
+        return Attribute::get(get: fn($val) => $val ?? 'pkr');
+
+    }
+
 
 
 

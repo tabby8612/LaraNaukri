@@ -48,6 +48,7 @@ export default function ManageJobs() {
                                         showEditOptions={true}
                                         jobSlug={job.slug}
                                         title={job.title}
+                                        applicationsCount={job.applications.length}
                                     />
                                 ))}
                         </section>
@@ -70,6 +71,7 @@ export default function ManageJobs() {
                                         showEditOptions={true}
                                         jobSlug={job.slug}
                                         title={job.title}
+                                        applicationsCount={job.applications.length}
                                     />
                                 ))}
                         </section>
