@@ -3,9 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\ApplicationService;
+use App\Enums\CurrencyEnums;
+use App\Enums\JobShift;
+use App\Enums\JobType;
+use App\Enums\SalaryPeriod;
+use App\Http\Requests\JobRequest;
 use App\JobService;
 use App\Models\Job;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Inertia\Inertia;
 
 class CompanyJobController extends Controller {
@@ -57,15 +64,39 @@ class CompanyJobController extends Controller {
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id) {
-        //
+    public function edit(Job $job) {
+
+        $job = $this->jobService->getJob($job?->id, ["skills"]);
+        $currencies = $this->jobService->getEnumValues(CurrencyEnums::class);
+        $salaryPeriods = $this->jobService->getEnumValues(SalaryPeriod::class);
+        $jobTypes = $this->jobService->getEnumValues(JobType::class);
+        $jobShifts = $this->jobService->getEnumValues(JobShift::class);
+
+        // dd($job);
+
+        return Inertia::render("employer/postJob", [
+            "currencies" => $currencies,
+            "salaryPeriods" => $salaryPeriods,
+            "jobTypes" => $jobTypes,
+            "jobShifts" => $jobShifts,
+            "job" => $job,
+            "type" => "edit"
+        ]);
+
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id) {
-        //
+    public function update(JobRequest $jobRequest, string $id) {
+
+        $validated = $jobRequest->validated();
+
+        $this->jobService->updateJob($id, $validated);
+
+        return back()->with("message", "Updated Successfully");
+
     }
 
     /**

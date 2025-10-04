@@ -65,8 +65,9 @@ type Job = {
     benefits: string;
     career_level: string;
     category_id: string;
-    city_id: string;
     country_id: string;
+    state_id: string;
+    city_id: string;
     company_id: string;
     currency: string;
     degree: string;
@@ -74,8 +75,8 @@ type Job = {
     experience_id: string;
     external_url: string | null;
     gender: string;
-    hide_salary: boolean;
-    is_external: boolean;
+    hide_salary: string;
+    is_external: string;
     shift: string;
     title: string;
     type: string;
@@ -90,6 +91,11 @@ type Job = {
     is_featured: boolean;
     created_at: string;
     slug: string;
+    skills: Skill[];
+    positions: string;
+    is_freelance: string;
+    period: string;
+    is_open: number;
 
     JobID?: string;
     companies: Company;
@@ -426,13 +432,18 @@ type Package = {
 
 type PaymentHistory = {
     id: string;
+    user_id: string;
     candidate_id: string;
     package_id: string;
     method: string;
+    quota_used: number;
+    expiry_date: string;
     start_date: string;
     end_date: string;
+    created_at: string;
     canddiate: Candidate;
     package: Package;
+    user: User;
 };
 
 type CandidateGroup = {

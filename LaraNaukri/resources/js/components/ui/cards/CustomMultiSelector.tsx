@@ -59,9 +59,11 @@ export function CustomMultiSelector({ data, fetchTable, label, onChangeFn }: Pro
                 className="flex min-h-10 rounded border border-gray-400 bg-white focus-within:outline-2 focus-within:outline-primary"
                 onClick={() => searchRef.current?.focus()}
             >
-                <ul className="flex flex-row flex-wrap overflow-x-hidden whitespace-nowrap">
+                <ul className="flex flex-row flex-wrap overflow-x-hidden whitespace-nowrap" id="selectedItems">
                     {selectedSubjects.map((subject) => (
                         <li
+                            data-id={subject.id}
+                            data-name={subject.name}
                             className="m-1 flex items-center justify-between gap-3 rounded-full bg-primary px-2 py-1 text-xs whitespace-nowrap text-white"
                             key={subject.id}
                         >

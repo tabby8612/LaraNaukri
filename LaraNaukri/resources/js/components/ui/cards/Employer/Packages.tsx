@@ -1,10 +1,10 @@
-import { CVPackage, JobPackage } from '@/types/employer';
+import { PaymentHistory } from '@/types';
 
 type Props = {
-    premiumPackages: JobPackage[] | CVPackage[];
+    purchasedPackages: PaymentHistory[];
 };
 
-export default function Packages({ premiumPackages }: Props) {
+export default function Packages({ purchasedPackages }: Props) {
     return (
         <table className="w-full bg-white">
             <thead>
@@ -17,13 +17,13 @@ export default function Packages({ premiumPackages }: Props) {
                 </tr>
             </thead>
             <tbody>
-                {premiumPackages.map((premPackage) => (
-                    <tr className="text-center" key={premPackage.id}>
-                        <td>{premPackage.name}</td>
-                        <td>USD{premPackage.price}</td>
-                        <td>{premPackage.quota}</td>
-                        <td>{premPackage.purchased_date}</td>
-                        <td>{premPackage.package_expired}</td>
+                {purchasedPackages.map((purchasedPackage) => (
+                    <tr className="text-center" key={purchasedPackage.id}>
+                        <td>{purchasedPackage.package.name}</td>
+                        <td>USD {purchasedPackage.package.price}</td>
+                        <td>{`${purchasedPackage.quota_used}/${purchasedPackage.package.num_listings}`}</td>
+                        <td>{purchasedPackage.created_at}</td>
+                        <td>{purchasedPackage.expiry_date}</td>
                     </tr>
                 ))}
             </tbody>

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 
@@ -60,12 +61,7 @@ class Job extends Model {
     protected function hideSalary(): Attribute {
         return Attribute::make(set: fn($val) => $val == 'No' ? 0 : 1);
     }
-    protected function isFreelance(): Attribute {
-        return Attribute::set(set: fn($val) => $val == 'No' ? 0 : 1);
-    }
-    protected function isExternal(): Attribute {
-        return Attribute::set(set: fn($val) => $val == 'No' ? 0 : 1);
-    }
+
 
     protected function applyBefore(): Attribute {
         return Attribute::make(
@@ -76,25 +72,57 @@ class Job extends Model {
 
     protected function countryId(): Attribute {
         return Attribute::set(set: function ($value, $attributes) {
+            dump($value);
+            dump($attributes);
             $country = Country::where("id", $value)->first();
             $attributes["location"] = $country?->name;
             $attributes["country_id"] = $value;
+            dd($attributes);
 
             return $attributes;
         });
     }
 
     protected function degree(): Attribute {
-        return Attribute::set(function ($value) {
-            $degree = DegreeLevel::where("id", $value)->first();
-            return $degree?->name;
-        });
+        return Attribute::make(
+            get: function ($val): mixed {
+                if (isset($val)) {
+                    $degree = DegreeLevel::where('name', 'like', "%{$val}%")->first();
+
+                    return $degree?->id;
+                } else {
+                    return $val;
+                }
+            },
+
+            set: function ($value): mixed {
+                dd($value);
+                $degree = DegreeLevel::where("id", $value)->first();
+                return $degree?->name;
+            });
     }
 
     protected function currency(): Attribute {
         return Attribute::get(get: fn($val) => $val ?? 'pkr');
 
     }
+
+    protected function careerLevel(): Attribute {
+        return Attribute::get(get: function ($val) {
+
+            if (isset($val)) {
+                $careerLevel = Cache::remember("careerLevel-{$val}", now()->addDay(), fn() => CareerLevel::where('name', 'like', $val)->first());
+                return $careerLevel->id;
+            } else {
+                return $val;
+            }
+        });
+    }
+
+
+
+
+
 
 
 

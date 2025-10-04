@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CompanyJobController;
+use App\Http\Controllers\CompanyPackageController;
+use App\Http\Controllers\CompanyPaymentController;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,17 +23,34 @@ Route::prefix("employer")->name("employer.")->middleware("IsEmployer")->group(fu
 
     Route::get("list-applied-users/{job}", [CompanyJobController::class, 'kanbanBoard'])->name('listAppliedUsers');
 
-    Route::get("edit-job/{id}", fn() => Inertia::render("employer/postJob"))->name('editJob');
+    Route::get("edit-job/{job}", [CompanyJobController::class, 'edit'])->name('editJob');
+    Route::put("edit-job/{job}", [CompanyJobController::class, 'update'])->name('editJob');
     Route::get("delete-job/{id}", fn() => Inertia::render("employer/postJob"))->name('deleteJob');
-    Route::get("company-packages", fn() => Inertia::render("employer/companyPackages"))->name('packages');
-    Route::get("payment-history", fn() => Inertia::render("employer/paymentHistory"))->name('paymentHistory');
-    Route::get("unlocked-users", fn() => Inertia::render("employer/unlockedUsers"))->name('unlockedUsers');
+
+
+
+    Route::get("company-packages", [CompanyPackageController::class, 'cvPackage'])->name('packages');
+    Route::get("payment-history", [CompanyPackageController::class, 'jobPackages'])->name('paymentHistory');
+
+    Route::get("paypal-package/{package}", [CompanyPaymentController::class, 'PaypalPackage'])->name('paypal');
+    Route::get("paypal-payment-success", [CompanyPaymentController::class, 'paypalSuccess'])->name("paypal.success");
+    Route::get("paypal-payment-failed", [CompanyPaymentController::class, 'paypalFail'])->name("paypal.fail");
+
+    Route::get("stripe-package/{package}", [CompanyPaymentController::class, 'StripePackage'])->name('stripe');
+    Route::get("stripe-payment-success", [CompanyPaymentController::class, 'stripeSuccess'])->name("stripe.success");
+    Route::get("stripe-payment-failed", [CompanyPaymentController::class, 'stripeFail'])->name("stripe.fail");
+
+
+    Route::get("unlocked-users", [CompanyController::class, 'unlockedUsers'])->name('unlockedUsers');
+
+
     Route::get("messages", fn() => Inertia::render("employer/messages"))->name('messages');
     Route::get("followings", fn() => Inertia::render("employer/followings"))->name('followings');
 
     Route::get("logout", fn() => Inertia::render("employer/dashboard"))->name('logout');
 
-
 });
+
+Route::get("user-profile/{user}", [CompanyController::class, 'userProfile'])->name('userProfile')->middleware("IsEmployer");
 
 

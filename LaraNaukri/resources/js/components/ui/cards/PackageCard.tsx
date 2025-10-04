@@ -19,12 +19,14 @@ export default function PackageCard({ premiumPackage, type = 'job' }: { premiumP
                 </li>
                 <li className="mt-3 flex items-center gap-3">
                     <CheckCircle className="size-4 text-primary" />
-                    Job Displayed For {premiumPackage.num_days} Days
+                    {type === 'job' ? 'Job Displayed' : 'CV Views Access'} For {premiumPackage.num_days} Days
                 </li>
-                <li className="mt-3 flex items-center gap-3">
-                    <CheckCircle className="size-4 text-primary" />
-                    Highlight Jobs On Demand
-                </li>
+                {type === 'job' && (
+                    <li className="mt-3 flex items-center gap-3">
+                        <CheckCircle className="size-4 text-primary" />
+                        Highlight Jobs On Demand
+                    </li>
+                )}
                 <li className="mt-3 flex items-center gap-3">
                     <CheckCircle className="size-4 text-primary" />
                     Premium Support 24/7
@@ -40,6 +42,9 @@ export default function PackageCard({ premiumPackage, type = 'job' }: { premiumP
                             </>
                         </PaymentButton>
                     }
+                    paypalPaymentLink={route('employer.paypal', premiumPackage)}
+                    stripePaymentLink={route('employer.stripe', premiumPackage.id)}
+                    itemPackage={premiumPackage}
                 />
             </div>
         </Card>

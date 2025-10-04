@@ -6,8 +6,6 @@ import { usePage } from '@inertiajs/react';
 
 export default function ManageJobs() {
     const { activeJobs, expiredJobs } = usePage<{ activeJobs: Job[]; expiredJobs: Job[] }>().props;
-    console.log(activeJobs);
-    console.log(expiredJobs);
 
     return (
         <AppEmployerLayout displaySearch={false} page="manageJobs" titleText="Manage Jobs">
@@ -49,6 +47,8 @@ export default function ManageJobs() {
                                         jobSlug={job.slug}
                                         title={job.title}
                                         applicationsCount={job.applications.length}
+                                        key={job.id}
+                                        currencySymbol={job.currency}
                                     />
                                 ))}
                         </section>
@@ -72,6 +72,8 @@ export default function ManageJobs() {
                                         jobSlug={job.slug}
                                         title={job.title}
                                         applicationsCount={job.applications.length}
+                                        currencySymbol={job.currency}
+                                        key={job.id}
                                     />
                                 ))}
                         </section>

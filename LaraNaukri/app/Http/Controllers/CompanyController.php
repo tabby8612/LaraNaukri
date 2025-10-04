@@ -11,17 +11,14 @@ use App\Models\Industry;
 use App\Models\Job;
 use App\Models\User;
 use App\Service\CandidateService;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Carbon\Carbon;
-use DB;
+use App\Service\PackageServices;
+use App\Service\PaymentHistoryServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Inertia\Inertia;
-use Storage;
 
-use function PHPUnit\Framework\arrayHasKey;
 
 class CompanyController extends Controller {
     //
@@ -29,7 +26,11 @@ class CompanyController extends Controller {
     public function __construct(
         protected CompanyService $companyService,
         protected JobService $jobService,
-        protected CandidateService $candidateService) {
+        protected CandidateService $candidateService,
+        protected PackageServices $packageServices,
+        protected PaymentHistoryServices $paymentHistoryServices
+
+    ) {
     }
 
     //---- API CALLS
@@ -132,7 +133,18 @@ class CompanyController extends Controller {
     }
 
     public function dashboard() {
-        return Inertia::render("employer/dashboard");
+
+        $jobPackages = $this->packageServices->getPackages("employer");
+        $cvPackage = $this->packageServices->getPackages("cv_search");
+
+        $purchasedPackages = $this->paymentHistoryServices->getPurchasedPackages(Auth::id());
+
+        return Inertia::render("employer/dashboard", [
+            "jobPackages" => $jobPackages->toArray(),
+            "cvPackages" => $cvPackage,
+            "PurchasedJobPackages" => $purchasedPackages['jobPackages'],
+            "PurchasedCVPackages" => $purchasedPackages['cvPackages'],
+        ]);
     }
 
     public function showEditPage() {
@@ -143,8 +155,6 @@ class CompanyController extends Controller {
     }
 
     public function store(CompanyProfileRequest $companyProfileRequest) {
-        // dd($companyProfileRequest->all());
-
         $validated = $companyProfileRequest->validated();
         $userID = Auth::id();
 
@@ -164,14 +174,12 @@ class CompanyController extends Controller {
 
         $this->companyService->updateCompanyProfile(Auth::id(), $validated);
 
-
         return to_route("employer.editProfile")->with("message", "Successfully Updated");
     }
 
     public function manageJobs() {
 
         $relations = ["jobs", "industry", "jobs.companies", "jobs.applications", "jobs.applications.candidate"];
-
 
         $company = $this->companyService->findCompany(Auth::id(), $relations);
         $jobs = [];
@@ -184,6 +192,24 @@ class CompanyController extends Controller {
             "activeJobs" => $jobs['activeJobs'] ?? [],
             "expiredJobs" => $jobs['expiredJobs'] ?? [],
         ]);
+    }
+
+    public function unlockedUsers() {
+
+        return Inertia::render("employer/unlockedUsers");
+    }
+
+    public function userProfile(User $user) {
+        // dd($user);
+
+        if (!$user->isCandidate()) abort(404);
+
+        $candidate = $user->candidate;
+
+
+        return Inertia::render("employer/user-profile", compact("candidate"));
+
+
     }
 
 

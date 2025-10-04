@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use App\Models\PaymentHistory;
+use App\Service\PackageServices;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +16,8 @@ use Stripe\StripeClient;
 
 class PaymentController extends Controller {
     //
+    public function __construct(protected PackageServices $packageServices) {
+    }
 
     public function webhook(Request $request) {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
@@ -52,13 +56,17 @@ class PaymentController extends Controller {
             case 'checkout.session.completed':
                 $checkoutSession = $event->data->object;
 
-                $candidateID = $checkoutSession->metadata->candidate_id;
+                $userID = $checkoutSession->metadata->user_id;
                 $packageID = $checkoutSession->metadata->package_id;
                 $method = $checkoutSession->metadata->method;
 
+                $package = $this->packageServices->getPackageWithID($packageID);
+
                 PaymentHistory::create([
-                    'candidate_id' => $candidateID,
-                    'package_id' => $packageID,
+                    'user_id' => $userID,
+                    'package_id' => $package->id,
+                    'quota_used' => 0,
+                    'expiry_date' => Carbon::now()->addDays((int) $package->num_days),
                     'method' => $method,
                 ]);
 

@@ -6,6 +6,8 @@ use App\Enums\CurrencyEnums;
 use App\Enums\SalaryPeriod;
 use App\Models\Job;
 use BackedEnum;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class JobService {
     /**
@@ -39,6 +41,19 @@ class JobService {
             ->toArray();
 
         return $job;
+    }
+
+    public function updateJob(string $jobID, array $updatedValues) {
+        $skills = Arr::pull($updatedValues, 'skills') ?? [];
+
+        DB::table("jobs_listings")
+            ->where("id", $jobID)
+            ->update($updatedValues);
+
+        $job = Job::where("id", $jobID)->first();
+        $job->skills()->sync($skills);
+
+        return;
     }
 
 

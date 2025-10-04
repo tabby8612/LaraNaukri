@@ -7,7 +7,7 @@ import CustomSelectField from '@/components/ui/cards/CustomSelectField';
 import CustomTextArea from '@/components/ui/cards/CustomTextArea';
 import { Button } from '@/components/ui/UnusedUI/button';
 import AppEmployerLayout from '@/layouts/app/app-employer-layout';
-import { Item } from '@/types';
+import { Item, Job } from '@/types';
 import { useForm, usePage } from '@inertiajs/react';
 import { ArrowRightCircle } from 'lucide-react';
 import { FormEvent, useState } from 'react';
@@ -17,39 +17,45 @@ type CustomPageProps = {
     salaryPeriods: Item[];
     jobTypes: Item[];
     jobShifts: Item[];
+    job: Job;
+    type: string;
+    message: string;
 };
 export default function PostJob() {
-    const [isExternal, setIsExternal] = useState(false);
-    const { currencies, salaryPeriods, jobTypes, jobShifts } = usePage<CustomPageProps>().props;
+    const { currencies, salaryPeriods, jobTypes, jobShifts, job, type, message } = usePage<CustomPageProps>().props;
+    const [isExternal, setIsExternal] = useState(Boolean(job?.is_external ?? 0));
+    const [successMessage, setSuccessMessage] = useState(message);
+    console.log(message);
+    console.log(job);
 
-    const { data, setData, post, errors } = useForm({
-        title: '',
-        description: '',
-        benefits: '',
-        skills: [] as string[],
-        country_id: '277',
-        state_id: '',
-        city_id: '',
-        salary_from: '',
-        salary_to: '',
-        hide_salary: 'No',
-        career_level: '',
-        category_id: '',
-        type: '',
-        shift: '',
-        positions: '',
-        gender: '',
-        apply_before: '',
-        degree: '',
-        experience_id: '',
-        is_freelance: 'No',
-        is_external: 'No',
-        is_featured: 0,
-        external_url: '',
-        currency: '',
-        period: '',
-        location: '',
-        is_open: 1,
+    const { data, setData, post, transform, errors } = useForm({
+        title: job?.title ?? '',
+        description: job?.description ?? '',
+        benefits: job?.benefits ?? '',
+        country_id: job?.country_id ?? '277',
+        state_id: job?.state_id ?? '',
+        city_id: job?.city_id ?? '',
+        salary_from: job?.salary_from ?? '',
+        salary_to: job?.salary_to ?? '',
+        career_level: job?.career_level ?? '',
+        category_id: job?.category_id ?? '',
+        type: job?.type ?? '',
+        shift: job?.shift ?? '',
+        positions: job?.positions ?? '',
+        gender: job?.gender ?? '',
+        apply_before: job?.apply_before ?? '',
+        degree: job?.degree ?? '',
+        experience_id: job?.experience_id ?? '',
+        hide_salary: job?.hide_salary ?? 0,
+        is_freelance: job?.is_freelance ?? 0,
+        is_external: job?.is_external ?? 0,
+        is_featured: job?.is_featured ?? 0,
+        external_url: job?.external_url ?? '',
+        currency: job?.currency ?? '',
+        period: job?.period ?? '',
+        location: job?.location ?? '',
+        is_open: job?.is_open ?? 1,
+        _method: type === 'edit' ? 'PUT' : 'POST',
     });
 
     console.log(errors);
@@ -57,11 +63,46 @@ export default function PostJob() {
     function submitHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        post(route('employer.postJob'));
+        const selectedSkillsEls = document.getElementById('selectedItems')?.children as HTMLCollection;
+        const skills = [] as string[];
+
+        for (const selectedSkillsEl of selectedSkillsEls) {
+            if (selectedSkillsEl instanceof HTMLElement) {
+                if (selectedSkillsEl.dataset.id) skills.push(selectedSkillsEl.dataset.id!);
+            }
+        }
+
+        transform((data) => ({
+            ...data,
+            skills,
+        }));
+
+        if (type === 'edit') {
+            post(route('employer.editJob', job.id), {
+                onSuccess: () => setSuccessMessage('Updated Successfully'),
+            });
+        } else {
+            post(route('employer.postJob'));
+        }
     }
 
     return (
         <AppEmployerLayout displaySearch={false} page="postJob" titleText="Job Details">
+            {errors &&
+                Object.values(errors).map((error) => (
+                    <p className="text-red-500" key={error}>
+                        {error}
+                    </p>
+                ))}
+
+            {successMessage && (
+                <div className="flex justify-between rounded bg-primary p-2 text-white">
+                    <p>{successMessage}</p>
+                    <p className="cursor-pointer font-bold" onClick={() => setSuccessMessage('')}>
+                        X
+                    </p>
+                </div>
+            )}
             <form className="flex w-full flex-col gap-5 rounded-2xl bg-green-50 p-7" encType="multipart/formData" onSubmit={(e) => submitHandler(e)}>
                 <h1 className="mt-5 font-montserrat text-xl font-bold">Job Details</h1>
                 <CustomInputField
@@ -87,12 +128,7 @@ export default function PostJob() {
                     onChange={(e) => setData('benefits', e.target.value)}
                     isrequired
                 />
-                <CustomMultiSelector
-                    label="Skills"
-                    fetchTable="skills"
-                    data={[]}
-                    onChangeFn={(e: string) => setData('skills', [...data.skills, e])}
-                />
+                <CustomMultiSelector label="Skills" fetchTable="skills" data={job?.skills ?? []} onChangeFn={() => {}} />
                 <div className="flex gap-5">
                     <CountryStateCity countryID={data.country_id} stateID={+data.state_id} cityID={+data.city_id} setData={setData} isrequired />
                 </div>
@@ -104,7 +140,7 @@ export default function PostJob() {
                         placeholder="Salary From"
                         type="number"
                         isrequired
-                        value={data.salary_from}
+                        value={`${data.salary_from}`}
                         onChange={(e) => setData('salary_from', e.target.value)}
                     />
                     <CustomInputField
@@ -113,7 +149,7 @@ export default function PostJob() {
                         placeholder="Salary To"
                         type="number"
                         isrequired
-                        value={data.salary_to}
+                        value={`${data.salary_to}`}
                         onChange={(e) => setData('salary_to', e.target.value)}
                     />
                 </div>
@@ -138,9 +174,9 @@ export default function PostJob() {
                     <div className="size-12 w-full">
                         <CustomRadioGroup
                             label="Hide Salary"
-                            options={['Yes', 'No']}
-                            onChangeFn={(val) => setData('hide_salary', val)}
-                            selectedText={data.hide_salary}
+                            options={['No', 'Yes']}
+                            onChangeFn={(val) => setData('hide_salary', `${val}`)}
+                            selectedOption={+data.hide_salary}
                             layout="horizontal"
                         />
                     </div>
@@ -229,9 +265,9 @@ export default function PostJob() {
                     <div className="w-1/2">
                         <CustomRadioGroup
                             label="Is Freelance?"
-                            onChangeFn={(val) => setData('is_freelance', val)}
-                            options={['Yes', 'No']}
-                            selectedText={data.is_freelance}
+                            options={['No', 'Yes']}
+                            onChangeFn={(val) => setData('is_freelance', `${val}`)}
+                            selectedOption={+data.is_freelance}
                             layout="horizontal"
                         />
                     </div>
@@ -241,12 +277,12 @@ export default function PostJob() {
                     <div className="w-1/4">
                         <CustomRadioGroup
                             label="Is this External Job?"
-                            onChangeFn={() => {
+                            onChangeFn={(val) => {
                                 setIsExternal(!isExternal);
-                                setData('is_external', isExternal ? 'Yes' : 'No');
+                                setData('is_external', `${val}`);
                             }}
-                            options={['Yes', 'No']}
-                            selectedText={data.is_external}
+                            options={['No', 'Yes']}
+                            selectedOption={+data.is_external}
                             layout="horizontal"
                         />
                     </div>

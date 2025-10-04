@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Company;
+use App\Models\Country;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -66,8 +67,11 @@ class CompanyService {
 
     public function updateCompanyProfile(string $userID, array $updateValues) {
         $slug = "{$updateValues['name']}-{$updateValues['user_id']}";
+        $location = Country::where("id", $updateValues["country_id"] ?? '277')->first();
 
         $updateValues["slug"] = Str::slug($slug, '-');
+        $updateValues["location"] = $location->name;
+
         DB::table("companies")
             ->where("user_id", $userID)
             ->update($updateValues);
