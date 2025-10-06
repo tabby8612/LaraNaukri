@@ -105,6 +105,8 @@
     .smoothTransition {
         @apply transition-all delay-75 duration-300 
     }
+
+
 }
 
 .swiper-button-prev,
@@ -155,3 +157,21 @@
     overflow-y: scroll;
 }
 
+.tiptap {
+    @apply h-28 w-full rounded rounded-t-none border-2 border-t-0 border-gray-300 bg-white p-2 focus-visible:outline-0 text-sm overflow-y-scroll  
+}
+
+.tiptap h1 {
+    @apply text-2xl font-bold
+}
+
+.tiptap h2 {
+    @apply text-xl font-semibold
+}
+
+.tiptap h3 {
+    @apply text-lg
+}
+.tiptap ul {
+    @apply list-disc pl-[5%]
+}

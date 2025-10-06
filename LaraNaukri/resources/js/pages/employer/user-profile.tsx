@@ -5,13 +5,16 @@ import PublicProfileQualities from '@/components/sections/candidate/PublicProfil
 import { Card } from '@/components/ui/card';
 import AppLayout from '@/layouts/app/app-layout';
 import { Candidate } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 export default function UserProfile() {
-    const { candidate } = usePage<{ candidate: Candidate }>().props;
+    const { candidate, hasUnlocked } = usePage<{ candidate: Candidate; hasUnlocked: boolean }>().props;
 
     return (
         <AppLayout page="">
+            <Head>
+                <title>{`${candidate.first_name} ${candidate.last_name} Profile`}</title>
+            </Head>
             <main className="mx-auto flex w-11/12 gap-5 p-7">
                 <section id="content" className="w-8/12 rounded-2xl">
                     <PublicProfileIntro
@@ -24,6 +27,9 @@ export default function UserProfile() {
                         cv_path={candidate.resume_path}
                         member_since={candidate.created_at}
                         description={candidate.summary}
+                        showMessageBtn={true}
+                        hasUnlocked={hasUnlocked}
+                        id={candidate.id}
                     />
 
                     <PublicProfileQualifications
@@ -36,10 +42,10 @@ export default function UserProfile() {
                 </section>
                 <section id="sidebar" className="w-4/12">
                     <PublicProfileContact
-                        phone_no={candidate.phone}
-                        mobile_no={candidate.mobile}
-                        email={candidate.user.email}
-                        locaion={candidate.address}
+                        phone_no={candidate.phone ?? 'xxx-xxxxxxx'}
+                        mobile_no={candidate.mobile ?? 'xxx-xxxxxxx'}
+                        email={candidate.user?.email ?? 'not filled'}
+                        locaion={candidate.address ?? 'not filled'}
                     />
                     <PublicProfileQualities
                         age={candidate.age}
@@ -56,7 +62,6 @@ export default function UserProfile() {
 
                     <Card className="mt-5 gap-2 border-gray-300 p-10 shadow-none">
                         <h1 className="font-montserrat text-2xl font-bold text-primary">Video Profile</h1>
-                        {/* <video src={candidate.video_profile}></video> */}
                         <iframe src={candidate.video_profile} className="h-72 w-full"></iframe>
                     </Card>
                 </section>

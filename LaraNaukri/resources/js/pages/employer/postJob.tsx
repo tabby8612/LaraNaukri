@@ -3,6 +3,7 @@ import CustomDatePicker from '@/components/ui/cards/CustomDatePicker';
 import CustomInputField from '@/components/ui/cards/CustomInputField';
 import { CustomMultiSelector } from '@/components/ui/cards/CustomMultiSelector';
 import CustomRadioGroup from '@/components/ui/cards/CustomRadioGroup';
+import CustomRichTextEditor from '@/components/ui/cards/CustomRichTextEditor';
 import CustomSelectField from '@/components/ui/cards/CustomSelectField';
 import CustomTextArea from '@/components/ui/cards/CustomTextArea';
 import { Button } from '@/components/ui/UnusedUI/button';
@@ -114,6 +115,7 @@ export default function PostJob() {
                     onChange={(e) => setData('title', e.target.value)}
                     isrequired
                 />
+                <CustomRichTextEditor label="Description" name="description" isrequired={true} />
                 <CustomTextArea
                     label="Description"
                     name="description"

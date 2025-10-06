@@ -42,12 +42,13 @@ Route::prefix("employer")->name("employer.")->middleware("IsEmployer")->group(fu
 
 
     Route::get("unlocked-users", [CompanyController::class, 'unlockedUsers'])->name('unlockedUsers');
+    Route::post("unlock-user/{candidate}", [CompanyController::class, 'unlockUser'])->name('unlockUser');
 
 
+    Route::get("followings", [CompanyController::class, 'followers'])->name('followings');
     Route::get("messages", fn() => Inertia::render("employer/messages"))->name('messages');
-    Route::get("followings", fn() => Inertia::render("employer/followings"))->name('followings');
 
-    Route::get("logout", fn() => Inertia::render("employer/dashboard"))->name('logout');
+    Route::get("logout", [CompanyController::class, 'logout'])->name('logout');
 
 });
 

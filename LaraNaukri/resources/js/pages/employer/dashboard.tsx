@@ -16,10 +16,12 @@ type CustomProps = {
     message: string;
     PurchasedCVPackages: PaymentHistory[];
     PurchasedJobPackages: PaymentHistory[];
+    followersCount: string;
+    jobsCount: string;
 };
 
 export default function Dashboard() {
-    const { jobPackages, cvPackages, message, PurchasedCVPackages, PurchasedJobPackages } = usePage<CustomProps>().props;
+    const { jobPackages, cvPackages, message, PurchasedCVPackages, PurchasedJobPackages, followersCount, jobsCount } = usePage<CustomProps>().props;
     console.log(PurchasedJobPackages);
 
     if (message) {
@@ -31,9 +33,14 @@ export default function Dashboard() {
         <AppEmployerLayout displaySearch={false} page="dashboard" titleText="Welcome to Employer Dashboard">
             <Toaster position="bottom-center" richColors closeButton />
             <section id="dashboard-widgets" className="grid grid-cols-3 gap-7">
-                <DashboardOverviewWidget SVGIcon={ClockCircleFilled} link="" mainText="5" secondaryText="Open Jobs" />
-                <DashboardOverviewWidget SVGIcon={User} link="" mainText="5" secondaryText="Open Jobs" />
-                <DashboardOverviewWidget SVGIcon={Message} link="" mainText="5" secondaryText="Open Jobs" />
+                <DashboardOverviewWidget
+                    SVGIcon={ClockCircleFilled}
+                    link={route('employer.manageJobs')}
+                    mainText={jobsCount}
+                    secondaryText="Open Jobs"
+                />
+                <DashboardOverviewWidget SVGIcon={User} link={route('employer.followings')} mainText={followersCount} secondaryText="Followers" />
+                <DashboardOverviewWidget SVGIcon={Message} link={route('employer.messages')} mainText="5" secondaryText="Messages" />
             </section>
 
             <section className="mt-10 rounded-xl bg-green-100 p-7">

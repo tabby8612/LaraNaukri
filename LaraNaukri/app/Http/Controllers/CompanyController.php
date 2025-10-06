@@ -13,10 +13,12 @@ use App\Models\User;
 use App\Service\CandidateService;
 use App\Service\PackageServices;
 use App\Service\PaymentHistoryServices;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 
@@ -28,7 +30,8 @@ class CompanyController extends Controller {
         protected JobService $jobService,
         protected CandidateService $candidateService,
         protected PackageServices $packageServices,
-        protected PaymentHistoryServices $paymentHistoryServices
+        protected PaymentHistoryServices $paymentHistoryServices,
+
 
     ) {
     }
@@ -139,11 +142,16 @@ class CompanyController extends Controller {
 
         $purchasedPackages = $this->paymentHistoryServices->getPurchasedPackages(Auth::id());
 
+        $company = $this->companyService->findCompany(Auth::id(), [], ['candidates', 'jobs']);
+
         return Inertia::render("employer/dashboard", [
             "jobPackages" => $jobPackages->toArray(),
             "cvPackages" => $cvPackage,
             "PurchasedJobPackages" => $purchasedPackages['jobPackages'],
             "PurchasedCVPackages" => $purchasedPackages['cvPackages'],
+            "followersCount" => $company['candidates_count'],
+            'jobsCount' => $company['jobs_count'],
+
         ]);
     }
 
@@ -196,24 +204,65 @@ class CompanyController extends Controller {
 
     public function unlockedUsers() {
 
-        return Inertia::render("employer/unlockedUsers");
+        $company = $this->companyService->findCompany(Auth::id(), ["candidatesUnlocked.country", "candidates.country"]);
+        $unlockedCandidates = $company['candidates_unlocked'];
+
+        return Inertia::render("employer/unlockedUsers", compact('unlockedCandidates'));
+    }
+
+    public function followers() {
+        $company = $this->companyService->findCompany(Auth::id(), ['candidates', 'candidates.country']);
+
+        return Inertia::render("employer/followings", ['followers' => $company['candidates']]);
     }
 
     public function userProfile(User $user) {
-        // dd($user);
 
         if (!$user->isCandidate()) abort(404);
 
-        $candidate = $user->candidate;
+        $relations = [
+            "city:id,name", "state:id,name", "country:id,name", "user:id,email", "experiences",
+            "gender:id,name", "maritalStatus", "category:name,id", "industry:name,id", "careerLevel:name,id",
+            "nationality:id,name", "skills.skill:id,name", "skills.experience:id,name", "experiences.country", "experiences.city",
+            "educations.country", "educations.city", "languages", "projects"
+        ];
 
+        $candidate = $this->candidateService->fetchCandidate($user->id, $relations);
 
-        return Inertia::render("employer/user-profile", compact("candidate"));
+        //-- Calculating Number of Experience Years
+        $candidate["total_experience"] = $this->candidateService->getTotalYearsOfExperience($candidate['experiences']);
 
+        //-- Calculating Age
+        $candidate["age"] = round(Carbon::parse($candidate["date_of_birth"])->diffInYears(now()), 0);
+
+        //-- Has Company Unlocked Candidate
+        $company = Company::where("user_id", Auth::id())->first();
+        $hasUnlocked = $company->candidatesUnlocked->contains($candidate['id']);
+
+        return Inertia::render("employer/user-profile", compact("candidate", "hasUnlocked"));
+    }
+
+    public function unlockUser(Candidate $candidate) {
+        $reachCVQuota = $this->paymentHistoryServices->reachCVQuota(Auth::id());
+
+        if ($reachCVQuota) return back()->with("message", "You have used your CV Quota");
+
+        $company = Company::where('user_id', Auth::id())->first();
+        $company->candidatesUnlocked()->attach($candidate->id);
+
+        $this->paymentHistoryServices->increseCVQuota(Auth::id());
+
+        return back()->with('message', "Candidate {$candidate->first_name} Successfully Unlocked. Now You Can Download His CV or Message Him");
 
     }
 
+    public function logout() {
 
+        Auth::logout();
 
+        Session::regenerateToken();
 
+        return to_route('home');
+    }
 
 }

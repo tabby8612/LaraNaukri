@@ -6,11 +6,11 @@ type Props = {
     name: string;
     profession: string;
     location: string;
-    id: string;
     featured?: boolean;
+    profileLink: string;
 };
 
-export default function FeaturedCandidateCard({ imageUrl, name, profession, location, id, featured = true }: Props) {
+export default function FeaturedCandidateCard({ imageUrl, name, profession, location, featured = true, profileLink }: Props) {
     return (
         <div
             id="featuredProfileCard"
@@ -37,7 +37,7 @@ export default function FeaturedCandidateCard({ imageUrl, name, profession, loca
                 <MapPin className="size-5 text-primary" />
                 <p className="text-gray-600">{location}</p>
             </div>
-            <a href={`http://google.com/${id}`} className="rounded-full bg-primary px-7 py-1 text-lg font-semibold text-white">
+            <a href={profileLink} className="rounded-full bg-primary px-7 py-1 text-lg font-semibold text-white">
                 View Profile
             </a>
         </div>

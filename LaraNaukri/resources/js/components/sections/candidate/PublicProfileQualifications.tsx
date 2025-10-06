@@ -39,7 +39,7 @@ export default function PublicProfileQualifications({ skills, languages, experie
                 <h1 className="font-montserrat text-2xl font-bold">Portfilio</h1>
                 <div className="grid grid-cols-3 gap-4">
                     {projects.map((project) => (
-                        <PortfilioProject project={project} key={project.id} refreshProjectsFn={() => {}} />
+                        <PortfilioProject project={project} key={project.id} refreshProjectsFn={() => {}} showEditOptions={false} />
                     ))}
                 </div>
                 <hr className="mx-auto my-7 w-11/12 border-gray-300" />

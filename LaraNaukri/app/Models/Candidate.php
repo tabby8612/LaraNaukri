@@ -101,6 +101,10 @@ class Candidate extends Model {
         return $this->hasMany(PaymentHistory::class);
     }
 
+    public function companiesUnlocked(): BelongsToMany {
+        return $this->belongsToMany(Company::class, 'candidate_company_unlocked');
+    }
+
 
 
 
