@@ -65,7 +65,7 @@ export default function FeaturedJobCard({
                         slug: jobSlug ? jobSlug : `${title.toLowerCase().replaceAll(' ', '-')}-${JobID}`,
                     })}
                 >
-                    {title}
+                    {title.length > 25 ? `${title.slice(0, 20)}...` : title}
                 </a>
             </h1>
 
@@ -91,7 +91,9 @@ export default function FeaturedJobCard({
                                 slug: companySlug,
                             })}
                         >
-                            <p className="font-montserrat font-bold transition-colors delay-100 duration-300 hover:text-primary">{companyName}</p>
+                            <p className="font-montserrat font-bold transition-colors delay-100 duration-300 hover:text-primary">
+                                {companyName.split(' ')[0]}
+                            </p>
                         </a>
                     </div>
                     <img src={`/storage/${companyImageURL}`} alt={companyName} className="size-16 rounded-full border-4 border-white" />

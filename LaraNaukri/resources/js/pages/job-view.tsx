@@ -23,6 +23,7 @@ export default function JobView() {
     const props = usePage<SelectedJobProps>().props;
 
     const { selectedJob, candidate, alreadyApplied, isFavorite } = props;
+    console.log(selectedJob);
 
     return (
         <AppLayout page="jobs">
@@ -66,9 +67,9 @@ export default function JobView() {
 
                     <DescriptionCard type="Job" description={selectedJob.description} />
 
-                    <BenefitCard benefits={['Benefit 1', 'Benefit 2', 'Benefit 3', 'Benefit 4', 'Benefit 5']} />
+                    <BenefitCard benefits={selectedJob.benefits} />
 
-                    <SkillCard skills={['PHP', 'Laravel', 'Javascript']} />
+                    <SkillCard skills={selectedJob.skills.map((skill) => skill.name)} />
                 </div>
                 <div className="w-5/12">
                     <CompanyOverviewCard

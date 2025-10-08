@@ -22,7 +22,6 @@ type CustomProps = {
 
 export default function Dashboard() {
     const { jobPackages, cvPackages, message, PurchasedCVPackages, PurchasedJobPackages, followersCount, jobsCount } = usePage<CustomProps>().props;
-    console.log(PurchasedJobPackages);
 
     if (message) {
         if (message === 'paymentSuccess') toast.success('Your Purchase Is Successful');

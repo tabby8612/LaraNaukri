@@ -1,9 +1,9 @@
-import { Card } from '@/components/ui/card';
-import AppliedCandidate from '@/components/ui/cards/Employer/AppliedCandidate';
-import NoAppliedCandidate from '@/components/ui/cards/Employer/NoAppliedCandidate';
+import DroppableCard from '@/components/ui/cards/Employer/DroppableCard';
+import KanbanBoard from '@/components/ui/cards/Employer/KanbanBoard';
 import AppLayout from '@/layouts/app/app-layout';
-import { Application } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Application, FilteredJobs } from '@/types';
+import { DragEndEvent } from '@dnd-kit/core';
+import { Head, router, usePage } from '@inertiajs/react';
 
 type groupApplications = {
     applied: Application[] | undefined;
@@ -13,49 +13,41 @@ type groupApplications = {
 };
 
 export default function ListAppliedUsers() {
-    const { groupApplications } = usePage<{ groupApplications: groupApplications }>().props;
+    const { groupApplications, selectedJob } = usePage<{ groupApplications: groupApplications; selectedJob: FilteredJobs }>().props;
+
+    function dragEndHandler(event: DragEndEvent) {
+        const newApplicationStatus = event.over!.id;
+        const application = event.active.data.current as Application;
+
+        if (event.active.data.current?.status === event.over!.id) return;
+
+        router.put(
+            route('employer.updateApplicationStatus', application.id),
+            { newstatus: newApplicationStatus },
+            {
+                preserveScroll: true,
+                preserveState: true,
+                showProgress: false,
+            },
+        );
+    }
 
     return (
         <AppLayout page="">
+            <Head title="Kanban Board For Applied Candidates" />
             <header className="flex justify-center bg-green-100 p-7 font-montserrat text-3xl font-bold">
                 Kanban Board to manage applied jobseekers
             </header>
             <section className="mx-auto w-11/12 p-7">
-                <h1 className="font-montserrat text-2xl font-bold">Applications Showing for the job: IOS Developer</h1>
-                <h1>*Use dndkit for drag and drop https://docs.dndkit.com/introduction/installation</h1>
+                <h1 className="font-montserrat text-2xl font-bold">Applications Showing for the job: {selectedJob.title}</h1>
+
                 <section className="mt-3 grid grid-cols-4 gap-5">
-                    <Card className="min-h-screen rounded-none border-none bg-blue-100 px-3">
-                        <h1 className="font-montserrat text-lg font-semibold text-black">Applied Users</h1>
-                        {groupApplications.applied ? (
-                            groupApplications.applied.map((application) => <AppliedCandidate application={application} />)
-                        ) : (
-                            <NoAppliedCandidate />
-                        )}
-                    </Card>
-                    <Card className="min-h-screen rounded-none border-none bg-red-100 px-3">
-                        <h1 className="font-montserrat text-lg font-semibold text-black">Rejected</h1>
-                        {groupApplications.rejected ? (
-                            groupApplications.rejected.map((application) => <AppliedCandidate application={application} />)
-                        ) : (
-                            <NoAppliedCandidate />
-                        )}
-                    </Card>
-                    <Card className="min-h-screen rounded-none border-none bg-yellow-100 px-3">
-                        <h1 className="font-montserrat text-lg font-semibold text-black">Shortlisted</h1>
-                        {groupApplications.shortlisted ? (
-                            groupApplications.shortlisted.map((application) => <AppliedCandidate application={application} />)
-                        ) : (
-                            <NoAppliedCandidate />
-                        )}
-                    </Card>
-                    <Card className="min-h-screen rounded-none border-none bg-green-100 px-3">
-                        <h1 className="font-montserrat text-lg font-semibold text-black">Hired Users</h1>
-                        {groupApplications.hired ? (
-                            groupApplications.hired.map((application) => <AppliedCandidate application={application} />)
-                        ) : (
-                            <NoAppliedCandidate />
-                        )}
-                    </Card>
+                    <KanbanBoard dragEndFn={dragEndHandler}>
+                        <DroppableCard label="Applied Users" id="applied" applications={groupApplications.applied} />
+                        <DroppableCard label="Rejected Users" id="rejected" applications={groupApplications.rejected} />
+                        <DroppableCard label="Shortlisted" id="shortlisted" applications={groupApplications.shortlisted} />
+                        <DroppableCard label="Hired Users" id="hired" applications={groupApplications.hired} />
+                    </KanbanBoard>
                 </section>
             </section>
         </AppLayout>

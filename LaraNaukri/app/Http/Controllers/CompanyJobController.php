@@ -9,6 +9,7 @@ use App\Enums\JobType;
 use App\Enums\SalaryPeriod;
 use App\Http\Requests\JobRequest;
 use App\JobService;
+use App\Models\Application;
 use App\Models\Job;
 
 use Illuminate\Http\Request;
@@ -31,7 +32,13 @@ class CompanyJobController extends Controller {
             ? $this->applicationService->groupApplicationsByStatus($selectedJob['applications'])
             : [];
 
-        return Inertia::render("employer/listAppliedUsers", compact("groupApplications"));
+        return Inertia::render("employer/listAppliedUsers", compact("groupApplications", "selectedJob"));
+    }
+
+    public function updateApplicationStatus(Application $application, Request $request) {
+        $newStatus = $request->only('newstatus');
+
+        $this->applicationService->updateApplicationStatus($application->id, $newStatus['newstatus']);
     }
     /**
      * Display a listing of the resource.
@@ -71,8 +78,6 @@ class CompanyJobController extends Controller {
         $salaryPeriods = $this->jobService->getEnumValues(SalaryPeriod::class);
         $jobTypes = $this->jobService->getEnumValues(JobType::class);
         $jobShifts = $this->jobService->getEnumValues(JobShift::class);
-
-        // dd($job);
 
         return Inertia::render("employer/postJob", [
             "currencies" => $currencies,

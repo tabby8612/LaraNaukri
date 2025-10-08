@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CompanyJobController;
+use App\Http\Controllers\CompanyMessageController;
 use App\Http\Controllers\CompanyPackageController;
 use App\Http\Controllers\CompanyPaymentController;
 use App\Http\Controllers\JobController;
+use App\Models\Company;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -22,10 +24,13 @@ Route::prefix("employer")->name("employer.")->middleware("IsEmployer")->group(fu
     Route::get("manage-jobs", [CompanyController::class, 'manageJobs'])->name('manageJobs');
 
     Route::get("list-applied-users/{job}", [CompanyJobController::class, 'kanbanBoard'])->name('listAppliedUsers');
+    Route::put('update-application-status/{application}', [CompanyJobController::class, 'updateApplicationStatus'])->name("updateApplicationStatus");
+
 
     Route::get("edit-job/{job}", [CompanyJobController::class, 'edit'])->name('editJob');
     Route::put("edit-job/{job}", [CompanyJobController::class, 'update'])->name('editJob');
-    Route::get("delete-job/{id}", fn() => Inertia::render("employer/postJob"))->name('deleteJob');
+
+    // Route::get("delete-job/{id}", fn() => Inertia::render("employer/postJob"))->name('deleteJob');
 
 
 
@@ -46,7 +51,8 @@ Route::prefix("employer")->name("employer.")->middleware("IsEmployer")->group(fu
 
 
     Route::get("followings", [CompanyController::class, 'followers'])->name('followings');
-    Route::get("messages", fn() => Inertia::render("employer/messages"))->name('messages');
+    Route::get("messages", [CompanyMessageController::class, 'index'])->name('messages');
+    Route::post('send-message', [CompanyMessageController::class, 'store'])->name('send.message');
 
     Route::get("logout", [CompanyController::class, 'logout'])->name('logout');
 

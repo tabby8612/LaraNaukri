@@ -1,9 +1,8 @@
 import { DocumentText } from '@/SVGs/Document';
-import { Check } from 'lucide-react';
 import { Card, CardDescription, CardTitle } from '../card';
 
 type Props = {
-    benefits: string[];
+    benefits: string;
 };
 
 export default function BenefitCard({ benefits }: Props) {
@@ -15,16 +14,7 @@ export default function BenefitCard({ benefits }: Props) {
                     <p>Benefits</p>
                 </div>
             </CardTitle>
-            <CardDescription>
-                <ul>
-                    {benefits.map((benefit, index) => (
-                        <li className="mt-2 flex items-center gap-1" key={index}>
-                            <Check className="text-primary" />
-                            <p>{benefit}</p>
-                        </li>
-                    ))}
-                </ul>
-            </CardDescription>
+            <CardDescription className="benefits" dangerouslySetInnerHTML={{ __html: benefits }} />
         </Card>
     );
 }

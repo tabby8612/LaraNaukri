@@ -70,7 +70,7 @@ type Job = {
     city_id: string;
     company_id: string;
     currency: string;
-    degree: string;
+    degree: DegreeType;
     description: string;
     experience_id: string;
     external_url: string | null;
@@ -104,6 +104,7 @@ type Job = {
 
 type FilteredJobs = {
     id: string;
+    benefits: string;
     title: string;
     salary_from: number;
     salary_to: number;
@@ -111,7 +112,7 @@ type FilteredJobs = {
     shift: string;
     career_level: string;
     gender: string;
-    degree: string;
+    degree: DegreeType;
     company: string;
     category_id: string;
     category: string;
@@ -119,6 +120,7 @@ type FilteredJobs = {
     created_at: string;
     featured: boolean;
     is_featured: boolean;
+    experience: Experience;
     salary_to?: number;
     city: City;
     location: string;
@@ -129,6 +131,8 @@ type FilteredJobs = {
     description: string;
     currency: string;
     companies: Company;
+    skills: Skill[];
+    career: CareerLevel;
 };
 
 type Category = {
@@ -295,6 +299,7 @@ type Project = {
 
 type Experience = {
     id: string;
+    name: string;
     candidate_id: string;
     title: string;
     company: string;
@@ -391,6 +396,7 @@ type Application = {
     cover_letter_path: string;
     created_at: string;
     updated_at: string;
+    status: string;
     job: FilteredJobs;
     candidate: Candidate;
 };

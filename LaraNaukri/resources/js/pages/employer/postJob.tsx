@@ -5,11 +5,10 @@ import { CustomMultiSelector } from '@/components/ui/cards/CustomMultiSelector';
 import CustomRadioGroup from '@/components/ui/cards/CustomRadioGroup';
 import CustomRichTextEditor from '@/components/ui/cards/CustomRichTextEditor';
 import CustomSelectField from '@/components/ui/cards/CustomSelectField';
-import CustomTextArea from '@/components/ui/cards/CustomTextArea';
 import { Button } from '@/components/ui/UnusedUI/button';
 import AppEmployerLayout from '@/layouts/app/app-employer-layout';
 import { Item, Job } from '@/types';
-import { useForm, usePage } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { ArrowRightCircle } from 'lucide-react';
 import { FormEvent, useState } from 'react';
 
@@ -26,7 +25,7 @@ export default function PostJob() {
     const { currencies, salaryPeriods, jobTypes, jobShifts, job, type, message } = usePage<CustomPageProps>().props;
     const [isExternal, setIsExternal] = useState(Boolean(job?.is_external ?? 0));
     const [successMessage, setSuccessMessage] = useState(message);
-    console.log(message);
+
     console.log(job);
 
     const { data, setData, post, transform, errors } = useForm({
@@ -45,7 +44,7 @@ export default function PostJob() {
         positions: job?.positions ?? '',
         gender: job?.gender ?? '',
         apply_before: job?.apply_before ?? '',
-        degree: job?.degree ?? '',
+        degree: job?.degree.id ?? '',
         experience_id: job?.experience_id ?? '',
         hide_salary: job?.hide_salary ?? 0,
         is_freelance: job?.is_freelance ?? 0,
@@ -58,8 +57,6 @@ export default function PostJob() {
         is_open: job?.is_open ?? 1,
         _method: type === 'edit' ? 'PUT' : 'POST',
     });
-
-    console.log(errors);
 
     function submitHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -89,6 +86,9 @@ export default function PostJob() {
 
     return (
         <AppEmployerLayout displaySearch={false} page="postJob" titleText="Job Details">
+            <Head>
+                <title>Create Job</title>
+            </Head>
             {errors &&
                 Object.values(errors).map((error) => (
                     <p className="text-red-500" key={error}>
@@ -115,21 +115,17 @@ export default function PostJob() {
                     onChange={(e) => setData('title', e.target.value)}
                     isrequired
                 />
-                <CustomRichTextEditor label="Description" name="description" isrequired={true} />
-                <CustomTextArea
+
+                <CustomRichTextEditor
                     label="Description"
                     name="description"
                     value={data.description}
-                    onChange={(e) => setData('description', e.target.value)}
                     isrequired
+                    onUpdateFn={(e) => setData('description', e)}
                 />
-                <CustomTextArea
-                    label="Benefits"
-                    name="benefits"
-                    value={data.benefits}
-                    onChange={(e) => setData('benefits', e.target.value)}
-                    isrequired
-                />
+
+                <CustomRichTextEditor label="Benefits" name="benefits" value={data.benefits} onUpdateFn={(e) => setData('benefits', e)} />
+
                 <CustomMultiSelector label="Skills" fetchTable="skills" data={job?.skills ?? []} onChangeFn={() => {}} />
                 <div className="flex gap-5">
                     <CountryStateCity countryID={data.country_id} stateID={+data.state_id} cityID={+data.city_id} setData={setData} isrequired />

@@ -175,3 +175,8 @@
 .tiptap ul {
     @apply list-disc pl-[5%]
 }
+
+.benefits ul {
+    list-style: disc;
+    padding-left: 5%;
+}

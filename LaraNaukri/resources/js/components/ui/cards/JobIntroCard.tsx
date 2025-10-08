@@ -42,7 +42,7 @@ export default function JobIntroCard({ jobData, isFavorite }: { jobData: Filtere
         {
             icon: ChartBar,
             name: 'Career Level',
-            value: jobData.career_level,
+            value: jobData.career.name,
         },
         {
             icon: Users2Icon,
@@ -52,7 +52,7 @@ export default function JobIntroCard({ jobData, isFavorite }: { jobData: Filtere
         {
             icon: RectangleEllipsis,
             name: 'Experience',
-            value: `${jobData.experience} years`,
+            value: `${jobData.experience.name}`,
         },
         {
             icon: Mars,
@@ -62,7 +62,7 @@ export default function JobIntroCard({ jobData, isFavorite }: { jobData: Filtere
         {
             icon: GraduationCap,
             name: 'Degree',
-            value: jobData.degree,
+            value: jobData.degree.name,
         },
         {
             icon: Calendar,

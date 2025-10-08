@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Application;
+use Illuminate\Support\Facades\DB;
 
 class ApplicationService {
     /**
@@ -18,5 +19,11 @@ class ApplicationService {
             ->toArray();
 
         return $groupedApplications;
+    }
+
+    public function updateApplicationStatus(string $ApplicationID, string $newStatus) {
+        return DB::table('applications')
+            ->where('id', $ApplicationID)
+            ->update(['status' => $newStatus]);
     }
 }

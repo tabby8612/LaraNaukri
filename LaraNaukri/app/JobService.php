@@ -43,6 +43,15 @@ class JobService {
         return $job;
     }
 
+    public function getJobWithSlug(string $jobSlug, string|array $relations = []) {
+        $job = Job::where("slug", '=', $jobSlug)
+            ->with($relations)
+            ->first()
+            ->toArray();
+
+        return $job;
+    }
+
     public function updateJob(string $jobID, array $updatedValues) {
         $skills = Arr::pull($updatedValues, 'skills') ?? [];
 

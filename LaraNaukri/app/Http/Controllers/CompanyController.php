@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
-
+use Stevebauman\Purify\Facades\Purify;
 
 class CompanyController extends Controller {
     //
@@ -163,6 +163,7 @@ class CompanyController extends Controller {
     }
 
     public function store(CompanyProfileRequest $companyProfileRequest) {
+
         $validated = $companyProfileRequest->validated();
         $userID = Auth::id();
 
@@ -178,6 +179,7 @@ class CompanyController extends Controller {
         }
 
         $validated["user_id"] = $userID;
+        $validated["description"] = Purify::clean($validated["description"]);
         Arr::pull($validated, "image_path");
 
         $this->companyService->updateCompanyProfile(Auth::id(), $validated);

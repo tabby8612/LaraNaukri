@@ -7,11 +7,14 @@ type CustomProps = {
     name: string;
     isrequired?: boolean;
     label: string;
+    value: string;
+    onUpdateFn: (content: string) => void;
 };
-export default function CustomRichTextEditor({ name, isrequired = false, label }: CustomProps) {
+export default function CustomRichTextEditor({ name, isrequired = false, label, value, onUpdateFn }: CustomProps) {
     const editor = useEditor({
         extensions: [StarterKit],
-        content: '<p>Start Writing!</p>',
+        content: value,
+        onUpdate: ({ editor }: { editor: Editor }) => onUpdateFn(editor.getHTML()),
         immediatelyRender: false,
     });
 
@@ -49,9 +52,7 @@ export default function CustomRichTextEditor({ name, isrequired = false, label }
             <div className="control-group">
                 <div className="button-group flex items-center rounded-t bg-primary">
                     <button onClick={() => editor.chain().focus().toggleBold().run()} disabled={!editorState.canBold}>
-                        <p
-                            className={`${editorState.isBold && 'bg-black font-black text-white'} cursor-pointer rounded-tl px-2.5 py-1 font-bold text-white`}
-                        >
+                        <p className={`${editorState.isBold && 'bg-black font-black'} cursor-pointer rounded-tl px-2.5 py-1 font-bold text-white`}>
                             B
                         </p>
                     </button>
@@ -74,7 +75,7 @@ export default function CustomRichTextEditor({ name, isrequired = false, label }
                         <p className={`${editorState.isHeading3 && 'bg-black'} cursor-pointer px-2.5 py-1 font-bold text-white`}>H3</p>
                     </button>
                     <button onClick={() => editor.chain().focus().toggleBulletList().run()}>
-                        <List className={`${editorState.isBulletList && 'bg-black'} w-9 cursor-pointer px-2 font-bold text-white`} />
+                        <List className={`${editorState.isBulletList && 'bg-black'} h-[32px] w-9 cursor-pointer px-2 font-bold text-white`} />
                     </button>
                     <button onClick={() => editor.chain().focus().undo().run()}>
                         <Undo className={`${editorState.canUndo && 'bg-black'} size-8 cursor-pointer px-2 font-bold text-white`} />

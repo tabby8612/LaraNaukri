@@ -1,7 +1,7 @@
 import CountryStateCity from '@/components/ui/cards/CountryStateCity';
 import CustomInputField from '@/components/ui/cards/CustomInputField';
+import CustomRichTextEditor from '@/components/ui/cards/CustomRichTextEditor';
 import CustomSelectField from '@/components/ui/cards/CustomSelectField';
-import CustomTextArea from '@/components/ui/cards/CustomTextArea';
 import CustomUploadField from '@/components/ui/cards/CustomUploadField';
 import { Button } from '@/components/ui/UnusedUI/button';
 import AppEmployerLayout from '@/layouts/app/app-employer-layout';
@@ -67,6 +67,7 @@ export default function EditProfile() {
     });
 
     console.log(errors);
+    console.log(data.description);
 
     function submitHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -147,12 +148,12 @@ export default function EditProfile() {
                     />
                 </div>
                 <div className="mt-5 flex w-full gap-6">
-                    <CustomTextArea
+                    <CustomRichTextEditor
                         label="Description"
                         name="description"
+                        isrequired={true}
                         value={data.description}
-                        onChange={(e) => setData('description', e.target.value)}
-                        isrequired
+                        onUpdateFn={(content) => setData('description', content)}
                     />
                 </div>
                 <div className="mt-5 flex w-full gap-6">

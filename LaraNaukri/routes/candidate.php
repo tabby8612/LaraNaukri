@@ -77,7 +77,7 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
 
 
     //-- Public Profile
-    Route::get("view-public-profile/{user}", [CandidateController::class, "viewPublicProfile"])->name("viewPublicProfile")->withoutMiddleware('IsCandidate');
+    Route::get("view-public-profile/{user}", [CandidateController::class, "viewPublicProfile"])->name("viewPublicProfile");
 
     //-- Applications
     Route::get("my-job-application", [CandidateController::class, "jobApplications"])->name("jobApplications");

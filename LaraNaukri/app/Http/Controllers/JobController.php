@@ -14,13 +14,14 @@ use App\Models\Category;
 use App\Models\City;
 use App\Models\Company;
 use App\Models\Job;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
-
+use Stevebauman\Purify\Facades\Purify;
 
 class JobController extends Controller {
 
@@ -199,16 +200,20 @@ class JobController extends Controller {
 
     public function show(Request $request) {
 
-        $job = Job::with("category", "companies:id,name,image_path,slug", "city")
-            ->where("slug", "=", $request->slug)
-            ->firstOrFail()
-            ->toArray();
+        $relations = ["category", "companies:id,name,image_path,slug", "city", "skills", "experience:id,name", "career:id,name"];
+
+        $job = $this->jobService->getJobWithSlug($request->slug, $relations);
 
         $candidate = null;
         $alreadyApplied = false;
         $isFavorite = false;
 
-        if (Auth::user()) {
+        /**
+         * @var User
+         */
+        $user = Auth::user();
+
+        if ($user->isCandidate()) {
             $candidate = Candidate::where('id', '=', Auth::user()->candidate->id)
                 ->with('user')
                 ->first();
@@ -254,6 +259,8 @@ class JobController extends Controller {
 
         $skills = Arr::pull($validated, "skills", []);
         $validated['company_id'] = Company::where("user_id", Auth::id())->first()->id;
+        $validated['description'] = Purify::clean($validated['description']);
+        $validated['benefits'] = Purify::clean($validated['benefits']);
 
         $newPost = Job::create($validated);
         $newPost->slug = Str::slug($newPost->title . '-' . $newPost->id);
