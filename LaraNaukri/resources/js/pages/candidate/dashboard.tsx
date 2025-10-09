@@ -7,7 +7,7 @@ import { Job } from '@/SVGs/Job';
 import { Message } from '@/SVGs/Message';
 import { User } from '@/SVGs/User';
 import { Candidate } from '@/types';
-import { router, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { SquarePen } from 'lucide-react';
 import { useState } from 'react';
 
@@ -23,6 +23,7 @@ export default function CandidateDashboard() {
 
     return (
         <AppCandidateLayout page="dashboard" titleText="Welcome to Candidate Dashboard" displaySearch>
+            <Head title="Candidate Dashboard" />
             <section id="dashboard-overview" className="flex gap-5">
                 <DashboardOverviewWidget SVGIcon={RoundRemoveRedEye} link="" mainText={candidate.profile_views} secondaryText="Profile Views" />
                 <DashboardOverviewWidget
@@ -37,7 +38,12 @@ export default function CandidateDashboard() {
                     mainText={candidate.resumes_count}
                     secondaryText="My CV List"
                 />
-                <DashboardOverviewWidget SVGIcon={Message} link={route('candidate.messages')} mainText="0" secondaryText="Messages" />
+                <DashboardOverviewWidget
+                    SVGIcon={Message}
+                    link={route('candidate.messages')}
+                    mainText={candidate.unread_message_count}
+                    secondaryText="Messages"
+                />
             </section>
 
             <section id="profile-image" className="relative mt-5">

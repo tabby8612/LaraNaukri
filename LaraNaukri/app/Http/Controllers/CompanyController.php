@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\CompanyService;
+use App\Enums\MessageStatusEnum;
 use App\Http\Requests\CompanyProfileRequest;
 use App\JobService;
 use App\Models\Candidate;
+use App\Models\ChatMessage;
 use App\Models\Company;
 use App\Models\Industry;
 use App\Models\Job;
@@ -144,6 +146,8 @@ class CompanyController extends Controller {
 
         $company = $this->companyService->findCompany(Auth::id(), [], ['candidates', 'jobs']);
 
+        $unreadMessageCount = ChatMessage::where('receiver_id', Auth::id())->where('status', MessageStatusEnum::UNREAD)->count();
+
         return Inertia::render("employer/dashboard", [
             "jobPackages" => $jobPackages->toArray(),
             "cvPackages" => $cvPackage,
@@ -151,6 +155,7 @@ class CompanyController extends Controller {
             "PurchasedCVPackages" => $purchasedPackages['cvPackages'],
             "followersCount" => $company['candidates_count'],
             'jobsCount' => $company['jobs_count'],
+            'unreadMessageCount' => $unreadMessageCount
 
         ]);
     }

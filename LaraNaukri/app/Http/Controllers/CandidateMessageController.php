@@ -2,38 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\CompanyService;
 use App\Enums\MessageStatusEnum;
 use App\Events\MessageSent;
-use App\Models\Candidate;
 use App\Models\ChatMessage;
-use App\Models\User;
+use App\Service\CandidateService;
 use App\Service\ChatMessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
-class CompanyMessageController extends Controller {
-    // -- Dependency Injection
+class CandidateMessageController extends Controller {
+    //
     public function __construct(
-        protected CompanyService $companyService,
-        protected ChatMessageService $chatMessageService) {
+        protected CandidateService $candidateService,
+        protected ChatMessageService $chatMessageService
+    ) {
 
     }
+
     public function index() {
 
-        $company = $this->companyService->findCompany(Auth::id(), ['candidatesUnlocked:id,user_id,first_name,last_name,image_path']);
+        $candidate = $this->candidateService->fetchCandidate(Auth::id(), ['companiesUnlocked']);
 
-        foreach ($company['candidates_unlocked'] as $key => $candidate) {
-            $company['candidates_unlocked'][$key]['unread_message_count'] = $this->chatMessageService->getUnreadMessageCount($candidate['user_id'], Auth::id());
+        foreach ($candidate['companies_unlocked'] as $key => $company) {
+            $candidate['companies_unlocked'][$key]['unread_message_count'] = $this->chatMessageService->getUnreadMessageCount($company['user_id'], Auth::id());
         }
 
-        // dd($company['candidates_unlocked']);
-
-        return Inertia::render("employer/messages", [
-            'candidatesUnlocked' => $company['candidates_unlocked']
-        ]);
+        return Inertia::render("candidate/my-messages", ['companiesUnlocked' => $candidate['companies_unlocked']]);
     }
 
     public function store(Request $request) {
@@ -53,10 +48,11 @@ class CompanyMessageController extends Controller {
         return back();
     }
 
-    public function messages(string $userID) {
+    public function loadMessages(string $userID) {
 
-        //-- Marks all messages received by current user (company) from the userID (candidate)
+        //-- Marks all messages received by current user (candidate) from the userID (company)
         $this->chatMessageService->markReceiverMessagesAsRead($userID, Auth::id());
+
 
         $messages = $this->chatMessageService->getMessages(Auth::id(), $userID);
 

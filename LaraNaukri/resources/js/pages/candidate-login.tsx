@@ -3,6 +3,7 @@ import AppLayout from '@/layouts/app/app-layout';
 import { Facebook } from '@/SVGs/Facebook';
 import { Google } from '@/SVGs/Google';
 import { User } from '@/SVGs/User';
+import { router } from '@inertiajs/react';
 
 export default function CandidateLogin() {
     return (
@@ -12,7 +13,7 @@ export default function CandidateLogin() {
                     <h1 className="text-2xl font-bold">Candidate Login</h1>
                     <div className="mt-3 flex gap-5">
                         <Facebook className="size-12 rounded-lg border border-stone-400 p-2" />
-                        <Google className="size-12 rounded-lg border border-stone-400 p-2" />
+                        <Google className="size-12 rounded-lg border border-stone-400 p-2" onClick={() => router.get(route('google.register'))} />
                     </div>
                 </div>
                 <div className="mt-4 flex items-center justify-center gap-2">

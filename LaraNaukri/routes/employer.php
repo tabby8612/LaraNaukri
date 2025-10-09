@@ -47,12 +47,14 @@ Route::prefix("employer")->name("employer.")->middleware("IsEmployer")->group(fu
 
 
     Route::get("unlocked-users", [CompanyController::class, 'unlockedUsers'])->name('unlockedUsers');
-    Route::post("unlock-user/{candidate}", [CompanyController::class, 'unlockUser'])->name('unlockUser');
+    Route::post("unlock-user/{user}", [CompanyController::class, 'unlockUser'])->name('unlockUser');
 
 
     Route::get("followings", [CompanyController::class, 'followers'])->name('followings');
+
     Route::get("messages", [CompanyMessageController::class, 'index'])->name('messages');
     Route::post('send-message', [CompanyMessageController::class, 'store'])->name('send.message');
+    Route::get("messages/{candidate}", [CompanyMessageController::class, 'messages'])->name('get.messages');
 
     Route::get("logout", [CompanyController::class, 'logout'])->name('logout');
 

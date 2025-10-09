@@ -6,6 +6,7 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CandidateExperienceController;
 use App\Http\Controllers\CandidateFavoritesController;
 use App\Http\Controllers\CandidateLanguageController;
+use App\Http\Controllers\CandidateMessageController;
 use App\Http\Controllers\CandidatePaymentController;
 use App\Http\Controllers\CandidateSkillController;
 use App\Http\Controllers\DegreeTypeController;
@@ -108,7 +109,9 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
 
 
     //--- Messages
-    Route::get("my-messages", fn() => Inertia::render("candidate/my-messages"))->name("messages");
+    Route::get("my-messages", [CandidateMessageController::class, 'index'])->name("messages");
+    Route::post("send-message", [CandidateMessageController::class, 'store'])->name('send.message');
+    Route::get("load-messages/{candidate}", [CandidateMessageController::class, 'loadMessages'])->name('load.messages');
 
 });
 

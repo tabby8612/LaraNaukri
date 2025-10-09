@@ -9,8 +9,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', [HomeController::class, "index"])->name('home');
 
@@ -106,6 +108,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
+Broadcast::routes();
+
+Route::get('/auth/redirect', fn() => Socialite::driver('google')->redirect())->name('google.register');
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('google')->user();
+    dd($user);
+});
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

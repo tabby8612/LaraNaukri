@@ -7,7 +7,7 @@ import { ClockCircleFilled } from '@/SVGs/Clock';
 import { Message } from '@/SVGs/Message';
 import { User } from '@/SVGs/User';
 import { Package, PaymentHistory } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { toast } from 'sonner';
 
 type CustomProps = {
@@ -18,10 +18,12 @@ type CustomProps = {
     PurchasedJobPackages: PaymentHistory[];
     followersCount: string;
     jobsCount: string;
+    unreadMessageCount: string;
 };
 
 export default function Dashboard() {
-    const { jobPackages, cvPackages, message, PurchasedCVPackages, PurchasedJobPackages, followersCount, jobsCount } = usePage<CustomProps>().props;
+    const { jobPackages, cvPackages, message, PurchasedCVPackages, PurchasedJobPackages, followersCount, jobsCount, unreadMessageCount } =
+        usePage<CustomProps>().props;
 
     if (message) {
         if (message === 'paymentSuccess') toast.success('Your Purchase Is Successful');
@@ -30,6 +32,7 @@ export default function Dashboard() {
 
     return (
         <AppEmployerLayout displaySearch={false} page="dashboard" titleText="Welcome to Employer Dashboard">
+            <Head title="Employer Dashboard" />
             <Toaster position="bottom-center" richColors closeButton />
             <section id="dashboard-widgets" className="grid grid-cols-3 gap-7">
                 <DashboardOverviewWidget
@@ -39,7 +42,7 @@ export default function Dashboard() {
                     secondaryText="Open Jobs"
                 />
                 <DashboardOverviewWidget SVGIcon={User} link={route('employer.followings')} mainText={followersCount} secondaryText="Followers" />
-                <DashboardOverviewWidget SVGIcon={Message} link={route('employer.messages')} mainText="5" secondaryText="Messages" />
+                <DashboardOverviewWidget SVGIcon={Message} link={route('employer.messages')} mainText={unreadMessageCount} secondaryText="Messages" />
             </section>
 
             <section className="mt-10 rounded-xl bg-green-100 p-7">

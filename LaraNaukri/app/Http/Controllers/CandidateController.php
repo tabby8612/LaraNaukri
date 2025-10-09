@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\MessageStatusEnum;
 use App\Http\Requests\CandidateProfileRequest;
 use App\Jobs\GenerateResume;
 use App\Models\Application;
 use App\Models\Candidate;
+use App\Models\ChatMessage;
 use App\Models\User;
 use App\Service\CandidateService;
 use Carbon\Carbon;
@@ -62,6 +64,7 @@ class CandidateController extends Controller {
         $candidate = $this->candidateService->fetchCandidate($user_id, $relations, $relationsCount);
 
         $candidate['active_package'] = $this->candidateService->getActivePackage($user_id, $candidate['payments']);
+        $candidate['unread_message_count'] = ChatMessage::where('receiver_id', Auth::id())->where('status', MessageStatusEnum::UNREAD)->count();
 
         return Inertia::render("candidate/dashboard", [
             "candidate" => $candidate

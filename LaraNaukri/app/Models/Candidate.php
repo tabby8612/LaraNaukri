@@ -105,6 +105,12 @@ class Candidate extends Model {
         return $this->belongsToMany(Company::class, 'candidate_company_unlocked');
     }
 
+    public function chatMessages(): BelongsToMany {
+        return $this->belongsToMany(ChatMessage::class, 'chat_messages');
+    }
+
+
+
 
 
 

@@ -32,7 +32,7 @@ export interface SharedData {
 }
 
 export interface User {
-    id: number;
+    id: string;
     name: string;
     email: string;
     avatar?: string;
@@ -44,6 +44,7 @@ export interface User {
 
 export type Company = {
     id: number;
+    user_id: string;
     name: string;
     image_path: string;
     location: string;
@@ -57,6 +58,7 @@ export type Company = {
     industry: Industry;
     jobs_count: number;
     jobs: FilteredJobs[];
+    unread_message_count: string;
 };
 
 type Job = {
@@ -234,6 +236,7 @@ type Candidate = {
     companies_count: string;
     profile_views: string;
     active_package: PaymentHistory | null;
+    unread_message_count: string;
 
     profession: string;
     is_featured: number;
@@ -461,4 +464,14 @@ type CandidateGroup = {
 type Item = {
     id: string;
     name: string;
+};
+
+type ChatMessage = {
+    id: string;
+    sender_id: string;
+    receiver_id: string;
+    message: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
 };

@@ -36,6 +36,10 @@ class Company extends Model {
         return $this->belongsToMany(Candidate::class, 'candidate_company_unlocked');
     }
 
+    public function chatMessages(): BelongsToMany {
+        return $this->belongsToMany(ChatMessage::class, 'chat_messages');
+    }
+
     //--- Mutators
 
 }
