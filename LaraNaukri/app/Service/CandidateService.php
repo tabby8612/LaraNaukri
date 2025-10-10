@@ -87,7 +87,7 @@ class CandidateService {
         if ($relations) $candidate = $candidate->with($relations);
         if ($relationsCount) $candidate = $candidate->withCount($relationsCount);
 
-        $candidate = $candidate->first($get)->toArray();
+        $candidate = $candidate->first($get)?->toArray();
 
         return $candidate;
     }

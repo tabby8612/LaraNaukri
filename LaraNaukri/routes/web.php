@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\BlogCategoriesController;
 use App\Http\Controllers\BlogpostController;
 use App\Http\Controllers\CandidateSearchController;
@@ -110,11 +112,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Broadcast::routes();
 
-Route::get('/auth/redirect', fn() => Socialite::driver('google')->redirect())->name('google.register');
-Route::get('/auth/callback', function () {
-    $user = Socialite::driver('google')->user();
-    dd($user);
-});
+Route::get("{role}/auth/{driver}", [SocialLoginController::class, 'redirectToSocial'])->name('redirect.social');
+Route::get('auth/google/callback', [SocialLoginController::class, 'handleGoogleCallback']);
+Route::get('auth/github/callback', [SocialLoginController::class, 'handleGithubCallback']);
+
+
+// Route::get('/auth/redirect', fn() => Socialite::driver('google')->redirect())->name('google.register');
+// Route::get('/auth/callback', function () {
+//     $user = Socialite::driver('google')->user();
+//     dd($user);
+// });
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

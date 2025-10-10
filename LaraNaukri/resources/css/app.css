@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 @import 'tailwindcss';
+/* @import 'customfilament.css'; */
 
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
@@ -179,4 +180,8 @@
 .benefits ul {
     list-style: disc;
     padding-left: 5%;
+}
+
+.fi-sidebar-nav {
+    @apply bg-gray-700 text-white
 }

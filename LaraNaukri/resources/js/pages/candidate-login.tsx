@@ -1,9 +1,9 @@
 import LoginForm from '@/components/sections/LoginForm';
 import AppLayout from '@/layouts/app/app-layout';
-import { Facebook } from '@/SVGs/Facebook';
 import { Google } from '@/SVGs/Google';
 import { User } from '@/SVGs/User';
 import { router } from '@inertiajs/react';
+import { Github } from 'lucide-react';
 
 export default function CandidateLogin() {
     return (
@@ -12,8 +12,14 @@ export default function CandidateLogin() {
                 <div className="mx-auto flex flex-col items-center justify-center">
                     <h1 className="text-2xl font-bold">Candidate Login</h1>
                     <div className="mt-3 flex gap-5">
-                        <Facebook className="size-12 rounded-lg border border-stone-400 p-2" />
-                        <Google className="size-12 rounded-lg border border-stone-400 p-2" onClick={() => router.get(route('google.register'))} />
+                        <Google
+                            className="size-12 cursor-pointer rounded-lg border border-stone-400 p-2 hover:brightness-110"
+                            onClick={() => router.get(route('redirect.social', { role: 'candidate', driver: 'google' }))}
+                        />
+                        <Github
+                            className="size-12 cursor-pointer rounded-lg border border-stone-400 p-2 text-blue-800 hover:brightness-110"
+                            onClick={() => router.get(route('redirect.social', { role: 'candidate', driver: 'github' }))}
+                        />
                     </div>
                 </div>
                 <div className="mt-4 flex items-center justify-center gap-2">

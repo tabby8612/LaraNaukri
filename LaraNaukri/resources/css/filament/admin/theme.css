@@ -1,0 +1,46 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+.fi-sidebar-open {
+    @apply w-3xs
+}
+
+.fi-sidebar-nav {
+    @apply bg-gray-700 text-white px-0
+}
+
+.fi-sidebar-item {
+    @apply w-full rounded-none text-white 
+}
+
+.fi-sidebar-nav-groups {
+    @apply m-0
+}
+
+.fi-sidebar-item-btn {
+    @apply rounded-none w-[110%] hover:bg-primary-600 hover:text-white
+}
+
+.fi-sidebar-item-label,.fi-sidebar-group-label  {
+    @apply text-white
+}
+
+
+
+.fi-active > .fi-sidebar-item-btn, .fi-active > .fi-sidebar-item-btn > svg  {
+    @apply text-white bg-primary-600 
+}
+
+.fi-sidebar-item-btn > svg {
+    @apply stroke-white fill-white
+}
+
+.fi-ac > a {
+    @apply bg-primary-600 text-white
+}
+
+li.fi-sidebar-item {
+    @apply pl-2
+}

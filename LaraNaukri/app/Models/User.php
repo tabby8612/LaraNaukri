@@ -23,7 +23,8 @@ class User extends Authenticatable {
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'google_id'
     ];
 
     /**
@@ -62,7 +63,7 @@ class User extends Authenticatable {
     }
 
     public function isEmployer(): bool {
-        return $this->role == 'employer';
+        return $this->role == 'employer' || $this->role == 'company';
     }
 
 
