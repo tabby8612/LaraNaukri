@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CurrencyEnums;
+use App\Enums\SalaryPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,6 +22,15 @@ class Job extends Model {
 
     protected $table = "jobs_listings";
     protected $guarded = [];
+    protected $fillable = [
+        'company_id', 'category_id', 'title', 'type', 'shift',
+        'gender', 'degree', 'description', 'benefits', 'location',
+        'country_id', 'state_id', 'city_id', 'positions',
+        'experience_id', 'career_level', 'currency',
+        'salary_from', 'salary_to', 'hide_salary',
+        'period', 'apply_before', 'is_open', 'is_featured',
+        'is_freelance', 'is_external', 'external_url',
+    ];
 
     // --- Relations
 
@@ -42,6 +52,10 @@ class Job extends Model {
 
     public function career(): BelongsTo {
         return $this->belongsTo(CareerLevel::class, 'career_level');
+    }
+
+    public function country(): BelongsTo {
+        return $this->belongsTo(Country::class);
     }
 
 
@@ -99,7 +113,7 @@ class Job extends Model {
                         ->orWhere('id', '=', $val)
                         ->first();
 
-                    return $degree;
+                    return $degree ?? $val;
                 } else {
                     return $val;
                 }
@@ -107,7 +121,7 @@ class Job extends Model {
 
             set: function ($value): mixed {
                 $degree = DegreeLevel::where("id", $value)->first();
-                return $degree?->name;
+                return $degree?->name ?? $value;
             });
     }
 
@@ -121,11 +135,15 @@ class Job extends Model {
 
             if (isset($val)) {
                 $careerLevel = Cache::remember("careerLevel-{$val}", now()->addDay(), fn() => CareerLevel::where('name', 'like', $val)->first());
-                return $careerLevel->id;
+                return $careerLevel->name;
             } else {
                 return $val;
             }
         });
+    }
+
+    protected function period(): Attribute {
+        return Attribute::get(fn($val) => SalaryPeriod::tryFrom($val)?->label() ?? $val);
     }
 
 

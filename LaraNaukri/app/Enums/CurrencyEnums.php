@@ -19,4 +19,8 @@ enum CurrencyEnums: string {
             self::YEN => "JPY (¥)",
         };
     }
+
+    public function getLabel() {
+        return $this->value;
+    }
 }

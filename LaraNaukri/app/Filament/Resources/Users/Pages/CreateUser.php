@@ -12,4 +12,9 @@ class CreateUser extends CreateRecord {
     protected static ?string $navigationLabel = 'Add Admin Users';
     protected static UnitEnum|string|null $navigationGroup = 'Admin Users';
 
+    protected function mutateFormDataBeforeCreate(array $data): array {
+        $data['role'] = 'admin';
+        return $data;
+    }
+
 }

@@ -33,6 +33,10 @@
     @apply text-white bg-primary-600 
 }
 
+span.fi-active {
+    @apply text-white
+}
+
 .fi-sidebar-item-btn > svg {
     @apply stroke-white fill-white
 }
@@ -41,6 +45,38 @@
     @apply bg-primary-600 text-white
 }
 
-li.fi-sidebar-item {
-    @apply pl-2
+[x-data="{ label: 'Admin Users' }"] .fi-sidebar-item-label {
+    @apply text-gray-300
+}
+
+[x-data="{ label: 'Admin Users' }"] a {
+    @apply pl-7
+}
+[x-data="{ label: 'Admin Users' }"] .fi-sidebar-item-label {
+    @apply text-white
+}
+
+[x-data="{ label: 'Jobs' }"] .fi-sidebar-item-label {
+    @apply text-gray-300
+}
+
+[x-data="{ label: 'Jobs' }"] a {
+    @apply pl-7
+}
+[x-data="{ label: 'Jobs' }"] .fi-sidebar-item-label {
+    @apply text-white
+}
+
+.fi-input-wrp.fi-fo-rich-editor {
+    @apply min-h-52
+}
+
+
+li.fi-active > a > div > div.fi-sidebar-item-grouped-border-part {
+    @apply !bg-white
+    
+}
+
+.fi-sidebar-group-btn > svg {
+    @apply fill-white
 }

@@ -20,6 +20,11 @@ class CompanyService {
         //        
     }
 
+    public function allCompanies() {
+        $companies = Company::all();
+        dd($companies);
+    }
+
     public function findCompany(string $userID, string|array $relations = [], string|array $withCount = []) {
         $company = Company::where("user_id", $userID)
             ->with($relations)

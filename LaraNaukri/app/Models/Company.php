@@ -28,6 +28,10 @@ class Company extends Model {
         return $this->belongsTo(Industry::class);
     }
 
+    public function country(): BelongsTo {
+        return $this->belongsTo(Country::class);
+    }
+
     public function candidates(): BelongsToMany {
         return $this->belongsToMany(Candidate::class);
     }

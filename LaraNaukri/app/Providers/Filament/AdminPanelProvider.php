@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\Companies\CompanyResource;
+use App\Filament\Resources\Jobs\JobResource;
 use App\Filament\Resources\Users\UserResource;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -22,6 +24,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+
+use function Filament\Support\original_request;
 
 class AdminPanelProvider extends PanelProvider {
     public function panel(Panel $panel): Panel {
@@ -62,13 +66,50 @@ class AdminPanelProvider extends PanelProvider {
             ->brandLogo('http://127.0.0.1:5173/storage/app/public/LaraNaukri%20Logo.png')
             ->brandLogoHeight('40px')
             ->globalSearch(false)
+
             ->navigationItems([
                 NavigationItem::make('Add New Admin User')
                     ->group('Admin Users')
                     ->icon('heroicon-s-user-plus')
                     ->url(fn() => UserResource::getUrl('create'))
-                    ->sort(3)
-            ]);
+                    ->isActiveWhen(fn() => original_request()->route()->uri() == 'admin/users/create')
+
+                    ->sort(3),
+                NavigationItem::make('Add New Job')
+                    ->group('Jobs')
+                    ->icon('heroicon-s-pencil-square')
+                    ->url(fn() => JobResource::getUrl('create'))
+                    ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.jobs.create'))
+                    ->sort(5),
+
+                NavigationItem::make('Add New Company')
+                    ->group('Companies')
+                    ->icon('heroicon-s-document-plus')
+                    ->url(fn() => CompanyResource::getUrl('create'))
+                    ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.companies.create'))
+                    ->sort(7)
+            ])
+            // ->navigationGroups([
+            //     'Admin Users',
+            //     'Jobs'
+            // ])
+            ->navigationGroups([
+                NavigationGroup::make('Admin Users')
+                    ->label('Admin Users')
+                    ->collapsible()
+                    ->collapsed()
+                    ->icon('heroicon-s-user'),
+                NavigationGroup::make('Jobs')
+                    ->label('Jobs')
+                    ->collapsible()
+                    ->collapsed()
+                    ->icon('heroicon-s-briefcase'),
+                NavigationGroup::make('Companies')
+                    ->label('Companies')
+                    ->collapsible()
+                    ->collapsed()
+                    ->icon('heroicon-s-building-office-2'),
+            ])
         ;
 
     }

@@ -9,6 +9,7 @@ use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
 use BackedEnum;
+use Filament\Navigation\NavigationItem;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -52,6 +53,16 @@ class UserResource extends Resource {
             'index' => ListUsers::route('/'),
             'create' => CreateUser::route('/create'),
             'edit' => EditUser::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getNavigationItems(): array {
+        return [
+            NavigationItem::make('List of Admin Users')
+                ->url(fn() => UserResource::getUrl('index'))
+                ->icon(Heroicon::User)
+                ->group('Admin Users')
+                ->isActiveWhen(fn() => request()->routeIs('filament.admin.resources.users.index')),
         ];
     }
 }
