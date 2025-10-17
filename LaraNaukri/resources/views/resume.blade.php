@@ -11,10 +11,20 @@
     <div class="mx-auto flex  bg-green-50/50">
         <div id="sidebar" class="flex w-[35%] flex-col gap-3 bg-green-700 p-3">
             @php
-                $imagePath = public_path("/storage/{$candidate['image_path']}");
-                $imageType = pathinfo($imagePath, PATHINFO_EXTENSION);
-                $imageData = file_get_contents($imagePath);
-                $profileImg = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+                $path = $candidate['image_path'];
+
+                $profileImg = '/storage/candidate/default.png';
+                $imagePath = "";
+                $imageType = "";
+                $profileImg = "";
+
+                if (Storage::disk('public')->exists($path)) {
+                    $imagePath = Storage::disk('public')->path($path);
+                    $imageType = pathinfo($imagePath, PATHINFO_EXTENSION);
+                    $imageData = file_get_contents($imagePath);
+                    $profileImg = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+                }
+
             @endphp
             <div class="mx-auto">
                 <img src={{$profileImg}} alt={{ $candidate["first_name"] }}

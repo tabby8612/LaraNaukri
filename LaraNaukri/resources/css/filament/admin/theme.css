@@ -80,3 +80,14 @@ li.fi-active > a > div > div.fi-sidebar-item-grouped-border-part {
 .fi-sidebar-group-btn > svg {
     @apply fill-white
 }
+
+.fi-sidebar-nav-groups {
+    @apply gap-0
+}
+
+
+
+
+.fi-sidebar-group-collapse-btn > svg {
+    @apply !text-white
+}

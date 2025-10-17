@@ -11,9 +11,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Candidate extends Model {
     //
-    protected $fillable = [
-        "user_id", "first_name"
-    ];
+    // protected $fillable = [
+    //     "user_id", "first_name"
+    // ];
+
+    protected $guarded = [];
 
     //--- Relationships
 
@@ -23,6 +25,10 @@ class Candidate extends Model {
 
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
+    }
+
+    public function experience(): BelongsTo {
+        return $this->belongsTo(Experience::class);
     }
 
     public function country(): BelongsTo {
@@ -74,7 +80,7 @@ class Candidate extends Model {
     }
 
     public function languages(): BelongsToMany {
-        return $this->belongsToMany(Language::class)->withPivot(["language_level", "id"]);
+        return $this->belongsToMany(Language::class)->withPivot(["language_level"]);
     }
 
     public function experiences(): HasMany {

@@ -113,7 +113,7 @@ class Job extends Model {
                         ->orWhere('id', '=', $val)
                         ->first();
 
-                    return $degree ?? $val;
+                    return $degree->name ?? $val;
                 } else {
                     return $val;
                 }

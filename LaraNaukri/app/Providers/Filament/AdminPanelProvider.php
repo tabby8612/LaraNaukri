@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\Candidates\CandidateResource;
 use App\Filament\Resources\Companies\CompanyResource;
 use App\Filament\Resources\Jobs\JobResource;
 use App\Filament\Resources\Users\UserResource;
@@ -87,7 +88,14 @@ class AdminPanelProvider extends PanelProvider {
                     ->icon('heroicon-s-document-plus')
                     ->url(fn() => CompanyResource::getUrl('create'))
                     ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.companies.create'))
-                    ->sort(7)
+                    ->sort(7),
+
+                NavigationItem::make('Add New Candidate')
+                    ->group('Candidates')
+                    ->icon('heroicon-s-user-plus')
+                    ->url(fn() => CandidateResource::getUrl('create'))
+                    ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.candidates.create'))
+                    ->sort(9)
             ])
             // ->navigationGroups([
             //     'Admin Users',
@@ -109,6 +117,11 @@ class AdminPanelProvider extends PanelProvider {
                     ->collapsible()
                     ->collapsed()
                     ->icon('heroicon-s-building-office-2'),
+                NavigationGroup::make('Candidates')
+                    ->label('Candidates')
+                    ->collapsible()
+                    ->collapsed()
+                    ->icon('heroicon-s-users'),
             ])
         ;
 
