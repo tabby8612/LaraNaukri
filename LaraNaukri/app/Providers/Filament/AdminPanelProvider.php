@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\Blogposts\BlogpostResource;
 use App\Filament\Resources\Candidates\CandidateResource;
 use App\Filament\Resources\Companies\CompanyResource;
 use App\Filament\Resources\Jobs\JobResource;
@@ -95,11 +96,21 @@ class AdminPanelProvider extends PanelProvider {
                     ->icon('heroicon-s-user-plus')
                     ->url(fn() => CandidateResource::getUrl('create'))
                     ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.candidates.create'))
-                    ->sort(9)
+                    ->sort(9),
+
+                NavigationItem::make(label: 'Add New Blog Post')
+                    ->group('Blog Posts')
+                    ->icon('heroicon-s-document-plus')
+                    ->url(fn() => BlogpostResource::getUrl('create'))
+                    ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.blogposts.create'))
+                    ->sort(11)
             ])
             // ->navigationGroups([
             //     'Admin Users',
-            //     'Jobs'
+            //     'Jobs',
+            //     'Companies',
+            //     'Candidates',
+            //     'Blogposts',
             // ])
             ->navigationGroups([
                 NavigationGroup::make('Admin Users')
@@ -122,6 +133,12 @@ class AdminPanelProvider extends PanelProvider {
                     ->collapsible()
                     ->collapsed()
                     ->icon('heroicon-s-users'),
+                NavigationGroup::make('Blog Posts')
+                    ->label('Blog Posts')
+                    ->collapsible()
+                    ->collapsed()
+                    ->icon('heroicon-s-pencil-square'),
+
             ])
         ;
 

@@ -73,7 +73,7 @@ span.fi-active {
 
 
 li.fi-active > a > div > div.fi-sidebar-item-grouped-border-part {
-    @apply !bg-white
+    @apply !bg-white 
     
 }
 
@@ -85,9 +85,40 @@ li.fi-active > a > div > div.fi-sidebar-item-grouped-border-part {
     @apply gap-0
 }
 
+[data-group-label="Admin Users"], [data-group-label="Jobs"] {
+    @apply relative mt-7
+}
 
+[data-group-label="Admin Users"]::after, [data-group-label="Jobs"]::after{
+    
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: -1.5em;
+    left: 0.8em;
+    pointer-events: none;
+    color: greenyellow;    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+[data-group-label="Admin Users"]::after {
+    
+    content: 'Admin Users';   
+    
+}
+
+[data-group-label="Jobs"]::after {
+    
+    content: 'Modules';   
+    
+}
 
 
 .fi-sidebar-group-collapse-btn > svg {
     @apply !text-white
+}
+
+.isDisable {
+    @apply bg-gray-300
 }

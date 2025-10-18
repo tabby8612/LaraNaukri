@@ -3,13 +3,7 @@
 namespace App\Filament\Resources\Candidates\Pages;
 
 use App\Filament\Resources\Candidates\CandidateResource;
-use App\Jobs\GenerateResume;
-use App\Models\Candidate;
-use App\Models\User;
-use App\Service\CandidateService;
-use Carbon\Carbon;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Support\Arr;
 
 class CreateCandidate extends CreateRecord {
 

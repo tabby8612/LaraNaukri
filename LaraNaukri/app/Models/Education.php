@@ -29,5 +29,13 @@ class Education extends Model {
         return $this->belongsToMany(Subject::class);
     }
 
+    public function degreeLevel(): BelongsTo {
+        return $this->belongsTo(DegreeLevel::class);
+    }
+
+    public function degreeType(): BelongsTo {
+        return $this->belongsTo(DegreeType::class);
+    }
+
 
 }
