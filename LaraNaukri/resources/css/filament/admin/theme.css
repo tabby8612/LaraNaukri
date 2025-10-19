@@ -49,9 +49,7 @@ span.fi-active {
     @apply text-gray-300
 }
 
-[x-data="{ label: 'Admin Users' }"] a {
-    @apply pl-7
-}
+
 [x-data="{ label: 'Admin Users' }"] .fi-sidebar-item-label {
     @apply text-white
 }
@@ -60,9 +58,7 @@ span.fi-active {
     @apply text-gray-300
 }
 
-[x-data="{ label: 'Jobs' }"] a {
-    @apply pl-7
-}
+
 [x-data="{ label: 'Jobs' }"] .fi-sidebar-item-label {
     @apply text-white
 }

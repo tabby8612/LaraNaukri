@@ -47,6 +47,7 @@ class BlogpostForm {
                     ->label('Featured Image')
                     ->image()
                     ->disk('public')
+                    ->directory('blogposts')
                     ->columnSpanFull()
                     ->required(),
                 RichEditor::make('description')

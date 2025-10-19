@@ -4,7 +4,9 @@ namespace App\Providers\Filament;
 
 use App\Filament\Resources\Blogposts\BlogpostResource;
 use App\Filament\Resources\Candidates\CandidateResource;
+use App\Filament\Resources\CMS\CMSResource;
 use App\Filament\Resources\Companies\CompanyResource;
+use App\Filament\Resources\FAQS\FAQResource;
 use App\Filament\Resources\Jobs\JobResource;
 use App\Filament\Resources\Users\UserResource;
 use Filament\Http\Middleware\Authenticate;
@@ -103,7 +105,23 @@ class AdminPanelProvider extends PanelProvider {
                     ->icon('heroicon-s-document-plus')
                     ->url(fn() => BlogpostResource::getUrl('create'))
                     ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.blogposts.create'))
-                    ->sort(11)
+                    ->sort(11),
+
+                NavigationItem::make(label: 'Add New CMS Pages')
+                    ->group('CMS Pages')
+                    ->icon('heroicon-s-document-plus')
+                    ->url(fn() => CMSResource::getUrl('create'))
+                    ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.c-m-s.create'))
+                    ->sort(13),
+
+                NavigationItem::make(label: 'Add New FAQ')
+                    ->group('FAQs')
+                    ->icon('heroicon-s-document-plus')
+                    ->url(fn() => FAQResource::getUrl('create'))
+                    ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.f-a-q-s.create'))
+                    ->sort(15),
+
+
             ])
             // ->navigationGroups([
             //     'Admin Users',
@@ -138,6 +156,16 @@ class AdminPanelProvider extends PanelProvider {
                     ->collapsible()
                     ->collapsed()
                     ->icon('heroicon-s-pencil-square'),
+                NavigationGroup::make('CMS Pages')
+                    ->label('CMS Pages')
+                    ->collapsible()
+                    ->collapsed()
+                    ->icon('heroicon-s-document-text'),
+                NavigationGroup::make('FAQs')
+                    ->label('FAQs')
+                    ->collapsible()
+                    ->collapsed()
+                    ->icon('heroicon-s-question-mark-circle'),
 
             ])
         ;
