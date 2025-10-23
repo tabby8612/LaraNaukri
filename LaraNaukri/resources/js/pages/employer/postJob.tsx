@@ -26,7 +26,7 @@ export default function PostJob() {
     const [isExternal, setIsExternal] = useState(Boolean(job?.is_external ?? 0));
     const [successMessage, setSuccessMessage] = useState(message);
 
-    console.log(job);
+    // console.log(job);
 
     const { data, setData, post, transform, errors } = useForm({
         title: job?.title ?? '',
@@ -122,9 +122,11 @@ export default function PostJob() {
                     value={data.description}
                     isrequired
                     onUpdateFn={(e) => setData('description', e)}
+                    showAIGenerator={true}
+                    jobTitle={data.title}
                 />
 
-                <CustomRichTextEditor label="Benefits" name="benefits" value={data.benefits} onUpdateFn={(e) => setData('benefits', e)} />
+                <CustomRichTextEditor label="Benefits" name="benefits" value={data.benefits} onUpdateFn={(e) => setData('benefits', e)} isrequired />
 
                 <CustomMultiSelector label="Skills" fetchTable="skills" data={job?.skills ?? []} onChangeFn={() => {}} />
                 <div className="flex gap-5">
@@ -160,6 +162,7 @@ export default function PostJob() {
                         items={currencies}
                         value={data.currency}
                         onChange={(e) => setData('currency', e.target.value)}
+                        isrequired
                     />
                     <CustomSelectField
                         label="Select Salary Period"
@@ -167,6 +170,7 @@ export default function PostJob() {
                         fetchTable=""
                         items={salaryPeriods}
                         value={data.period}
+                        isrequired
                         onChange={(e) => setData('period', e.target.value)}
                     />
                     <div className="size-12 w-full">
@@ -185,6 +189,7 @@ export default function PostJob() {
                         label="Career Level"
                         fetchTable="career_levels"
                         name="career_level"
+                        isrequired
                         value={data.career_level}
                         onChange={(e) => setData('career_level', e.target.value)}
                     />
@@ -192,6 +197,7 @@ export default function PostJob() {
                         label="Functional Area"
                         fetchTable="categories"
                         name="categories_id"
+                        isrequired
                         value={data.category_id}
                         onChange={(e) => setData('category_id', e.target.value)}
                     />
@@ -202,6 +208,7 @@ export default function PostJob() {
                         label="Job Type"
                         fetchTable=""
                         name="type"
+                        isrequired
                         items={jobTypes}
                         value={data.type}
                         onChange={(e) => setData('type', e.target.value)}
@@ -210,6 +217,7 @@ export default function PostJob() {
                         label="Job Shift"
                         fetchTable=""
                         name="job_shift_id"
+                        isrequired
                         items={jobShifts}
                         value={data.shift}
                         onChange={(e) => setData('shift', e.target.value)}
@@ -221,6 +229,7 @@ export default function PostJob() {
                         label="Positions"
                         fetchTable=""
                         name="positions"
+                        isrequired
                         items={Array.from({ length: 20 }).map((_, index) => ({ id: `${index + 1}`, name: `${index + 1}` }))}
                         value={data.positions}
                         onChange={(e) => setData('positions', e.target.value)}
@@ -234,17 +243,24 @@ export default function PostJob() {
                             { id: 'female', name: 'Female' },
                         ]}
                         value={data.gender}
+                        isrequired
                         onChange={(e) => setData('gender', e.target.value)}
                     />
                 </div>
 
                 <div className="flex gap-5">
-                    <CustomDatePicker label="Job Expiry Date" date={data.apply_before} onChange={(e) => setData('apply_before', e.target.value)} />
+                    <CustomDatePicker
+                        label="Job Expiry Date"
+                        date={data.apply_before}
+                        isrequired
+                        onChange={(e) => setData('apply_before', e.target.value)}
+                    />
                     <CustomSelectField
                         label="Degree Level"
                         name="degree_level"
                         fetchTable="degree_levels"
                         value={data.degree}
+                        isrequired
                         onChange={(e) => setData('degree', e.target.value)}
                     />
                 </div>
@@ -256,6 +272,7 @@ export default function PostJob() {
                             name="job_experience_level"
                             fetchTable="experiences"
                             value={data.experience_id}
+                            isrequired
                             onChange={(e) => setData('experience_id', e.target.value)}
                         />
                     </div>

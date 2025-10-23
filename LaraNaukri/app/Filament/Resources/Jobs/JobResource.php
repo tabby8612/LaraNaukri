@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Jobs;
 
 use App\Filament\Resources\Jobs\Pages\CreateJob;
 use App\Filament\Resources\Jobs\Pages\EditJob;
+use App\Filament\Resources\Jobs\Pages\ImportJobs;
 use App\Filament\Resources\Jobs\Pages\ListJobs;
 use App\Filament\Resources\Jobs\Pages\ViewJob;
 use App\Filament\Resources\Jobs\Schemas\JobForm;
@@ -67,6 +68,7 @@ class JobResource extends Resource {
 
     public static function getPages(): array {
         return [
+            'import' => Pages\ImportJobs::route('/import'),
             'index' => ListJobs::route('/'),
             'create' => CreateJob::route('/create'),
             'view' => ViewJob::route('/{record}'),

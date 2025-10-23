@@ -57,7 +57,7 @@ class CandidateInfolist {
                                     ,
 
                                     TextEntry::make('resume_path')
-                                        ->url(fn($record) => Storage::disk('public')->exists($record->resume_path)
+                                        ->url(fn($record) => isset($record->resume_path) && Storage::disk('public')->exists($record->resume_path)
                                             ? Storage::url($record->resume_path)
                                             : "", true)
                                         ->getStateUsing(fn($record) => $record->resume_path ? 'Download CV' : 'No CV Found')

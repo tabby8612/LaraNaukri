@@ -58,6 +58,10 @@ class Job extends Model {
         return $this->belongsTo(Country::class);
     }
 
+    public function state(): BelongsTo {
+        return $this->belongsTo(State::class);
+    }
+
 
 
     public function city(): BelongsTo {
@@ -91,7 +95,7 @@ class Job extends Model {
     protected function applyBefore(): Attribute {
         return Attribute::make(
             get: fn($value) => Carbon::parse($value)->format('o-m-d'),
-            set: fn($value) => new Carbon($value)
+            set: fn($value) => Carbon::parse($value)->toDateTimeString()
         );
     }
 

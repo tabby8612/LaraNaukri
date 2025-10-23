@@ -8,7 +8,31 @@
 }
 
 .fi-sidebar-nav {
-    @apply bg-gray-700 text-white px-0
+    @apply bg-gray-700 text-white px-0 overflow-y-scroll;
+        scrollbar-gutter: stable both-edges; /* optional: avoids layout shift */
+
+}
+
+.fi-sidebar-item-has-url {
+    @apply ml-3
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+.fi-sidebar-nav::-webkit-scrollbar {
+    width: 5px; /* small width so it feels overlayed */
+}
+
+.fi-sidebar-nav::-webkit-scrollbar-track {
+    background: transparent; /* no track visible */
+}
+
+.fi-sidebar-nav::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3); /* subtle thumb */
+    border-radius: 6px;
+}
+
+.fi-sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .fi-sidebar-item {
@@ -30,7 +54,7 @@
 
 
 .fi-active > .fi-sidebar-item-btn, .fi-active > .fi-sidebar-item-btn > svg  {
-    @apply text-white bg-primary-600 
+    @apply text-white bg-primary-600  
 }
 
 span.fi-active {
@@ -69,7 +93,7 @@ span.fi-active {
 
 
 li.fi-active > a > div > div.fi-sidebar-item-grouped-border-part {
-    @apply !bg-white 
+    @apply !bg-white hover:bg-white
     
 }
 
@@ -77,15 +101,19 @@ li.fi-active > a > div > div.fi-sidebar-item-grouped-border-part {
     @apply fill-white
 }
 
+.fi-sidebar-item-grouped-border-part {
+    @apply hover:bg-white group-hover:bg-white
+}
+
 .fi-sidebar-nav-groups {
     @apply gap-0
 }
 
-[data-group-label="Admin Users"], [data-group-label="Jobs"] {
+[data-group-label="Admin Users"], [data-group-label="Jobs"], [data-group-label="Settings"], [data-group-label="Location"], [data-group-label="Packages"] {
     @apply relative mt-7
 }
 
-[data-group-label="Admin Users"]::after, [data-group-label="Jobs"]::after{
+[data-group-label="Admin Users"]::after, [data-group-label="Jobs"]::after, [data-group-label="Settings"]::after, [data-group-label="Location"]::after, [data-group-label="Packages"]::after {
     
     display: block;
     height: 100%;
@@ -110,6 +138,19 @@ li.fi-active > a > div > div.fi-sidebar-item-grouped-border-part {
     
 }
 
+[data-group-label="Settings"]::after {
+    
+    content: 'Settings';      
+}
+
+[data-group-label="Location"]::after {
+    
+    content: 'Location';      
+}
+
+[data-group-label="Packages"]::after {
+    content: 'Packages';      
+}
 
 .fi-sidebar-group-collapse-btn > svg {
     @apply !text-white
@@ -117,4 +158,16 @@ li.fi-active > a > div > div.fi-sidebar-item-grouped-border-part {
 
 .isDisable {
     @apply bg-gray-300
+}
+
+.adminHeading {
+    @apply text-primary-600
+}
+
+.fi-wi-stats-overview-stat-value {
+    @apply text-6xl text-center text-white
+}
+
+.fi-wi-stats-overview-stat-label-ctn > svg {
+    @apply text-white absolute -left-5 -bottom-10 opacity-20 w-20 h-30 z-0
 }

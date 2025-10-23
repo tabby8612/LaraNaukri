@@ -54,7 +54,7 @@ class User extends Authenticatable {
         return $this->hasOne(Candidate::class);
     }
 
-    protected function company(): HasOne {
+    public function company(): HasOne {
         return $this->hasOne(Company::class);
     }
 

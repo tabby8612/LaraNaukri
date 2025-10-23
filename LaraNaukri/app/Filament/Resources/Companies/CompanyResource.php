@@ -60,6 +60,7 @@ class CompanyResource extends Resource {
             'create' => CreateCompany::route('/create'),
             'view' => ViewCompany::route('/{record}'),
             'edit' => EditCompany::route('/{record}/edit'),
+
         ];
     }
 

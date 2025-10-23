@@ -23,7 +23,6 @@ export default function JobView() {
     const props = usePage<SelectedJobProps>().props;
 
     const { selectedJob, candidate, alreadyApplied, isFavorite } = props;
-    console.log(selectedJob);
 
     return (
         <AppLayout page="jobs">

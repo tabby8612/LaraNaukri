@@ -118,7 +118,7 @@ export default function FeaturedJobCard({
                         <Edit />
                     </Button>
                     <DeleteConfirmation
-                        deleteFn={() => router.get(route('employer.deleteJob', { id: JobID }))}
+                        deleteFn={() => router.get(route('employer.deleteJob', { job: JobID }))}
                         trigger={<Trash className="size-10 rounded-lg bg-red-400 p-3 text-black" />}
                     />
                 </div>

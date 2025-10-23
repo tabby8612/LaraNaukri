@@ -30,7 +30,7 @@ Route::prefix("employer")->name("employer.")->middleware("IsEmployer")->group(fu
     Route::get("edit-job/{job}", [CompanyJobController::class, 'edit'])->name('editJob');
     Route::put("edit-job/{job}", [CompanyJobController::class, 'update'])->name('editJob');
 
-    // Route::get("delete-job/{id}", fn() => Inertia::render("employer/postJob"))->name('deleteJob');
+    Route::get("delete-job/{job}", [CompanyJobController::class, 'destroy'])->name('deleteJob');
 
 
 

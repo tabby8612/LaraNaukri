@@ -2,21 +2,35 @@ import { Label } from '@radix-ui/react-label';
 import { Editor, EditorContent, useEditor, useEditorState } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { List, Redo, Undo } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import AIJobDescriptionGenerator from '../AIJobDescriptionGenerator';
 
 type CustomProps = {
     name: string;
     isrequired?: boolean;
     label: string;
     value: string;
+    showAIGenerator?: boolean;
+    jobTitle?: string;
     onUpdateFn: (content: string) => void;
 };
-export default function CustomRichTextEditor({ name, isrequired = false, label, value, onUpdateFn }: CustomProps) {
+export default function CustomRichTextEditor({ name, isrequired = false, label, value, showAIGenerator = false, jobTitle, onUpdateFn }: CustomProps) {
+    const [content, setContent] = useState(value);
+
     const editor = useEditor({
         extensions: [StarterKit],
-        content: value,
+        content: content,
         onUpdate: ({ editor }: { editor: Editor }) => onUpdateFn(editor.getHTML()),
         immediatelyRender: false,
     });
+
+    useEffect(() => {
+        if (editor && content !== editor.getHTML()) {
+            editor.commands.setContent(content, {
+                emitUpdate: true,
+            });
+        }
+    }, [content, editor]);
 
     if (!editor) return null;
 
@@ -93,9 +107,11 @@ export default function CustomRichTextEditor({ name, isrequired = false, label, 
             <Label htmlFor={name} className={`tracking-wider text-gray-500 ${isrequired && "after:ml-0.5 after:text-red-500 after:content-['*']"} `}>
                 {label}
             </Label>
-            <div className="w-full rounded focus-within:outline-2 focus-within:outline-primary">
+            <div className="relative w-full rounded focus-within:outline-2 focus-within:outline-primary">
                 <MenuBar editor={editor} />
-                <EditorContent editor={editor} required={isrequired} />
+                <EditorContent editor={editor} required={isrequired} className="relative" />
+
+                {showAIGenerator && <AIJobDescriptionGenerator jobTitle={jobTitle ?? ''} onUpdateFn={setContent} />}
             </div>
         </div>
     );

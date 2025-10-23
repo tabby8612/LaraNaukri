@@ -11,6 +11,7 @@ import { RoundPrint } from '@/SVGs/Print';
 import { Speaker } from '@/SVGs/Speaker';
 import { User } from '@/SVGs/User';
 import { usePage } from '@inertiajs/react';
+import { Sparkles } from 'lucide-react';
 
 export default function CandidateNavLinks({ page = 'dashboard' }: { page: string }) {
     const { auth } = usePage<{
@@ -49,6 +50,15 @@ export default function CandidateNavLinks({ page = 'dashboard' }: { page: string
                     <p className={`group-hover:text-primary ${page === 'download-cv' ? 'text-primary' : 'text-gray-500'}`}>Download CV</p>
                 </li>
             </a>
+            <a href={route('candidate.analyze.resume')}>
+                <li className="group mt-4 flex items-center gap-2 hover:cursor-pointer">
+                    <Sparkles
+                        fill="gray"
+                        className={`size-5 group-hover:text-primary ${page === 'resume-analyzer' ? 'text-primary' : 'text-gray-500'}`}
+                    />
+                    <p className={`group-hover:text-primary ${page === 'resume-analyzer' ? 'text-primary' : 'text-gray-500'}`}>AI Resume Analyzer</p>
+                </li>
+            </a>
             <a
                 href={route('candidate.viewPublicProfile', {
                     id: auth.user.id,
@@ -63,6 +73,7 @@ export default function CandidateNavLinks({ page = 'dashboard' }: { page: string
                     </p>
                 </li>
             </a>
+
             <a href={route('candidate.jobApplications')}>
                 <li className="group mt-4 flex items-center gap-2 hover:cursor-pointer">
                     <MonitorFill16

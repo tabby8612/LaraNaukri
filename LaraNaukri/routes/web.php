@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AIController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\BlogCategoriesController;
@@ -33,6 +34,9 @@ Route::get("/search-talent", [CandidateSearchController::class, 'index'])->name(
 Route::post("/search-talent", [CandidateSearchController::class, 'searchTalent'])->name("search.talent");
 Route::get("/filter-talent", [CandidateSearchController::class, 'filterTalent'])->name("filter.talent");
 
+Route::get("/job-seekers", function () {
+    return Inertia::render("job-seekers");
+})->name("job.seekers");
 
 // ----------- Category/Functional-Area Routes
 
@@ -95,11 +99,19 @@ Route::get("/report-abuse/{slug}", function () {
 })->name("report.abuse");
 
 
+//-- Broadcast Routes
+Broadcast::routes();
 
 
-Route::get("/job-seekers", function () {
-    return Inertia::render("job-seekers");
-})->name("job.seekers");
+//--- Social Login Routes
+Route::get("{role}/auth/{driver}", [SocialLoginController::class, 'redirectToSocial'])->name('redirect.social');
+Route::get('auth/google/callback', [SocialLoginController::class, 'handleGoogleCallback']);
+Route::get('auth/github/callback', [SocialLoginController::class, 'handleGithubCallback']);
+
+
+//--- AI Routes
+Route::get('/generate-job-description', [AIController::class, 'generateJobDescription'])->name('AI.Job.Description');
+
 
 
 
@@ -110,11 +122,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 });
 
-Broadcast::routes();
 
-Route::get("{role}/auth/{driver}", [SocialLoginController::class, 'redirectToSocial'])->name('redirect.social');
-Route::get('auth/google/callback', [SocialLoginController::class, 'handleGoogleCallback']);
-Route::get('auth/github/callback', [SocialLoginController::class, 'handleGithubCallback']);
 
 
 // Route::get('/auth/redirect', fn() => Socialite::driver('google')->redirect())->name('google.register');

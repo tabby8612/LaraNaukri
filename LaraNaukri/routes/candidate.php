@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AIController;
 use App\Http\Controllers\AlertController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CandidateController;
@@ -38,6 +39,11 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::post("create-resume", [ResumeController::class, "store"])->name("storeResume");
     Route::delete("delete-resume/{id}", [ResumeController::class, "destroy"])->name("destroyResume");
     Route::post("update-resume/{id}", [ResumeController::class, "update"])->name("updateResume");
+
+    //-- AI Resume Analyze
+    Route::get('analyze-resume', [AIController::class, 'AIResumeAnalyzer'])->name('analyze.resume');
+    Route::post('analyze-resume', [AIController::class, 'analyzeResume'])->name('analyze.resume');
+    Route::get('analyze-resume-results', fn() => Inertia::render('candidate/analyze-resume-results'));
 
     //-- Project Calls
     Route::get("projects", [ProjectController::class, "index"])->name("projects"); //shows listings of projects

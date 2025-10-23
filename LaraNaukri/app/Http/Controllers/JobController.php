@@ -15,6 +15,7 @@ use App\Models\City;
 use App\Models\Company;
 use App\Models\Job;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Stevebauman\Purify\Facades\Purify;
+
+use function Termwind\parse;
 
 class JobController extends Controller {
 

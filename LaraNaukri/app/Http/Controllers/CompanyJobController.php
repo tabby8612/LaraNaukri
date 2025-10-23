@@ -107,7 +107,8 @@ class CompanyJobController extends Controller {
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) {
-        //
+    public function destroy(Job $job) {
+        $job->delete();
+        return back()->with("message", "Successfully Deleted");
     }
 }

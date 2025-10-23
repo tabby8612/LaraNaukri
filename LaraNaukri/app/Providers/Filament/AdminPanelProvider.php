@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Dashboard as PagesDashboard;
 use App\Filament\Resources\Blogposts\BlogpostResource;
 use App\Filament\Resources\Candidates\CandidateResource;
 use App\Filament\Resources\CMS\CMSResource;
@@ -44,7 +45,7 @@ class AdminPanelProvider extends PanelProvider {
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
-                Dashboard::class,
+                PagesDashboard::class
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
@@ -70,6 +71,7 @@ class AdminPanelProvider extends PanelProvider {
             ->brandLogo('http://127.0.0.1:5173/storage/app/public/LaraNaukri%20Logo.png')
             ->brandLogoHeight('40px')
             ->globalSearch(false)
+            ->databaseNotifications()
 
             ->navigationItems([
                 NavigationItem::make('Add New Admin User')
@@ -122,6 +124,8 @@ class AdminPanelProvider extends PanelProvider {
                     ->sort(15),
 
 
+
+
             ])
             // ->navigationGroups([
             //     'Admin Users',
@@ -166,6 +170,23 @@ class AdminPanelProvider extends PanelProvider {
                     ->collapsible()
                     ->collapsed()
                     ->icon('heroicon-s-question-mark-circle'),
+                NavigationGroup::make('Packages')
+                    ->label('Packages')
+                    ->collapsible()
+                    ->collapsed()
+                    ->icon('heroicon-s-cube'),
+                NavigationGroup::make('Location')
+                    ->label('Location')
+                    ->collapsible()
+                    ->collapsed()
+                    ->icon('heroicon-s-globe-alt'),
+                NavigationGroup::make('Settings')
+                    ->label('Settings')
+                    ->collapsible()
+                    ->collapsed()
+                    ->icon('heroicon-s-cog-6-tooth'),
+
+
 
             ])
         ;
