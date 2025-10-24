@@ -5,11 +5,11 @@ import { Speed } from '@/SVGs/Speedometer';
 import { User } from '@/SVGs/User';
 import { Candidate } from '@/types';
 import { Company } from '@/types/employer';
-import { Link, usePage } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { LanguagesIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import LoginDialog from './ui/cards/LoginDialog';
-import Logo from '/public/storage/LaraNaukri Logo.png';
+// import Logo from '/public/storage/LaraNaukri Logo.png';
 
 type Props = {
     auth: {
@@ -21,11 +21,14 @@ type Props = {
         candidate: Candidate;
         employer: Company;
     };
+    site_favicon_path: string;
+    site_logo: string;
 };
+
 export default function Nav({ page }: { page: string }) {
     const [isNavSticky, setNavSticky] = useState(false);
     const [userOptions, setUserOptions] = useState(false);
-    const { auth } = usePage<Props>().props;
+    const { auth, site_favicon_path, site_logo } = usePage<Props>().props;
     // const { user, candidate, employer } = auth;
 
     useEffect(() => {
@@ -43,12 +46,15 @@ export default function Nav({ page }: { page: string }) {
 
     return (
         <>
+            <Head>
+                <link rel="icon" type="image/x-icon" href={site_favicon_path} />
+            </Head>
             <nav
                 className={`${isNavSticky && 'sticky opacity-100 shadow-lg'} top-0 z-50 flex justify-between border-b-2 border-gray-200/50 bg-white px-8 py-4 font-montserrat transition-all delay-150 duration-300`}
             >
                 <div id="logoImage">
                     <a href={route('home')}>
-                        <img src={Logo} alt="LaraNaukri" className="h-10" />
+                        <img src={site_logo} alt="LaraNaukri" className="h-10" />
                     </a>
                 </div>
                 <div id="navitems" className="flex items-center justify-center">

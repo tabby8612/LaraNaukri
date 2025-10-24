@@ -108,4 +108,41 @@ class AIController extends Controller {
 
 
     }
+
+    public function AICareerCoach() {
+        return Inertia::render('candidate/ai-career-coach');
+    }
+
+    public function getAIResponse(Request $request) {
+        $data = Setting::query()->first()?->data;
+        $messageText = $request->messageText;
+
+        if (!isset($data['hugging_face_access_token'])) return response()->json([
+                'message' => 'Unable to generate response'
+            ], 401);
+
+        $postData = [
+            'messages' => [[
+                'role' => 'user',
+                'content' => $this->AIServices->getAIChatBotPrompt($messageText),
+            ]],
+            'model' => 'deepseek-ai/DeepSeek-V3:novita',
+        ];
+
+        $response = Http::acceptJson()
+            ->withToken($data['hugging_face_access_token'])
+            ->post('https://router.huggingface.co/v1/chat/completions', $postData);
+
+        if ($response->successful()) {
+            return response()->json([
+                'message' => Str::markdown($response->json()['choices'][0]['message']['content'])
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => "Unable to generate description"
+            ], 401);
+        }
+
+
+    }
 }

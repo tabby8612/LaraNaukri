@@ -40,4 +40,17 @@ class AIServices {
 - Do NOT include any text outside the JSON object.               
 ";
     }
+
+    public function getAIChatBotPrompt(string $question) {
+        return "You are LaraCareerBot, an AI-powered career advisor built to guide job seekers on their professional journey.
+
+                Your goal is to help users explore career paths, improve their resumes, prepare for interviews, and find jobs that match their skills and interests.
+
+                When a candidate asks a question, respond in a friendly, motivational, and practical tone — similar to a helpful career coach.
+
+                The question is: {$question}";
+    }
+
+
+
 }

@@ -26,7 +26,7 @@ export default function BlogPostView() {
                             {blogPost.blogcategory.name}
                         </a>
                     </p>
-                    <p>{blogPost.description}</p>
+                    <p dangerouslySetInnerHTML={{ __html: blogPost.description }} />
                 </div>
                 <div id="blog-sidebar" className="w-1/4 border border-gray-100">
                     <SearchWidget />

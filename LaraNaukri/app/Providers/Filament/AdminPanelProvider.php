@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Dashboard as PagesDashboard;
 use App\Filament\Resources\Blogposts\BlogpostResource;
 use App\Filament\Resources\Candidates\CandidateResource;
+use App\Filament\Resources\Categories\CategoryResource;
 use App\Filament\Resources\CMS\CMSResource;
 use App\Filament\Resources\Companies\CompanyResource;
 use App\Filament\Resources\FAQS\FAQResource;
@@ -88,6 +89,13 @@ class AdminPanelProvider extends PanelProvider {
                     ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.jobs.create'))
                     ->sort(5),
 
+                NavigationItem::make('List Functional Areas')
+                    ->group('Jobs')
+                    ->icon('heroicon-s-pencil-square')
+                    ->url(fn() => CategoryResource::getUrl('index'))
+                    ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.categories.index'))
+                    ->sort(6),
+
                 NavigationItem::make('Add New Company')
                     ->group('Companies')
                     ->icon('heroicon-s-document-plus')
@@ -108,6 +116,8 @@ class AdminPanelProvider extends PanelProvider {
                     ->url(fn() => BlogpostResource::getUrl('create'))
                     ->isActiveWhen(fn() => original_request()->routeIs('filament.admin.resources.blogposts.create'))
                     ->sort(11),
+
+
 
                 NavigationItem::make(label: 'Add New CMS Pages')
                     ->group('CMS Pages')

@@ -2,7 +2,6 @@ import { Location } from '@/SVGs/Location';
 import { Email } from '@/SVGs/Mail';
 import { Facebook, Instagram, Linkedin, X, Youtube } from 'lucide-react';
 
-
 export default function Footer() {
     return (
         <>
@@ -10,8 +9,12 @@ export default function Footer() {
                 <div id="footermenuitems">
                     <h1 className="mb-5 font-montserrat text-lg font-semibold">Quick Links</h1>
                     <ul className="text-gray-500">
-                        <li>Home</li>
-                        <li>Contact Us</li>
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href={route('contact')}>Contact Us</a>
+                        </li>
                         <li>FAQs</li>
                         <li>About Us</li>
                         <li>Terms of Use</li>
@@ -20,31 +23,71 @@ export default function Footer() {
                 <div id="footerfunctionarea">
                     <h1 className="mb-5 font-montserrat text-lg font-semibold">Jobs By Functional Area</h1>
                     <ul className="text-gray-500">
-                        <li>Marketing</li>
-                        <li>Medicine</li>
-                        <li>Software & Web Development</li>
-                        <li>Advertisment</li>
-                        <li>Database Administration (DBA)</li>
-                        <li>Graphic Design</li>
-                        <li>Advertising</li>
-                        <li>Business Management</li>
-                        <li>Information Technology</li>
-                        <li>Electronics Technician</li>
+                        <li>
+                            <a href={route('search.jobs', { category: 'Marketing' })}>Marketing</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { category: 'Medicine' })}>Medicine</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { category: 'Software & Web Development' })}>Software & Web Development</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { category: 'Advertisment' })}>Advertisment</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { category: 'Database Administration (DBA)' })}>Database Administration (DBA)</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { category: 'Graphic Design' })}>Graphic Design</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { category: 'Advertising' })}>Advertising</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { category: 'Business Management' })}>Business Management</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { category: 'Information Technology' })}>Information Technology</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { category: 'Electronics Technician' })}>Electronics Technician</a>
+                        </li>
                     </ul>
                 </div>
                 <div id="footerindustry">
                     <h1 className="mb-5 font-montserrat text-lg font-semibold">Jobs By Industry</h1>
                     <ul className="text-gray-500">
-                        <li>Electronics</li>
-                        <li>Manufacturing</li>
-                        <li>Banking/Financial Services</li>
-                        <li>Health & Fitness</li>
-                        <li>Courier/Logistics</li>
-                        <li>Education/Training</li>
-                        <li>Information Technology</li>
-                        <li>Travel/Tourism/Transportation</li>
-                        <li>Fashion</li>
-                        <li>Advertising/PR</li>
+                        <li>
+                            <a href={route('search.jobs', { industry_id: '6' })}>Electronics Technician</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { industry_id: '10' })}>Manufacturing</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { industry_id: '3' })}>Banking/Financial Services</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { industry_id: '8' })}>Health & Fitness</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { industry_id: '4' })}>Courier/Logistics</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { industry_id: '5' })}>Education/Training</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { industry_id: '9' })}>Information Technology</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { industry_id: '12' })}>Travel/Tourism/Transportation</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { industry_id: '7' })}>Fashion</a>
+                        </li>
+                        <li>
+                            <a href={route('search.jobs', { industry_id: '1' })}>Advertising/PR</a>
+                        </li>
                     </ul>
                 </div>
                 <div id="footercontactus">
@@ -73,7 +116,7 @@ export default function Footer() {
                         Tabish Sajwani
                     </a>
                 </p>
-                <img src={`/storage/payment_icons.png`} alt="payment icons" className='h-10' />
+                <img src={`/storage/payment_icons.png`} alt="payment icons" className="h-10" />
             </footer>
         </>
     );

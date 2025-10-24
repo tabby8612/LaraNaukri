@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Job;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,19 @@ class HomeController extends Controller {
         return Inertia::render("welcome", [
             "jobs" => $jobs
         ]);
+    }
+
+    public function getLogoFavicon() {
+        $settingData = Cache::remember('settingsData', now()->addDay(), fn() => Setting::first()->data);
+
+        $logoPath = $settingData['site_logo_path'] ?? '';
+        $favPath = $settingData['site_favicon_path'] ?? '';
+
+        return response()->json([
+            'logoPath' => $logoPath,
+            'favPath' => $favPath
+        ]);
+
     }
 
     public function fetch(Request $request) {

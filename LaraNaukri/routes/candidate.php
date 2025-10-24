@@ -45,6 +45,10 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::post('analyze-resume', [AIController::class, 'analyzeResume'])->name('analyze.resume');
     Route::get('analyze-resume-results', fn() => Inertia::render('candidate/analyze-resume-results'));
 
+    //-- AI Career Coach
+    Route::get('ai-career-coach', [AIController::class, 'AICareerCoach'])->name('ai.career.coach');
+    Route::get('get-AI-response', [AIController::class, 'getAIResponse'])->name('get.AI.response');
+
     //-- Project Calls
     Route::get("projects", [ProjectController::class, "index"])->name("projects"); //shows listings of projects
     Route::post("project-add", [ProjectController::class, "store"])->name("projectAdd");

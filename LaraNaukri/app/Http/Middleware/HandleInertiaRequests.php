@@ -5,8 +5,11 @@ namespace App\Http\Middleware;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
+
+use function App\Helpers\site_settings;
 
 class HandleInertiaRequests extends Middleware {
     /**
@@ -48,6 +51,8 @@ class HandleInertiaRequests extends Middleware {
             ],
             "message" => Session::pull("message"),
             "searchedCandidates" => Session::pull("searchedCandidates"),
+            "site_logo" => site_settings('site_logo_path') ? Storage::url(site_settings('site_logo_path')) : '',
+            "site_favicon_path" => site_settings('site_favicon_path') ? url(Storage::url(site_settings('site_favicon_path'))) : '',
             'ziggy' => fn(): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

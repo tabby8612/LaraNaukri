@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AIController;
-use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use App\Http\Controllers\BlogCategoriesController;
 use App\Http\Controllers\BlogpostController;
@@ -15,7 +14,6 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', [HomeController::class, "index"])->name('home');
 
@@ -97,6 +95,8 @@ Route::get("/email-to-friend/{slug}", function () {
 Route::get("/report-abuse/{slug}", function () {
     return Inertia::render("report-abuse");
 })->name("report.abuse");
+
+Route::get('get-logo-favicon', [HomeController::class, 'getLogoFavicon'])->name('get.logo.favicon');
 
 
 //-- Broadcast Routes

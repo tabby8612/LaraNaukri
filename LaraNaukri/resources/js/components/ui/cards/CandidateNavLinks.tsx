@@ -11,7 +11,7 @@ import { RoundPrint } from '@/SVGs/Print';
 import { Speaker } from '@/SVGs/Speaker';
 import { User } from '@/SVGs/User';
 import { usePage } from '@inertiajs/react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, WandSparkles } from 'lucide-react';
 
 export default function CandidateNavLinks({ page = 'dashboard' }: { page: string }) {
     const { auth } = usePage<{
@@ -57,6 +57,15 @@ export default function CandidateNavLinks({ page = 'dashboard' }: { page: string
                         className={`size-5 group-hover:text-primary ${page === 'resume-analyzer' ? 'text-primary' : 'text-gray-500'}`}
                     />
                     <p className={`group-hover:text-primary ${page === 'resume-analyzer' ? 'text-primary' : 'text-gray-500'}`}>AI Resume Analyzer</p>
+                </li>
+            </a>
+            <a href={route('candidate.get.AI.response')}>
+                <li className="group mt-4 flex items-center gap-2 hover:cursor-pointer">
+                    <WandSparkles
+                        fill="gray"
+                        className={`size-5 group-hover:text-primary ${page === 'ai-career-coach' ? 'text-primary' : 'text-gray-500'}`}
+                    />
+                    <p className={`group-hover:text-primary ${page === 'ai-career-coach' ? 'text-primary' : 'text-gray-500'}`}>AI Career Advisor</p>
                 </li>
             </a>
             <a
