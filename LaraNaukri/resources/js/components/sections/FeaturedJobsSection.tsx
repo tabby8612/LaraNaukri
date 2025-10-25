@@ -8,7 +8,7 @@ export default function FeaturedJobsSection({ jobs }: { jobs: FilteredJobs[] }) 
         <section id="featuredJobsSection" className="px-14 py-10">
             <h1 className="my-7 text-center font-montserrat text-4xl font-semibold">Featured Jobs</h1>
 
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid gap-6 md:grid-cols-4">
                 {featuredJobs.map((job) => (
                     <FeaturedJobCard
                         title={job.title}

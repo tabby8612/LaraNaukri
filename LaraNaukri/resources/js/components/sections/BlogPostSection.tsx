@@ -21,7 +21,7 @@ export default function BlogPostSection() {
     return (
         <section id="customerTestimonials" className="px-14 py-10">
             <h1 className="my-7 gap-3 text-center font-montserrat text-4xl font-semibold">Latest Blog Posts</h1>
-            <div className="grid grid-cols-3">
+            <div className="grid md:grid-cols-3">
                 {blogPostData &&
                     blogPostData.map((blogpost) => (
                         <BlogCard

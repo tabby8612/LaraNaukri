@@ -33,8 +33,6 @@ class CompanyController extends Controller {
         protected CandidateService $candidateService,
         protected PackageServices $packageServices,
         protected PaymentHistoryServices $paymentHistoryServices,
-
-
     ) {
     }
 
@@ -129,6 +127,9 @@ class CompanyController extends Controller {
             ->groupBy(["industries.id", "industries.name"])
             ->get()
             ->toArray();
+
+        // dump($companies);
+        // dump($industries);
 
 
         return Inertia::render("companies", [

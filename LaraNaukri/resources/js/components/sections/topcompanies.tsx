@@ -9,17 +9,19 @@ export default function Topcompanies() {
         async function topCompanies() {
             const response = await fetch(route('top.companies'));
             const data = await response.json();
-            console.log(data);
             setCompaniesData(data.data);
         }
 
         topCompanies();
     }, []);
 
+    if (window.screen.width < 1000 && companiesData && companiesData?.length > 2)
+        setCompaniesData((prevCompaniesData) => prevCompaniesData!.slice(0, 2));
+
     return (
         <section id="topcompanies" className="px-14 py-10">
             <h1 className="my-7 text-center font-montserrat text-4xl font-semibold">Top Companies Are Hiring</h1>
-            <div className="grid grid-cols-5 gap-5">
+            <div className="grid gap-5 md:grid-cols-5">
                 {companiesData &&
                     companiesData.map((company) => (
                         <Companycard
@@ -35,7 +37,7 @@ export default function Topcompanies() {
             </div>
             <div className="my-10 flex justify-center">
                 <a
-                    href={route('featured.companies')}
+                    href={route('companies', { is_featured: 1 })}
                     className="rounded-lg bg-primary px-5 py-3 text-center font-sans text-xl font-semibold tracking-wider text-white transition-colors duration-500 hover:bg-black"
                 >
                     View All Featured Companies

@@ -32,9 +32,7 @@ Route::get("/search-talent", [CandidateSearchController::class, 'index'])->name(
 Route::post("/search-talent", [CandidateSearchController::class, 'searchTalent'])->name("search.talent");
 Route::get("/filter-talent", [CandidateSearchController::class, 'filterTalent'])->name("filter.talent");
 
-Route::get("/job-seekers", function () {
-    return Inertia::render("job-seekers");
-})->name("job.seekers");
+Route::get("/job-seekers", [CandidateSearchController::class, 'index'])->name("job.seekers");
 
 // ----------- Category/Functional-Area Routes
 

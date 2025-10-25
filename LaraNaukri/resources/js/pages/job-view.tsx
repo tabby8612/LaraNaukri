@@ -10,7 +10,7 @@ import SkillCard from '@/components/ui/cards/SkillCard';
 import AppLayout from '@/layouts/app/app-layout';
 
 import { Candidate, FilteredJobs } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { Send } from 'lucide-react';
 
 type SelectedJobProps = {
@@ -23,10 +23,13 @@ export default function JobView() {
     const props = usePage<SelectedJobProps>().props;
 
     const { selectedJob, candidate, alreadyApplied, isFavorite } = props;
-    console.log(selectedJob);
 
     return (
         <AppLayout page="jobs">
+            <Head>
+                <title>{selectedJob.title}</title>
+                <meta name="description" content={selectedJob.description} />
+            </Head>
             <Searchjobhero />
 
             <main className="mx-auto my-10 flex size-10/12 justify-between">

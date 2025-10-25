@@ -33,7 +33,7 @@ export default function PortfilioProject({ project, refreshProjectsFn, showEditO
             <p className="mt-3">
                 {project.start_date} - {project.ongoing ? 'Currently Working' : project.end_date}
             </p>
-            <p>{project.description}</p>
+            <p dangerouslySetInnerHTML={{ __html: project.description }}></p>
 
             {showEditOptions && (
                 <div className="mt-3 flex items-baseline gap-3">

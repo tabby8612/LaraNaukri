@@ -59,6 +59,8 @@ class CompanyForm {
                         Grid::make(2)
                             ->schema([
                                 FileUpload::make('image_path')
+                                    ->disk('public')
+                                    ->directory('company_logos')
                                     ->image(),
 
                                 RichEditor::make('Description')

@@ -39,6 +39,7 @@ export default function RelatedJobs({ categoryID }: { categoryID: string }) {
                             companyID={`${job.companies?.id}`}
                             JobID={job.id}
                             key={job.id}
+                            jobSlug={job.slug}
                             companySlug={job.companies.slug}
                         />
                     ))}

@@ -18,7 +18,7 @@ export default function UnlockedUsers() {
                             profession={unlockedCandidate.profession}
                             featured={unlockedCandidate.is_featured ? true : false}
                             key={unlockedCandidate.id}
-                            profileLink={route('userProfile', unlockedCandidate.user_id)}
+                            id={unlockedCandidate.user_id}
                         />
                     ))}
                 </section>

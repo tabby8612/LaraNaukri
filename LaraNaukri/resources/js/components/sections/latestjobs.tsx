@@ -6,11 +6,10 @@ type LatestJobProps = {
 };
 
 export default function Latestjobs({ jobs }: LatestJobProps) {
-
     return (
         <section id="latestJobs" className="px-14 py-10">
             <h1 className="my-7 text-center font-montserrat text-4xl font-semibold">Latest Jobs</h1>
-            <div className="grid grid-cols-3 gap-10">
+            <div className="grid gap-10 md:grid-cols-3">
                 {jobs.slice(0, 8).map((job) => (
                     <Latestjobcard
                         imageUrl={job.companies.image_path}

@@ -1,14 +1,9 @@
-import { Exit } from '@/SVGs/Exit';
-import { RoundRemoveRedEye } from '@/SVGs/Eye';
-import { MonitorFill16 } from '@/SVGs/Monitor';
-import { Speed } from '@/SVGs/Speedometer';
-import { User } from '@/SVGs/User';
 import { Candidate } from '@/types';
 import { Company } from '@/types/employer';
-import { Head, Link, usePage } from '@inertiajs/react';
-import { LanguagesIcon } from 'lucide-react';
+import { Head, usePage } from '@inertiajs/react';
+import { Menu } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import LoginDialog from './ui/cards/LoginDialog';
+import NavItems from './navItems';
 // import Logo from '/public/storage/LaraNaukri Logo.png';
 
 type Props = {
@@ -27,9 +22,10 @@ type Props = {
 
 export default function Nav({ page }: { page: string }) {
     const [isNavSticky, setNavSticky] = useState(false);
-    const [userOptions, setUserOptions] = useState(false);
-    const { auth, site_favicon_path, site_logo } = usePage<Props>().props;
-    // const { user, candidate, employer } = auth;
+    const [isMobNav, setIsMobNav] = useState(false);
+    const [isMobAside, setIsMobAside] = useState(false);
+
+    const { site_favicon_path, site_logo } = usePage<Props>().props;
 
     useEffect(() => {
         function handleScroll() {
@@ -38,9 +34,23 @@ export default function Nav({ page }: { page: string }) {
             setNavSticky(coordsY > 500);
         }
 
+        function handleResize() {
+            if (window.screen.width < 1000) {
+                setIsMobNav(true);
+            } else {
+                setIsMobNav(false);
+            }
+        }
+
         document.addEventListener('scroll', handleScroll);
+        window.addEventListener('resize', handleResize);
+        window.addEventListener('load', handleResize);
+        // document.addEventListener('resize', handleResize);
+
         return () => {
             document.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('load', handleResize);
         };
     }, []);
 
@@ -49,208 +59,32 @@ export default function Nav({ page }: { page: string }) {
             <Head>
                 <link rel="icon" type="image/x-icon" href={site_favicon_path} />
             </Head>
-            <nav
-                className={`${isNavSticky && 'sticky opacity-100 shadow-lg'} top-0 z-50 flex justify-between border-b-2 border-gray-200/50 bg-white px-8 py-4 font-montserrat transition-all delay-150 duration-300`}
+            <aside
+                className={`smoothTransition fixed top-0 right-0 h-screen bg-white shadow-2xl ${isMobAside ? 'w-3/4 translate-x-0 sm:w-1/2' : 'w-0 translate-x-96'}`}
             >
-                <div id="logoImage">
+                <p className="px-4 py-2 text-right text-2xl" onClick={() => setIsMobAside(false)}>
+                    X
+                </p>
+                <NavItems page={page} navType="vertical" />
+            </aside>
+            <nav
+                className={`${isNavSticky && 'sticky opacity-100 shadow-lg'} top-0 z-50 flex items-center justify-between border-b-2 border-gray-200/50 bg-white px-8 py-4 font-montserrat transition-all delay-150 duration-300`}
+            >
+                <div id="logoImage" className="">
                     <a href={route('home')}>
                         <img src={site_logo} alt="LaraNaukri" className="h-10" />
                     </a>
                 </div>
-                <div id="navitems" className="flex items-center justify-center">
-                    <ul className="flex items-center justify-center gap-7">
-                        <a href={route('home')}>
-                            <li
-                                className={`${page === 'home' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
-                            >
-                                Home
-                            </li>
-                        </a>
 
-                        {auth?.employer ? (
-                            <a href={route('search.talent')}>
-                                <li
-                                    className={`${page === 'talent' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
-                                >
-                                    Search Talent
-                                </li>
-                            </a>
-                        ) : (
-                            <a href={route('search.jobs')}>
-                                <li
-                                    className={`${page === 'jobs' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
-                                >
-                                    Jobs
-                                </li>
-                            </a>
-                        )}
-
-                        <a href={route('companies')}>
-                            <li
-                                className={`${page === 'companies' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
-                            >
-                                Companies
-                            </li>
-                        </a>
-
-                        <a href={route('blog')}>
-                            <li
-                                className={`${page === 'blog' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
-                            >
-                                Blog
-                            </li>
-                        </a>
-
-                        <a href={route('contact')}>
-                            <li
-                                className={`${page === 'contact' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
-                            >
-                                Contact us
-                            </li>
-                        </a>
-                        {auth?.user && auth?.user.role === 'candidate' && (
-                            <li
-                                className="relative cursor-pointer"
-                                onMouseEnter={() => setUserOptions(true)}
-                                onMouseLeave={() => setUserOptions(false)}
-                            >
-                                <img
-                                    src={`/storage/${auth.candidate?.image_path || '/candidates/default.png'}`}
-                                    alt={auth.candidate?.first_name}
-                                    className="size-9 rounded-full outline-2 outline-primary"
-                                />
-
-                                {userOptions && (
-                                    <div
-                                        className={`absolute -left-[600%] flex size-0 flex-col opacity-100 shadow-2xs duration-500 peer-hover:-translate-y-0 peer-hover:opacity-100`}
-                                    >
-                                        <ul
-                                            onMouseEnter={() => setUserOptions(true)}
-                                            onMouseLeave={() => setUserOptions(false)}
-                                            className="w-3xs rounded-b-xl border-2 border-gray-200 bg-white shadow-2xl peer-hover:-translate-y-0"
-                                        >
-                                            <Link href={route('candidate.dashboard')}>
-                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
-                                                    <Speed className="size-6" />
-                                                    <p>Dashboard</p>
-                                                </li>
-                                            </Link>
-
-                                            <Link href={route('candidate.editProfile')}>
-                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
-                                                    <User className="size-5" />
-                                                    <p>My Profile</p>
-                                                </li>
-                                            </Link>
-
-                                            <Link
-                                                href={route('candidate.viewPublicProfile', {
-                                                    id: auth?.user.id,
-                                                })}
-                                            >
-                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
-                                                    <RoundRemoveRedEye className="size-5" />
-                                                    <p>View Public Profile</p>
-                                                </li>
-                                            </Link>
-
-                                            <Link href={route('candidate.jobApplications')}>
-                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
-                                                    <MonitorFill16 className="mr-1 size-4" />
-                                                    <p>My Job Applications</p>
-                                                </li>
-                                            </Link>
-
-                                            <Link href={route('candidate.logout')}>
-                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
-                                                    <Exit className="size-4" />
-                                                    <p>Logout</p>
-                                                </li>
-                                            </Link>
-                                        </ul>
-                                    </div>
-                                )}
-                            </li>
-                        )}
-                        {auth?.user && auth?.user.role === 'employer' && (
-                            <li
-                                className="relative cursor-pointer"
-                                onMouseEnter={() => setUserOptions(true)}
-                                onMouseLeave={() => setUserOptions(false)}
-                            >
-                                <img
-                                    src={`/storage/${auth?.employer.image_path || '/companies/default.png'}`}
-                                    alt={auth?.employer.name}
-                                    className="size-9 rounded-full outline-2 outline-primary"
-                                />
-
-                                {userOptions && (
-                                    <div
-                                        className={`absolute -left-[600%] flex size-0 flex-col opacity-100 shadow-2xs duration-500 peer-hover:-translate-y-0 peer-hover:opacity-100`}
-                                    >
-                                        <ul
-                                            onMouseEnter={() => setUserOptions(true)}
-                                            onMouseLeave={() => setUserOptions(false)}
-                                            className="w-3xs rounded-b-xl border-2 border-gray-200 bg-white shadow-2xl peer-hover:-translate-y-0"
-                                        >
-                                            <Link href={route('employer.dashboard')}>
-                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
-                                                    <Speed className="size-6" />
-                                                    <p>Dashboard</p>
-                                                </li>
-                                            </Link>
-
-                                            <Link href={route('employer.editProfile')}>
-                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
-                                                    <User className="size-5" />
-                                                    <p>Company Profile</p>
-                                                </li>
-                                            </Link>
-
-                                            <Link
-                                                href={route('company.view', {
-                                                    slug: auth?.employer.slug,
-                                                })}
-                                            >
-                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
-                                                    <RoundRemoveRedEye className="size-5" />
-                                                    <p>View Public Profile</p>
-                                                </li>
-                                            </Link>
-
-                                            <Link href={route('employer.postJob')}>
-                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
-                                                    <MonitorFill16 className="mr-1 size-4" />
-                                                    <p>Post Job</p>
-                                                </li>
-                                            </Link>
-
-                                            <Link href={route('employer.logout')}>
-                                                <li className="flex items-center gap-2 px-5 py-3 font-montserrat text-sm font-semibold hover:bg-primary hover:text-white">
-                                                    <Exit className="size-4" />
-                                                    <p>Logout</p>
-                                                </li>
-                                            </Link>
-                                        </ul>
-                                    </div>
-                                )}
-                            </li>
-                        )}
-
-                        {!auth?.user && (
-                            <div className="flex items-center gap-7">
-                                <li
-                                    className={`${page === 'login' && 'activeNav'} relative cursor-pointer font-sans font-semibold transition-colors duration-300 hover:text-primary`}
-                                >
-                                    {<LoginDialog />}
-                                </li>
-                                <li className="rounded-md bg-primary px-4 py-1.5 text-white">{<LoginDialog type="register" />}</li>
-                            </div>
-                        )}
-
-                        <li>{<LanguagesIcon className="rounded-full border-2 border-gray-400" />}</li>
-                    </ul>
-                </div>
+                {isMobNav ? (
+                    <div onClick={() => setIsMobAside(true)}>
+                        <Menu />
+                    </div>
+                ) : (
+                    <div id="navitems" className={`hidden items-center justify-center md:flex`}>
+                        <NavItems page={page} navType="horizontal" />
+                    </div>
+                )}
             </nav>
         </>
     );

@@ -91,7 +91,7 @@ export default function PublicProfileIntro({
             </Card>
             <section className="my-7">
                 <h1 className="font-montserrat text-2xl font-bold">About Me</h1>
-                <p>{description}</p>
+                <p dangerouslySetInnerHTML={{ __html: description }} />
                 <hr className="mx-auto my-7 w-11/12 border-gray-300" />
             </section>
         </>

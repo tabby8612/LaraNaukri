@@ -7,7 +7,6 @@ import { usePage } from '@inertiajs/react';
 
 export default function Followings() {
     const { followers } = usePage<{ followers: Candidate[] }>().props;
-    console.log(followers);
 
     return (
         <AppEmployerLayout displaySearch={false} page="followings" titleText="Company Followers">
@@ -22,7 +21,7 @@ export default function Followings() {
                             profession={follower.profession}
                             featured={follower.is_featured ? true : false}
                             key={follower.id}
-                            profileLink={route('userProfile', follower.user_id)}
+                            id={follower.user_id}
                         />
                     ))}
                 </section>

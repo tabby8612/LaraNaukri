@@ -2,6 +2,8 @@ import { Candidate } from '@/types';
 import FeaturedCandidateCard from '../ui/cards/FeaturedCandidateCard';
 
 export default function CandidateSearchResults({ candidates }: { candidates: Candidate[] }) {
+    console.log(candidates);
+
     return (
         <div id="job-results" className="w-3/4">
             {candidates?.length ? (
@@ -22,9 +24,9 @@ export default function CandidateSearchResults({ candidates }: { candidates: Can
                 {candidates &&
                     candidates.map((candidate) => (
                         <FeaturedCandidateCard
-                            id={candidate.id}
+                            id={candidate.user_id ?? candidate.id}
                             imageUrl={candidate.image_path}
-                            location={'candidate.country.name'}
+                            location={candidate.country?.name ?? 'Country Not Set'}
                             name={`${candidate.first_name} ${candidate.last_name}`}
                             profession={candidate.profession}
                             featured={candidate.is_featured ? true : false}

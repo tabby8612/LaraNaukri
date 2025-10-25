@@ -36,7 +36,7 @@ export default function CompanyView() {
                             <div className="grid grid-cols-3 gap-3">
                                 <CompanyCharacteristic Icon={VerifiedIcon} name="Verified" value="Yes" />
                                 <CompanyCharacteristic Icon={Users} name="Company Size" value={companyData.company_size} />
-                                <CompanyCharacteristic Icon={CakeIcon} name="Founded In" value={companyData.founded!.split('-')[0]} />
+                                <CompanyCharacteristic Icon={CakeIcon} name="Founded In" value={companyData.founded?.split('-')[0] ?? ''} />
                                 <CompanyCharacteristic Icon={Building2Icon} name="Organization Type" value={companyData.organization_type} />
                                 <CompanyCharacteristic Icon={Landmark} name="Total Offices" value={`${companyData.total_offices}`} />
                                 <CompanyCharacteristic Icon={BriefcaseBusinessIcon} name="Opened Jobs" value={`${openJobs.length}`} />
@@ -55,6 +55,7 @@ export default function CompanyView() {
                     {openJobs.map((job) => (
                         <FeaturedJobCard
                             companyImageURL={`${companyData.image_path}`}
+                            jobSlug={job.slug}
                             companyName={companyData.name}
                             location={job.location}
                             postedDate={job.created_at}

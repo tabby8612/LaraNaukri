@@ -25,7 +25,7 @@ export default function ProjectsCard() {
                 <h1 className="font-montserrat text-2xl font-bold">Projects</h1>
                 <UploadProject trigger="+" refreshProjectsFn={refreshHandler} />
             </div>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 gap-4">
                 {projects.length > 0 ? (
                     projects.map((project) => <PortfilioProject project={project} refreshProjectsFn={refreshHandler} key={project.id} />)
                 ) : (

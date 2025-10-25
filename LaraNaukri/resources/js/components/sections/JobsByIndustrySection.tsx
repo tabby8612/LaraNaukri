@@ -22,7 +22,7 @@ export default function JobsByIndustrySection() {
     }, []);
 
     return (
-        <section id="jobsByIndustry" className="bg-green-50 px-14 py-10">
+        <section id="jobsByIndustry" className="bg-green-50 py-10 md:px-14">
             <h1 className="my-7 text-center font-montserrat text-4xl font-semibold">Popular Industry</h1>
             <div className="mx-auto size-10/12">
                 <ul className="flex flex-wrap items-center justify-center gap-3">

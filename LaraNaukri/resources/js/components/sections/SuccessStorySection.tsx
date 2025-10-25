@@ -48,7 +48,34 @@ export default function SuccessStorySection() {
                 <h1 className="font-montserrat">Success Stories</h1>
             </div>
             <div className="relative mx-auto w-full">
-                <Swiper slidesPerView={3} loop={true} spaceBetween={15} modules={[Navigation]} className="mySwiper" navigation={false}>
+                <Swiper
+                    slidesPerView={3}
+                    loop={true}
+                    spaceBetween={15}
+                    modules={[Navigation]}
+                    className="mySwiper"
+                    navigation={false}
+                    breakpoints={{
+                        320: {
+                            slidesPerView: 1,
+                            spaceBetween: 20,
+                        },
+                        // when window width is >= 480px
+                        480: {
+                            slidesPerView: 1,
+                            spaceBetween: 30,
+                        },
+                        // when window width is >= 640px
+                        640: {
+                            slidesPerView: 1,
+                            spaceBetween: 40,
+                        },
+                        1000: {
+                            slidesPerView: 3,
+                            spaceBetween: 40,
+                        },
+                    }}
+                >
                     {feedbacks.map((feedback) => (
                         <SwiperSlide key={feedback.id}>
                             <SuccessStoryCard description={feedback.description} name={feedback.name} role={feedback.status} />

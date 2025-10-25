@@ -40,21 +40,21 @@ export default function Hero() {
     }
 
     return (
-        <section id="hero" className="mt-16 flex px-14 py-10">
-            <div id="herotext" className="w-10/12">
-                <h1 className="font-montserrat text-4xl font-semibold">Ready To Find Your Dream Job?</h1>
-                <p className="mt-2 w-10/12 font-montserrat">
+        <section id="hero" className="mt-16 px-14 py-10 md:flex">
+            <div id="herotext" className="md:w-10/12">
+                <h1 className="font-montserrat text-2xl font-semibold md:text-4xl">Ready To Find Your Dream Job?</h1>
+                <p className="mt-2 hidden font-montserrat md:block md:w-10/12">
                     Take the next step in your career journey with LaraNaukri. Explore Opportunities that match your skills and passions, and land the
                     job you've always wanted!
                 </p>
-                <h2 className="mt-20 font-montserrat text-lg font-bold">Search Jobs</h2>
-                <div id="jobsearch" className="flex w-[94%] items-center rounded-lg border-2 border-primary">
+                <h2 className="mt-5 w-full font-montserrat text-lg font-bold md:mt-20">Search Jobs</h2>
+                <div id="jobsearch" className="flex items-center justify-between rounded-lg border-2 border-primary md:w-[94%]">
                     <form className="flex w-full gap-4" autoComplete="off" onSubmit={(e) => handleSearchForm(e)}>
-                        <div className="group relative my-auto w-6/12">
+                        <div className="group relative my-auto w-full md:w-6/12">
                             <input
                                 type="text"
                                 name="title"
-                                id='title'
+                                id="title"
                                 className="w-11/12 px-2 py-3 outline-0 hover:outline-0"
                                 ref={searchInputText}
                                 value={searchText}
@@ -69,7 +69,7 @@ export default function Hero() {
                                     }
                                 }}
                             />
-                            <div className="absolute top-1/2 right-0 h-10 w-[1px] -translate-y-1/2 bg-gray-400 transition-opacity duration-300 group-focus-within:opacity-0" />
+                            <div className="absolute top-1/2 right-0 h-10 w-0 -translate-y-1/2 bg-gray-400 transition-opacity duration-300 group-focus-within:opacity-0 md:w-[1px]" />
                             {searches && searches.length > 0 && (
                                 <div className="absolute z-20 w-full rounded-lg border-2 border-stone-200 bg-white px-5 py-3 shadow-2xl">
                                     <ul>
@@ -89,20 +89,11 @@ export default function Hero() {
                                 </div>
                             )}
                         </div>
-                        <div className="w-5/12">
+                        <div className="hidden w-0 md:block md:w-5/12">
                             <CustomDropdownMenu triggertext="Select Functional Area" changeFn={handleCategory} />
                         </div>
 
-                        {/* <select name="job categories" id="categories" className="w-5/12 px-4 outline-0 active:outline-0">
-                            <option value="option1">Select Functional Area</option>
-                            {categories &&
-                                categories.map((category) => (
-                                    <option value={category} key={category}>
-                                        {category}
-                                    </option>
-                                ))}
-                        </select> */}
-                        <button className="mx-2 my-2 cursor-pointer rounded-r-lg bg-primary px-4 py-3 text-white">{<SearchIcon />}</button>
+                        <button className="mx-2 my-2 cursor-pointer self-end rounded-r-lg bg-primary px-4 py-3 text-white">{<SearchIcon />}</button>
                     </form>
                 </div>
             </div>

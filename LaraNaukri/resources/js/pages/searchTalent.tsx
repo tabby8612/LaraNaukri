@@ -3,7 +3,7 @@ import SearchTalentHero from '@/components/sections/searchTalentHero';
 import CandidateSearchFilter from '@/components/ui/cards/CandidateSearchFilter';
 import AppLayout from '@/layouts/app/app-layout';
 import { Candidate, CandidateGroup } from '@/types';
-import { router, useForm, usePage } from '@inertiajs/react';
+import { Head, router, useForm, usePage } from '@inertiajs/react';
 import { SearchCheckIcon } from 'lucide-react';
 import { FormEvent, useState } from 'react';
 
@@ -53,6 +53,7 @@ export default function SearchTalent() {
 
     return (
         <AppLayout page="talents">
+            <Head title="Search Talent" />
             <SearchTalentHero />
             <section className="mx-auto flex w-[95%] p-10">
                 <div id="search-filter" className="mr-6 w-1/4">
@@ -73,11 +74,11 @@ export default function SearchTalent() {
                     <form onSubmit={(e) => handleSubmit(e)}>
                         <button className="flex cursor-pointer items-center justify-center gap-3 bg-primary px-3 py-3 text-lg font-semibold text-white">
                             <SearchCheckIcon />
-                            <p className="">Search Job</p>
+                            <p className="">Search Candidate</p>
                         </button>
                     </form>
                 </div>
-                <CandidateSearchResults candidates={filteredCandidates?.length > 0 ? filteredCandidates : allCandidates} />
+                <CandidateSearchResults candidates={searchedCandidates?.length > 0 ? searchedCandidates : allCandidates} />
             </section>
         </AppLayout>
     );

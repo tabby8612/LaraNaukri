@@ -13,6 +13,7 @@ use App\Models\Candidate;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Company;
+use App\Models\Industry;
 use App\Models\Job;
 use App\Models\User;
 use Carbon\Carbon;
@@ -72,9 +73,12 @@ class JobController extends Controller {
         }
 
         if ($request->industry_id) {
-            $query->join("companies", "jobs_listings.company_id", "=", "companies.id")
-                ->join("industries", "companies.industry_id", "=", "industries.id")
-                ->where("industries.id", "=", $request->industry_id);
+            $companies = Company::where('industry_id', $request->industry_id)
+                ->pluck('id')
+                ->toArray();
+
+            $query->whereIn('company_id', $companies);
+
         }
 
         if ($request->is_featured) {
@@ -86,9 +90,9 @@ class JobController extends Controller {
         }
 
         if ($request->country_id) {
-            $query->join("cities", "cities.id", "=", "jobs_listings.city_id")
-                ->join("countries", "countries.id", "=", "cities.country_id")
-                ->where("country_id", "=", $request->country_id);
+
+            $query->where("country_id", "=", $request->country_id);
+
         }
 
         if ($request->company_id) {
@@ -202,6 +206,7 @@ class JobController extends Controller {
     // ------------------ <WEB CALLS> -----------------------
 
     public function show(Request $request) {
+        // dd($request->all());
 
         $relations = ["category", "companies:id,name,image_path,slug", "city", "skills", "experience:id,name", "career:id,name"];
 
@@ -216,7 +221,7 @@ class JobController extends Controller {
          */
         $user = Auth::user();
 
-        if ($user->isCandidate()) {
+        if (isset($user) && $user->isCandidate()) {
             $candidate = Candidate::where('id', '=', Auth::user()->candidate->id)
                 ->with('user')
                 ->first();

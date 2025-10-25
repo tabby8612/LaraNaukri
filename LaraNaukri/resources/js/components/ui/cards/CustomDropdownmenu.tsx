@@ -20,8 +20,6 @@ export default function CustomDropdownMenu({ triggertext, changeFn }: { triggert
 
                 const results = await response.json();
 
-                console.log(results);
-
                 const data = results.categories.map((category: { name: string }) => category.name);
 
                 setCategories(data);

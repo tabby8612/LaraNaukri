@@ -40,9 +40,9 @@ export default function Searchjobhero({
 
     return (
         <div className="flex flex-col items-center justify-center bg-green-50 py-10">
-            <h1 className="font-montserrat text-4xl font-bold">{titleText}</h1>
+            <h1 className="font-montserrat text-3xl font-bold md:text-4xl">{titleText}</h1>
             {displaySearch && (
-                <div id="jobsearch" className="mt-2 flex w-6/12 items-center rounded-2xl border-2 border-primary px-2">
+                <div id="jobsearch" className="mx-3 mt-2 flex w-11/12 items-center rounded-2xl border-2 border-primary bg-white px-2 md:w-6/12">
                     <form className="flex w-full justify-between gap-4 px-3" onSubmit={(e) => handleSearchForm(e)}>
                         <div className="group relative my-auto w-full">
                             <input

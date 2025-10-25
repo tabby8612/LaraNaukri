@@ -55,12 +55,21 @@ class CandidateSearchController extends Controller {
         $conditions = compact("condition1", "condition2", "condition3");
         $relations = ["country", "state", "city"];
 
-        $searchedCandidates = $this->candidateService
-            ->searchCandidates($conditions, $relations);
-
+        $searchedCandidates = $this->candidateService->searchCandidates($conditions, $relations);
         $allCandidates = $this->candidateService->fetchCandidates();
 
-        return Inertia::render("searchTalent", compact("allCandidates", "searchedCandidates"));
+        $groupByCountry = $this->candidateService->groupCandidates("countries", "country_id");
+        $groupByState = $this->candidateService->groupCandidates("states", "state_id");
+        $groupByCity = $this->candidateService->groupCandidates("cities", "city_id");
+        $groupByExperience = $this->candidateService->groupCandidates("experiences", "experience_id");
+        $groupByCareerLevels = $this->candidateService->groupCandidates("career_levels", "career_level_id");
+        $groupByGender = $this->candidateService->groupCandidates("genders", "gender_id");
+
+
+        return Inertia::render("searchTalent", compact([
+            'searchedCandidates', 'allCandidates', 'groupByCountry', 'groupByState',
+            'groupByCity', 'groupByExperience', 'groupByCareerLevels', 'groupByGender'
+        ]));
     }
 
     public function filterTalent(Request $request) {

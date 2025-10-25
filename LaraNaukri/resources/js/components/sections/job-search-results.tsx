@@ -18,7 +18,7 @@ export default function JobSearchResults({ jobs }: { jobs: FilteredJobs[] | unde
                 </div>
             )}
 
-            <div className="my-7 grid grid-cols-3 gap-5">
+            <div className="my-7 grid gap-5 md:grid-cols-3">
                 {jobs &&
                     jobs.map((job) => (
                         <FeaturedJobCard

@@ -1,5 +1,8 @@
+import { Candidate, Company, User } from '@/types';
+import { usePage } from '@inertiajs/react';
 import { ChartNoAxesCombined, MapPin } from 'lucide-react';
 import { Star } from '../../../SVGs/Star';
+import WarningDialog from './WarningDialog';
 
 type Props = {
     imageUrl: string;
@@ -7,10 +10,20 @@ type Props = {
     profession: string;
     location: string;
     featured?: boolean;
-    profileLink: string;
+    id: string;
 };
 
-export default function FeaturedCandidateCard({ imageUrl, name, profession, location, featured = true, profileLink }: Props) {
+type CustomPagaeProps = {
+    auth: {
+        user: null | User;
+        candidate: null | Candidate;
+        employer: null | Company;
+    };
+};
+
+export default function FeaturedCandidateCard({ imageUrl, name, profession, location, featured = true, id }: Props) {
+    const { auth } = usePage<CustomPagaeProps>().props;
+
     return (
         <div
             id="featuredProfileCard"
@@ -37,9 +50,29 @@ export default function FeaturedCandidateCard({ imageUrl, name, profession, loca
                 <MapPin className="size-5 text-primary" />
                 <p className="text-gray-600">{location}</p>
             </div>
-            <a href={profileLink} className="rounded-full bg-primary px-7 py-1 text-lg font-semibold text-white">
-                View Profile
-            </a>
+            {auth.employer ? (
+                <a href={route('userProfile', id)} className="cursor-pointer rounded-full bg-primary px-7 py-1 text-lg font-semibold text-white">
+                    View Profile
+                </a>
+            ) : (
+                <WarningDialog
+                    trigger={<a className="cursor-pointer rounded-full bg-primary px-7 py-1 text-lg font-semibold text-white">View Profile</a>}
+                    warningText={
+                        <div className="flex flex-col items-center justify-center gap-5">
+                            <h1 className="text-center text-2xl font-bold">Our users rely on us to keep their information secure.</h1>
+                            <p>Log in or register as an employer to access candidate details.</p>
+                            <div className="flex gap-3">
+                                <a href={route('company.login')} className="rounded-xl bg-primary p-3 text-white">
+                                    Login
+                                </a>
+                                <a href={route('company.register')} className="rounded-xl bg-black p-3 text-white">
+                                    Register
+                                </a>
+                            </div>
+                        </div>
+                    }
+                />
+            )}
         </div>
     );
 }

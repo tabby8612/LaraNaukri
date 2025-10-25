@@ -37,7 +37,7 @@ export default function SearchTalentHero() {
                         value={data.category_id}
                         onChange={(e) => setData('category_id', e.target.value)}
                     />
-                    <Button className="h-11 w-25 rounded-lg border bg-primary p-3 font-bold text-white">
+                    <Button className="h-11 w-25 cursor-pointer rounded-lg border bg-primary p-3 font-bold text-white">
                         <SearchIcon className="size-6" />
                     </Button>
                 </form>

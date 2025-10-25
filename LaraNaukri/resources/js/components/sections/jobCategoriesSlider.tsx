@@ -9,17 +9,43 @@ import 'swiper/css/pagination';
 // import required modules
 import { Navigation } from 'swiper/modules';
 
+import { Category } from '@/types';
 import JobCategoryCard from '../ui/cards/jobCategoryCard';
 import '/resources/css/app.css';
-import { Category } from '@/types';
 
 export default function JobCatgorySlider({ categories }: { categories: Category[] }) {
-
-
     return (
         <>
             <div className="relative mx-auto w-11/12">
-                <Swiper slidesPerView={7} loop={true} spaceBetween={15} modules={[Navigation]} className="mySwiper" navigation={true}>
+                <Swiper
+                    slidesPerView={7}
+                    loop={true}
+                    spaceBetween={15}
+                    modules={[Navigation]}
+                    className="mySwiper"
+                    navigation={true}
+                    breakpoints={{
+                        // when window width is >= 320px
+                        320: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                        },
+                        // when window width is >= 480px
+                        480: {
+                            slidesPerView: 2,
+                            spaceBetween: 30,
+                        },
+                        // when window width is >= 640px
+                        640: {
+                            slidesPerView: 2,
+                            spaceBetween: 40,
+                        },
+                        1000: {
+                            slidesPerView: 7,
+                            spaceBetween: 40,
+                        },
+                    }}
+                >
                     {categories.map((category) => (
                         <SwiperSlide key={category.id}>
                             {
