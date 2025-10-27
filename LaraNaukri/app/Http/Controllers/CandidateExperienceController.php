@@ -49,7 +49,7 @@ class CandidateExperienceController extends Controller {
         $candidateExperience->city_id = $validated["city_id"];
         $candidateExperience->start_date = $validated["start_date"];
         $candidateExperience->end_date = $validated["end_date"];
-        $candidateExperience->is_working = $validated["is_working"] == 'Yes' ? 1 : 0;
+        $candidateExperience->is_working = $validated["is_working"];
         $candidateExperience->description = $validated["description"];
         $candidateExperience->save();
 
@@ -88,7 +88,7 @@ class CandidateExperienceController extends Controller {
         $candidateExperience->city_id = $validated["city_id"];
         $candidateExperience->start_date = $validated["start_date"];
         $candidateExperience->end_date = $validated["end_date"];
-        $candidateExperience->is_working = $validated["is_working"] == 'Yes' ? 1 : 0;
+        $candidateExperience->is_working = $validated["is_working"];
         $candidateExperience->description = $validated["description"];
         $candidateExperience->save();
 

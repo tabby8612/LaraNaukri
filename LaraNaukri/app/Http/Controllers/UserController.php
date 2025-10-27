@@ -48,7 +48,7 @@ class UserController extends Controller {
 
         UserCreated::dispatch($user, $user->role);
 
-        // Auth::login($user);
+        Auth::login($user);
 
         return redirect(route("employer.dashboard"));
 

@@ -12,7 +12,7 @@ export default function Followings() {
         <AppEmployerLayout displaySearch={false} page="followings" titleText="Company Followers">
             <h1 className="font-montserrat text-2xl font-bold">Company Followers</h1>
             {followers.length > 0 ? (
-                <section className="grid grid-cols-3 gap-10">
+                <section className="grid grid-cols-1 gap-10 md:grid-cols-3">
                     {followers.map((follower) => (
                         <FeaturedCandidateCard
                             imageUrl={follower.image_path}

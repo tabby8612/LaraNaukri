@@ -129,11 +129,11 @@ export default function PostJob() {
                 <CustomRichTextEditor label="Benefits" name="benefits" value={data.benefits} onUpdateFn={(e) => setData('benefits', e)} isrequired />
 
                 <CustomMultiSelector label="Skills" fetchTable="skills" data={job?.skills ?? []} onChangeFn={() => {}} />
-                <div className="flex gap-5">
+                <div className="flex flex-col gap-5 md:flex-row">
                     <CountryStateCity countryID={data.country_id} stateID={+data.state_id} cityID={+data.city_id} setData={setData} isrequired />
                 </div>
 
-                <div className="flex gap-5">
+                <div className="flex flex-col gap-5 md:flex-row">
                     <CustomInputField
                         label="Salary From"
                         name="salary_from"
@@ -154,7 +154,7 @@ export default function PostJob() {
                     />
                 </div>
 
-                <div className="flex gap-10">
+                <div className="flex flex-col gap-10 md:flex-row">
                     <CustomSelectField
                         label="Salary Currency"
                         name="currency"
@@ -184,7 +184,7 @@ export default function PostJob() {
                     </div>
                 </div>
 
-                <div className="flex gap-5">
+                <div className="flex flex-col gap-5 md:flex-row">
                     <CustomSelectField
                         label="Career Level"
                         fetchTable="career_levels"
@@ -203,7 +203,7 @@ export default function PostJob() {
                     />
                 </div>
 
-                <div className="flex gap-5">
+                <div className="flex flex-col gap-5 md:flex-row">
                     <CustomSelectField
                         label="Job Type"
                         fetchTable=""
@@ -224,7 +224,7 @@ export default function PostJob() {
                     />
                 </div>
 
-                <div className="flex gap-5">
+                <div className="flex flex-col gap-5 md:flex-row">
                     <CustomSelectField
                         label="Positions"
                         fetchTable=""
@@ -248,7 +248,7 @@ export default function PostJob() {
                     />
                 </div>
 
-                <div className="flex gap-5">
+                <div className="flex flex-col gap-5 md:flex-row">
                     <CustomDatePicker
                         label="Job Expiry Date"
                         date={data.apply_before}
@@ -265,8 +265,8 @@ export default function PostJob() {
                     />
                 </div>
 
-                <div className="flex items-center justify-center gap-5">
-                    <div className="w-1/2">
+                <div className="flex flex-col items-center justify-center gap-5 md:flex-row">
+                    <div className="w-full md:w-1/2">
                         <CustomSelectField
                             label="Job Experience"
                             name="job_experience_level"
@@ -277,7 +277,7 @@ export default function PostJob() {
                         />
                     </div>
 
-                    <div className="w-1/2">
+                    <div className="w-full md:w-1/2">
                         <CustomRadioGroup
                             label="Is Freelance?"
                             options={['No', 'Yes']}

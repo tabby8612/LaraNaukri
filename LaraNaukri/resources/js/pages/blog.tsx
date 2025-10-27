@@ -19,9 +19,9 @@ export default function Blog() {
                 <h1 className="font-montserrat text-4xl font-bold">Blog</h1>
                 {searchText && <h2 className="mt-3 font-montserrat text-2xl font-bold">Showing blogs for: {searchText}</h2>}
             </div>
-            <section id="blog" className="flex gap-3 px-20">
+            <section id="blog" className="my-3 flex flex-col gap-3 px-20 md:flex-row">
                 <MainBlogSection blogPosts={blogposts} />
-                <div id="blog-sidebar" className="w-1/4 border border-gray-100">
+                <div id="blog-sidebar" className="border border-gray-100 md:w-1/4">
                     <SearchWidget />
 
                     <CategoryWidget />

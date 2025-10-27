@@ -41,7 +41,7 @@ export default function ListAppliedUsers() {
             <section className="mx-auto w-11/12 p-7">
                 <h1 className="font-montserrat text-2xl font-bold">Applications Showing for the job: {selectedJob.title}</h1>
 
-                <section className="mt-3 grid grid-cols-4 gap-5">
+                <section className="mt-3 grid grid-cols-1 gap-5 md:grid-cols-4">
                     <KanbanBoard dragEndFn={dragEndHandler}>
                         <DroppableCard label="Applied Users" id="applied" applications={groupApplications.applied} />
                         <DroppableCard label="Rejected Users" id="rejected" applications={groupApplications.rejected} />

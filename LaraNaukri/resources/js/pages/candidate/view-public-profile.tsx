@@ -12,15 +12,15 @@ export default function ViewPublicProfile() {
 
     return (
         <AppLayout page="">
-            <main className="mx-auto flex w-11/12 gap-5 p-7">
-                <section id="content" className="w-8/12 rounded-2xl">
+            <main className="mx-auto flex flex-col gap-5 p-7 md:w-11/12 md:flex-row">
+                <section id="content" className="rounded-2xl md:w-8/12">
                     <PublicProfileIntro
                         cover_path={candidate.cover_image_path}
                         profile_path={candidate.image_path}
                         name={`${candidate.first_name} ${candidate.last_name}`}
-                        industry={candidate.industry.name}
+                        industry={candidate.industry?.name ?? 'Not Set'}
                         available={candidate.open_to_work}
-                        location={`${candidate.city.name} ${candidate.state.name}, ${candidate.country.name}`}
+                        location={`${candidate.city?.name} ${candidate.state?.name}, ${candidate.country?.name}`}
                         cv_path={candidate.resume_path}
                         member_since={candidate.created_at}
                         description={candidate.summary}
@@ -34,7 +34,7 @@ export default function ViewPublicProfile() {
                         skills={candidate.skills}
                     />
                 </section>
-                <section id="sidebar" className="w-4/12">
+                <section id="sidebar" className="md:w-4/12">
                     <PublicProfileContact
                         phone_no={candidate.phone}
                         mobile_no={candidate.mobile}
@@ -44,13 +44,13 @@ export default function ViewPublicProfile() {
                     <PublicProfileQualities
                         age={candidate.age}
                         availability={candidate.open_to_work}
-                        career_level={candidate.career_level.name}
+                        career_level={candidate.career_level?.name}
                         current_salary={candidate.salary_from}
                         expectation_salary={candidate.salary_to}
                         experience={candidate.total_experience}
-                        gender={candidate.gender.name}
-                        location={`${candidate.state.name}, ${candidate.country.name}`}
-                        martial_status={candidate.marital_status.name}
+                        gender={candidate.gender?.name}
+                        location={`${candidate.state?.name}, ${candidate.country?.name}`}
+                        martial_status={candidate.marital_status?.name}
                         verified={true}
                     />
 

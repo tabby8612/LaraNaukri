@@ -22,7 +22,7 @@ export default function EmployerSearchFilters({ industries, handleFn }: { indust
     return (
         <form
             id="search-filter"
-            className="mr-6 w-1/4 rounded-lg bg-primary/8 p-6"
+            className="mr-6 w-full rounded-lg bg-primary/8 p-6 md:w-1/4"
             onSubmit={(e) => {
                 e.preventDefault();
                 handleFn();

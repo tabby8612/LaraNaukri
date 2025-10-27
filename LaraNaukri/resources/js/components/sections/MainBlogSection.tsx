@@ -3,8 +3,8 @@ import BlogCardWithFullImage from '../ui/cards/BlogCardWithFullImage';
 
 export default function MainBlogSection({ blogPosts }: { blogPosts: BlogPost[] }) {
     return (
-        <section id="blog-section" className="w-3/4">
-            <div className="grid grid-cols-2">
+        <section id="blog-section" className="md:w-3/4">
+            <div className="grid items-center justify-center md:grid-cols-2">
                 {blogPosts.map((blog) => (
                     <BlogCardWithFullImage
                         id={blog.id}

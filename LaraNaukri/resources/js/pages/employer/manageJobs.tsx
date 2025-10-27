@@ -29,7 +29,7 @@ export default function ManageJobs() {
 
                 <TabPanels>
                     <TabPanel>
-                        <section className="grid grid-cols-2 gap-8">
+                        <section className="grid grid-cols-1 gap-8 md:grid-cols-2">
                             {activeJobs.length > 0 &&
                                 activeJobs.map((job) => (
                                     <FeaturedJobCard

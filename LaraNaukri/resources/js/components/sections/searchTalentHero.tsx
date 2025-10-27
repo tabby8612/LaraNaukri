@@ -19,8 +19,8 @@ export default function SearchTalentHero() {
 
     return (
         <header className="bg-green-50 py-10">
-            <section className="mx-auto flex w-3/4 items-center justify-between gap-12">
-                <h1 className="w-1/4 font-montserrat text-2xl font-bold">Find Candidates</h1>
+            <section className="mx-auto flex flex-col items-center justify-between gap-12 px-10 md:w-3/4 md:flex-row">
+                <h1 className="font-montserrat text-2xl font-bold md:w-1/4">Find Candidates</h1>
                 <form className="flex w-full items-center gap-10 rounded-2xl border border-primary bg-white p-3" onSubmit={(e) => searchHandler(e)}>
                     <Input
                         className="h-11 border-0 border-gray-400 text-lg shadow-none selection:text-white focus-visible:ring-0"

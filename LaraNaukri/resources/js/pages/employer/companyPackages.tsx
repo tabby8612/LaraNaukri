@@ -39,7 +39,7 @@ export default function CompanyPackages() {
 
             <section className="rounded-xl p-7">
                 <h1 className="my-5 font-montserrat text-2xl font-bold">Upgrade CV Packages</h1>
-                <div className="grid grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
                     <PackageCard premiumPackage={cvPackage} type="cv" />
                 </div>
             </section>

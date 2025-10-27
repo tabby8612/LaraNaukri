@@ -1,6 +1,7 @@
 import { Experience } from '@/types';
 import { useForm } from '@inertiajs/react';
 import { DialogDescription } from '@radix-ui/react-dialog';
+import { Loader } from 'lucide-react';
 import { FormEvent, ReactNode, useState } from 'react';
 import { Button } from '../UnusedUI/button';
 import { Dialog, DialogContent, DialogHeader, DialogOverlay, DialogTitle, DialogTrigger } from '../UnusedUI/dialog';
@@ -15,7 +16,7 @@ type Props = { trigger?: string | ReactNode; refreshExperiences: () => void; exp
 export default function AddExperience({ trigger, refreshExperiences, experience, type = 'create' }: Props) {
     const [successMessage, setSuccessMessage] = useState('');
 
-    const { data, setData, post, errors, reset } = useForm({
+    const { data, setData, post, errors, reset, processing } = useForm({
         title: experience?.title ? experience.title : '',
         company: experience?.company ? experience.company : '',
         country_id: experience?.country_id ? experience.country_id : 0,
@@ -23,7 +24,7 @@ export default function AddExperience({ trigger, refreshExperiences, experience,
         city_id: experience?.city_id ? +experience.city_id : 0,
         start_date: experience?.start_date ? experience.start_date : '',
         end_date: experience?.end_date ? experience.end_date : '',
-        is_working: experience?.is_working ? (experience.is_working ? 'Yes' : 'No') : 'No',
+        is_working: experience?.is_working ? experience?.is_working : 0,
         description: experience?.description ? experience.description : '',
         _method: type === 'update' ? 'PUT' : 'POST',
     });
@@ -33,12 +34,14 @@ export default function AddExperience({ trigger, refreshExperiences, experience,
 
         if (type === 'update') {
             console.log(`update`);
+            console.log(data);
             post(route('candidate.experienceUpdate', experience?.id), {
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: () => {
                     refreshExperiences();
                     setSuccessMessage('Experience Updated Successfully');
+                    reset();
                 },
             });
         } else {
@@ -48,19 +51,27 @@ export default function AddExperience({ trigger, refreshExperiences, experience,
                 onSuccess: () => {
                     refreshExperiences();
                     setSuccessMessage('Experience Added Successfully');
+                    reset();
                 },
             });
         }
     }
 
-    function handleSelect(id: string) {
+    function handleSelect(id: number) {
+        console.log(id);
         setData('is_working', id);
     }
 
     return (
         <div>
             <Dialog>
-                <DialogTrigger className="cursor-pointer text-4xl text-primary capitalize hover:text-green-900" onClick={() => setSuccessMessage('')}>
+                <DialogTrigger
+                    className="cursor-pointer text-4xl text-primary capitalize hover:text-green-900"
+                    onClick={() => {
+                        setSuccessMessage('');
+                        reset();
+                    }}
+                >
                     {trigger}
                 </DialogTrigger>
                 <DialogOverlay
@@ -132,9 +143,10 @@ export default function AddExperience({ trigger, refreshExperiences, experience,
                                 </div>
                                 <CustomRadioGroup
                                     label="Currently Working"
-                                    options={['Yes', 'No']}
-                                    selectedText={data.is_working}
-                                    onChangeFn={handleSelect}
+                                    options={['No', 'Yes']}
+                                    selectedOption={data.is_working ?? 0}
+                                    onChangeFn={(id) => handleSelect(id)}
+                                    layout="horizontal"
                                 />
                                 {errors.is_working && <p className="text-red-400">{errors.is_working}</p>}
                                 <div>
@@ -147,7 +159,10 @@ export default function AddExperience({ trigger, refreshExperiences, experience,
                                     {errors.description && <p className="text-red-400">{errors.description}</p>}
                                 </div>
 
-                                <Button className="hoverEffect text-white">Save Changes</Button>
+                                <Button className="hoverEffect flex gap-3 text-white" disabled={processing}>
+                                    {processing && <Loader className="animate-spin" />}
+                                    {type === 'create' ? 'Save' : 'Update'} Changes
+                                </Button>
                             </form>
                         </DialogHeader>
                     )}

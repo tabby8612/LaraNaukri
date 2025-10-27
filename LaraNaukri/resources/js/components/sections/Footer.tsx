@@ -5,7 +5,7 @@ import { Facebook, Instagram, Linkedin, X, Youtube } from 'lucide-react';
 export default function Footer() {
     return (
         <>
-            <section className="grid grid-cols-4 gap-3 bg-green-50 px-14 py-10">
+            <section className="grid grid-cols-2 gap-3 bg-green-50 px-14 py-10 md:grid-cols-4">
                 <div id="footermenuitems">
                     <h1 className="mb-5 font-montserrat text-lg font-semibold">Quick Links</h1>
                     <ul className="text-gray-500">

@@ -16,7 +16,7 @@ export default function DashboardOverviewWidget({ link, SVGIcon, mainText, secon
                     <SVGIcon className="size-10 text-primary" />
                     <div className="flex flex-col">
                         <h1 className="font-montserrat text-3xl font-bold">{mainText}</h1>
-                        <p>{secondaryText}</p>
+                        <p className="text-sm">{secondaryText}</p>
                     </div>
                 </CardContent>
             </Card>

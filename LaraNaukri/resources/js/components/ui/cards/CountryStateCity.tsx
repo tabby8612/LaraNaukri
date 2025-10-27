@@ -16,6 +16,10 @@ type Props = {
 };
 
 export default function CountryStateCity({ countryID, stateID, cityID, isrequired = false, setData }: Props) {
+    const [selectedCountry, setSelectedCountry] = useState(countryID);
+    const [selectedState, setSelectedState] = useState(stateID);
+    const [selectedCity, setSelectedCity] = useState(cityID);
+
     const [states, setStates] = useState<Item[] | []>([]);
     const [cities, setCities] = useState<Item[] | []>([]);
 
@@ -52,6 +56,7 @@ export default function CountryStateCity({ countryID, stateID, cityID, isrequire
 
     async function countriesHandler(e: ChangeEvent<HTMLSelectElement>) {
         if (setData) setData('country_id', e.target.value);
+        setSelectedCountry(e.target.value);
 
         const response = await fetch(
             route('related.states', {
@@ -66,6 +71,7 @@ export default function CountryStateCity({ countryID, stateID, cityID, isrequire
     }
 
     async function statesHandler(e: ChangeEvent<HTMLSelectElement>) {
+        setSelectedState(+e.target.value);
         if (setData) setData('state_id', e.target.value);
 
         const response = await fetch(
@@ -85,7 +91,7 @@ export default function CountryStateCity({ countryID, stateID, cityID, isrequire
                 label="Country"
                 name="country_id"
                 fetchTable="countries"
-                value={countryID}
+                value={selectedCountry}
                 onChange={(e) => countriesHandler(e)}
                 isrequired={isrequired}
             />
@@ -103,7 +109,7 @@ export default function CountryStateCity({ countryID, stateID, cityID, isrequire
                     className="h-10 w-full rounded border-2 border-gray-300 bg-white focus-visible:outline-2 focus-visible:outline-primary"
                     onChange={(e) => statesHandler(e)}
                     required={isrequired}
-                    value={stateID}
+                    value={selectedState}
                 >
                     <option value="0">Select State</option>
                     {states.length > 0 &&
@@ -127,8 +133,9 @@ export default function CountryStateCity({ countryID, stateID, cityID, isrequire
                     name="city_id"
                     className="h-10 w-full rounded border-2 border-gray-300 bg-white focus-visible:outline-2 focus-visible:outline-primary"
                     required={isrequired}
-                    value={cityID}
+                    value={selectedCity}
                     onChange={(e) => {
+                        setSelectedCity(+e.target.value);
                         if (setData) setData('city_id', e.target.value);
                     }}
                 >

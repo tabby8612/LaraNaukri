@@ -5,7 +5,7 @@ import { Phone } from '@/SVGs/Phone';
 export default function ContactInfo() {
     return (
         <>
-            <div id="contact-info" className="w-1/3">
+            <div id="contact-info" className="w-full md:w-1/3">
                 <p className="mt-7 font-montserrat text-lg font-bold tracking-wider text-primary">Need Any help?</p>
                 <h1 className="font-montserrat text-4xl font-bold tracking-wider">Get In Touch With Us</h1>
                 <div className="mt-7 flex items-center gap-3">

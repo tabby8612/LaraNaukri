@@ -25,7 +25,7 @@ export default function EducationsCard() {
                 <AddEducation trigger="+" refreshFn={refreshHandler} />
             </div>
             {educations.length > 0 && <EducationCard educations={educations} refreshFn={refreshHandler} viewOnly={false} />}
-            {educations.length < 1 && <p>No Education To Show. Click '+' To Add Education</p>}
+            {educations.length < 1 && <p className="text-center text-lg">😢 No Education To Show. Click '+' To Add Education</p>}
         </Card>
     );
 }

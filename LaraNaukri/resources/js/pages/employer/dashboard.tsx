@@ -34,7 +34,7 @@ export default function Dashboard() {
         <AppEmployerLayout displaySearch={false} page="dashboard" titleText="Welcome to Employer Dashboard">
             <Head title="Employer Dashboard" />
             <Toaster position="bottom-center" richColors closeButton />
-            <section id="dashboard-widgets" className="grid grid-cols-3 gap-7">
+            <section id="dashboard-widgets" className="grid grid-cols-2 gap-7 md:grid-cols-3">
                 <DashboardOverviewWidget
                     SVGIcon={ClockCircleFilled}
                     link={route('employer.manageJobs')}
@@ -56,7 +56,7 @@ export default function Dashboard() {
 
             <section className="rounded-xl p-7">
                 <h1 className="my-5 font-montserrat text-2xl font-bold">Upgrade Job Packages</h1>
-                <div className="grid grid-cols-3 gap-10">
+                <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
                     {jobPackages.map((jobPackage) => (
                         <PackageCard premiumPackage={jobPackage} type="job" key={jobPackage.id} />
                     ))}
@@ -74,7 +74,7 @@ export default function Dashboard() {
 
             <section className="rounded-xl p-7">
                 <h1 className="my-5 font-montserrat text-2xl font-bold">Upgrade CV Packages</h1>
-                <div className="grid grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
                     {cvPackages.map((cvPackage) => (
                         <PackageCard premiumPackage={cvPackage} type="cv" key={cvPackage.id} />
                     ))}

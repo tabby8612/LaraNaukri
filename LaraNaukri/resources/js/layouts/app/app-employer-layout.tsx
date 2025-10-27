@@ -12,11 +12,11 @@ export default function AppEmployerLayout({
     return (
         <AppLayout page="">
             <Searchjobhero displaySearch={displaySearch} titleText={titleText} />
-            <section className="mx-auto flex w-11/12 gap-1 p-7">
-                <div id="candidate-sidebar" className="w-[28%] p-4">
+            <section className="mx-auto flex w-11/12 flex-col gap-1 p-7 md:flex-row">
+                <div id="candidate-sidebar" className="p-4 md:w-[28%]">
                     <EmployerNavLinks page={page} />
                 </div>
-                <div id="candidate-content" className="w-[72%] p-4">
+                <div id="candidate-content" className="p-4 md:w-[72%]">
                     {children}
                 </div>
             </section>

@@ -23,17 +23,17 @@ export default function CompanyView() {
                 <title>{`${companyData.name}'s Company Page`}</title>
                 <meta name="description" content={`${companyData.name} company's page`} />
             </Head>
-            <section className="mx-auto mt-18 flex w-10/12 gap-10">
-                <div className="w-7/12">
+            <section className="mx-auto mt-18 flex w-10/12 flex-col gap-10 md:flex-row">
+                <div className="md:w-7/12">
                     <CompanyIntro companyData={companyData} isFollower={isFollower} />
                     <DescriptionCard type="Company" description={companyData.description} />
                 </div>
 
-                <div className="w-5/12">
+                <div className="md:w-5/12">
                     <Card className="border-stone-200">
                         <CardTitle className="px-6 font-montserrat text-lg font-bold text-primary">Company Detail</CardTitle>
                         <CardContent>
-                            <div className="grid grid-cols-3 gap-3">
+                            <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
                                 <CompanyCharacteristic Icon={VerifiedIcon} name="Verified" value="Yes" />
                                 <CompanyCharacteristic Icon={Users} name="Company Size" value={companyData.company_size} />
                                 <CompanyCharacteristic Icon={CakeIcon} name="Founded In" value={companyData.founded?.split('-')[0] ?? ''} />
@@ -51,7 +51,7 @@ export default function CompanyView() {
             </section>
             <section className="mx-auto mt-7 w-10/12 gap-10">
                 <h1 className="my-7 font-montserrat text-2xl font-bold">Current Openings</h1>
-                <div className="my-7 grid grid-cols-4 gap-3">
+                <div className="my-7 grid grid-cols-1 gap-3 md:grid-cols-4">
                     {openJobs.map((job) => (
                         <FeaturedJobCard
                             companyImageURL={`${companyData.image_path}`}

@@ -9,7 +9,7 @@ export default function UnlockedUsers() {
     return (
         <AppEmployerLayout displaySearch={false} page="unlockedUsers" titleText="Unlocked Seekers">
             {unlockedCandidates.length > 0 ? (
-                <section className="grid grid-cols-3 gap-10">
+                <section className="grid grid-cols-1 gap-10 md:grid-cols-3">
                     {unlockedCandidates.map((unlockedCandidate) => (
                         <FeaturedCandidateCard
                             imageUrl={unlockedCandidate.image_path}

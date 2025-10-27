@@ -68,10 +68,12 @@ export default function PublicProfileIntro({
                                 </Button>
                             </a>
                             {showMessageBtn && (
-                                <Button className="hoverEffect flex cursor-pointer items-center gap-2 rounded-xl border-2 border-primary bg-transparent px-11 py-5 text-lg text-primary hover:bg-primary hover:text-white">
-                                    <Send className="size-5" />
-                                    Send Message
-                                </Button>
+                                <a href={route('employer.messages')}>
+                                    <Button className="hoverEffect flex cursor-pointer items-center gap-2 rounded-xl border-2 border-primary bg-transparent px-11 py-5 text-lg text-primary hover:bg-primary hover:text-white">
+                                        <Send className="size-5" />
+                                        Send Message
+                                    </Button>
+                                </a>
                             )}
                         </div>
                     ) : (

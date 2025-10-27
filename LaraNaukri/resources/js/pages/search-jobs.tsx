@@ -24,8 +24,7 @@ export default function SearchJobs() {
     const [allJobs, setAllJobs] = useState<FilteredJobs[] | null>(null);
     const { auth } = props;
     const [isMobFilters, setIsMobFilters] = useState(false);
-
-    console.log(isMobFilters);
+    const [isMobAside, setIsMobAside] = useState(false);
 
     useEffect(() => {
         async function getAllJobs() {
@@ -42,11 +41,20 @@ export default function SearchJobs() {
     }, []);
 
     useLayoutEffect(() => {
-        if (window.screen.width < 1000) {
-            setIsMobFilters(true);
-        } else {
-            setIsMobFilters(false);
+        function handleResize() {
+            if (window.screen.width < 1000) {
+                setIsMobFilters(true);
+                setIsMobAside(false);
+            } else {
+                setIsMobFilters(false);
+                setIsMobAside(false);
+            }
         }
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     /**
@@ -76,8 +84,38 @@ export default function SearchJobs() {
 
     return (
         <AppLayout page="jobs">
+            <aside
+                className={`smoothTransition fixed top-0 right-0 z-20 block h-full overflow-y-auto bg-white pt-16 shadow-2xl ${isMobAside ? 'w-1/2 translate-x-0 sm:w-1/2' : 'w-0 translate-x-96'}`}
+            >
+                <p className="flex items-end justify-end px-4 py-3 text-right text-2xl" onClick={() => setIsMobAside(false)}>
+                    X
+                </p>
+
+                <div className="px-2">
+                    <form onSubmit={(e) => handleSubmit(e)}>
+                        {allJobs && <SearchFilter widgetTitle="title" data={allJobs} filterKey="title" />}
+                        {allJobs && <SearchFilter widgetTitle="type" data={allJobs} filterKey="type" />}
+                        {allJobs && <SearchFilter widgetTitle="shift" data={allJobs} filterKey="shift" />}
+                        {allJobs && <SearchFilter widgetTitle="Functional Area" data={allJobs} filterKey="category" />}
+                        {allJobs && <SearchFilter widgetTitle="gender" data={allJobs} filterKey="gender" />}
+                        {allJobs && <SearchFilter widgetTitle="degree" data={allJobs} filterKey="degree" />}
+                        {allJobs && <SearchFilter widgetTitle="country" data={allJobs} filterKey="country" />}
+                        {allJobs && <SearchFilter widgetTitle="company" data={allJobs} filterKey="company" />}
+                        {allJobs && <SearchFilter widgetTitle="city" data={allJobs} filterKey="city" />}
+                        {allJobs && <SearchFilter widgetTitle="career_level" data={allJobs} filterKey="career_level" />}
+
+                        {allJobs && (
+                            <button className="flex cursor-pointer items-center justify-center gap-3 bg-primary px-3 py-3 text-lg font-semibold text-white">
+                                <SearchCheckIcon />
+                                <p className="">Search Job</p>
+                            </button>
+                        )}
+                    </form>
+                </div>
+            </aside>
             <Head title="Search Job" />
             <Searchjobhero />
+
             <section className="mx-auto flex w-[95%] flex-col p-10 md:flex-row">
                 <div id="search-filter" className="mr-6 w-full md:w-1/4">
                     {auth.candidate ? (
@@ -114,15 +152,15 @@ export default function SearchJobs() {
 
                     {isMobFilters && (
                         <div
-                            className="mt-3 flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-black px-3 py-3 text-lg font-semibold text-white"
-                            onClick={() => router.get(route('candidate.buildResume'))}
+                            className="my-3 flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-black px-3 py-3 text-lg font-semibold text-white"
+                            onClick={() => setIsMobAside(true)}
                         >
                             <Filter fill="white" />
                             <p className="">Filters</p>
                         </div>
                     )}
 
-                    <form onSubmit={(e) => handleSubmit(e)}>
+                    <form onSubmit={(e) => handleSubmit(e)} className={`${isMobFilters && 'hidden size-0'}`}>
                         {allJobs && <SearchFilter widgetTitle="title" data={allJobs} filterKey="title" />}
                         {allJobs && <SearchFilter widgetTitle="type" data={allJobs} filterKey="type" />}
                         {allJobs && <SearchFilter widgetTitle="shift" data={allJobs} filterKey="shift" />}

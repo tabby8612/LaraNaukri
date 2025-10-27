@@ -24,7 +24,7 @@ export default function CandidateDashboard() {
     return (
         <AppCandidateLayout page="dashboard" titleText="Welcome to Candidate Dashboard" displaySearch>
             <Head title="Candidate Dashboard" />
-            <section id="dashboard-overview" className="flex gap-5">
+            <section id="dashboard-overview" className="grid w-full grid-cols-2 gap-2 md:grid-cols-4">
                 <DashboardOverviewWidget SVGIcon={RoundRemoveRedEye} link="" mainText={candidate.profile_views} secondaryText="Profile Views" />
                 <DashboardOverviewWidget
                     SVGIcon={User}
@@ -59,31 +59,37 @@ export default function CandidateDashboard() {
                 <IntroCard candidate={candidate} />
             </section>
 
-            <section className="mt-30">
+            <section className="mt-30 p-7">
                 <h1 className="font-montserrat text-2xl font-semibold">My Applied Jobs</h1>
 
-                <div className="mt-2 grid grid-cols-3 gap-5">
-                    {filteredAppliedJobs.length > 0 &&
-                        filteredAppliedJobs.map((application) => (
-                            <FeaturedJobCard
-                                JobID={application.job.id}
-                                companyImageURL={application.job.companies.image_path}
-                                companyName={application.job.companies.name}
-                                companySlug={application.job.companies.slug}
-                                featured={application.job.featured}
-                                location={application.job.location}
-                                postedDate={application.job.created_at}
-                                salary={application.job.salary_from}
-                                title={application.job.title}
-                                type={application.job.type}
-                                companyID={`${application.job.companies.id}`}
-                                key={application.id}
-                            />
-                        ))}
-                </div>
-                <p className="mt-3 cursor-pointer text-right font-bold text-primary" onClick={() => setShowAllJobs(!showAllJobs)}>
-                    {showAllJobs ? 'Show (3)' : 'Show All'}
-                </p>
+                {candidate.applications.length > 0 ? (
+                    <>
+                        <div className="mt-2 grid grid-cols-1 gap-5 md:grid-cols-3">
+                            {filteredAppliedJobs.length > 0 &&
+                                filteredAppliedJobs.map((application) => (
+                                    <FeaturedJobCard
+                                        JobID={application.job.id}
+                                        companyImageURL={application.job.companies.image_path}
+                                        companyName={application.job.companies.name}
+                                        companySlug={application.job.companies.slug}
+                                        featured={application.job.featured}
+                                        location={application.job.location}
+                                        postedDate={application.job.created_at}
+                                        salary={application.job.salary_from}
+                                        title={application.job.title}
+                                        type={application.job.type}
+                                        companyID={`${application.job.companies.id}`}
+                                        key={application.id}
+                                    />
+                                ))}
+                        </div>
+                        <p className="mt-3 cursor-pointer text-right font-bold text-primary" onClick={() => setShowAllJobs(!showAllJobs)}>
+                            {showAllJobs ? 'Show (3)' : 'Show All'}
+                        </p>
+                    </>
+                ) : (
+                    <div className="text-center text-lg">😢 You've Not Applied For Any Job</div>
+                )}
             </section>
 
             <section className="p-7">

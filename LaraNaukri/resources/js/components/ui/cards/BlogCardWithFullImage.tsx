@@ -27,7 +27,7 @@ export default function BlogCardWithFullImage({ imageUrl, category, description,
                     {category.name}
                 </a>
             </p>
-            <p className="text-gray-600">{description.slice(0, 180)}</p>
+            <p className="text-gray-600" dangerouslySetInnerHTML={{ __html: description.slice(0, 180) }} />
         </Card>
     );
 }

@@ -6,7 +6,6 @@ import ExperienceCard from './ExperienceCard';
 
 export default function ExperiencesCard() {
     const { experiences } = usePage<{ experiences: Experience[] }>().props;
-    console.log(experiences);
 
     function refreshHandler() {
         router.get(

@@ -66,7 +66,13 @@ export default function EditPersonalInformation({ data, setData }: Props) {
             </div>
 
             <div className="mt-3 flex gap-3">
-                <CountryStateCity countryID={`${data.country_id}`} stateID={data.state_id} cityID={data.city_id} isrequired />
+                <CountryStateCity
+                    countryID={`${data.country_id ?? '233'}`}
+                    stateID={data.state_id}
+                    cityID={data.city_id}
+                    isrequired
+                    setData={setData}
+                />
             </div>
             <div className="mt-3 flex gap-3">
                 <CustomSelectField

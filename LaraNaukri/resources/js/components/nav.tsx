@@ -60,7 +60,7 @@ export default function Nav({ page }: { page: string }) {
                 <link rel="icon" type="image/x-icon" href={site_favicon_path} />
             </Head>
             <aside
-                className={`smoothTransition fixed top-0 right-0 h-screen bg-white shadow-2xl ${isMobAside ? 'w-3/4 translate-x-0 sm:w-1/2' : 'w-0 translate-x-96'}`}
+                className={`smoothTransition fixed top-0 right-0 z-20 h-screen bg-white pt-16 shadow-2xl ${isMobAside ? 'w-1/2 translate-x-0 sm:w-1/2' : 'w-0 translate-x-96'}`}
             >
                 <p className="px-4 py-2 text-right text-2xl" onClick={() => setIsMobAside(false)}>
                     X

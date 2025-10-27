@@ -2,10 +2,8 @@ import { Candidate } from '@/types';
 import FeaturedCandidateCard from '../ui/cards/FeaturedCandidateCard';
 
 export default function CandidateSearchResults({ candidates }: { candidates: Candidate[] }) {
-    console.log(candidates);
-
     return (
-        <div id="job-results" className="w-3/4">
+        <div id="job-results" className="md:w-3/4">
             {candidates?.length ? (
                 <div>
                     <h1>{candidates.length} Candidates Found</h1>
@@ -20,7 +18,7 @@ export default function CandidateSearchResults({ candidates }: { candidates: Can
                 </div>
             )}
 
-            <div className="my-7 grid grid-cols-3 gap-5">
+            <div className="my-7 grid gap-5 md:grid-cols-3">
                 {candidates &&
                     candidates.map((candidate) => (
                         <FeaturedCandidateCard

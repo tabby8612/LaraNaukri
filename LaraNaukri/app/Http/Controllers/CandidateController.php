@@ -8,10 +8,13 @@ use App\Jobs\GenerateResume;
 use App\Models\Application;
 use App\Models\Candidate;
 use App\Models\ChatMessage;
+use App\Models\PaymentHistory;
 use App\Models\User;
+use App\Notifications\CandidateProfileUpdated;
 use App\Service\CandidateService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -46,18 +49,19 @@ class CandidateController extends Controller {
     public function dashboard() {
 
         $user_id = Auth::id();
-        $relations = ["user:id,email", "applications", "applications.job.companies", "payments.package"];
+        $relations = ["user:id,email", "applications", "applications.job.companies", "payments.package", "country", "state", "city"];
         $relationsCount = ["companies", "resumes"];
 
         $candidate = $this->candidateService->fetchCandidate($user_id, $relations, $relationsCount);
+        $candidate['payments'] = PaymentHistory::query()->where('user_id', $user_id)->with('package')->get()->toArray();
 
         if (isset($candidate['payments'])) {
+
             $candidate['active_package'] = $this->candidateService->getActivePackage($user_id, $candidate['payments']);
+
         }
 
         $candidate['unread_message_count'] = ChatMessage::where('receiver_id', Auth::id())->where('status', MessageStatusEnum::UNREAD)->count();
-
-
 
         return Inertia::render("candidate/dashboard", [
             "candidate" => $candidate ?? []
@@ -95,6 +99,8 @@ class CandidateController extends Controller {
 
         $candidate = $this->candidateService->fetchCandidate($user_id, $relations);
 
+
+
         return Inertia::render("candidate/edit-profile", [
             "candidate" => $candidate,
         ]);
@@ -123,7 +129,6 @@ class CandidateController extends Controller {
     }
 
     public function downloadResume() {
-
         $userID = Auth::id();
 
         $relations = [
@@ -141,14 +146,19 @@ class CandidateController extends Controller {
         //-- Calculating Age
         $candidate["age"] = round(Carbon::parse($candidate["date_of_birth"])->diffInYears(now()), 1);
 
+
         //-- Generating PDF through Browsershot Using Queue
-        $html = view("resume", compact("candidate"))->render();
+        if (isset($candidate["phone"]) && isset($candidate["mobile"]) && isset($candidate["address"]) && isset($candidate["summary"])) {
+            /**
+             * @var User
+             */
+            $user = Auth::user();
+            $user->notify(new CandidateProfileUpdated('We Are Creating Your Resume'));
 
-        Candidate::where("id", "=", $candidate['id'])->update([
-            "resume_path" => null
-        ]);
+            $html = view("resume", compact("candidate"))->render();
 
-        GenerateResume::dispatch($html, $candidate['id']);
+            GenerateResume::dispatch($html, $candidate['id']);
+        }
 
         return Inertia::render("candidate/download-resume", [
             "candidate" => $candidate
@@ -199,6 +209,21 @@ class CandidateController extends Controller {
             ->toArray();
 
         return Inertia::render("candidate/job-applications", compact('applications'));
+    }
+
+    public function getNotifications() {
+
+        $user = Auth::user();
+
+        $notificationMessage = '';
+        foreach ($user->unreadNotifications as $notification) {
+            # code...
+            $notificationMessage = $notification->data['message'];
+            $notification->markAsRead();
+
+        }
+
+        return response()->json(["message" => $notificationMessage]);
     }
 
     public function logout() {

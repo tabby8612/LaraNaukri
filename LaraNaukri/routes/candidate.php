@@ -113,6 +113,9 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::get('paypal-success', [CandidatePaymentController::class, 'paypalSuccess'])->name('paypal.success');
     Route::get('paypal-cancel', [CandidatePaymentController::class, 'paypalCancel'])->name('paypal.cancel');
 
+    //--- Listening To Notification
+    Route::get('notifications', [CandidateController::class, 'getNotifications'])->name('get.notification');
+
     //--- Logout
     Route::get("logout", [CandidateController::class, 'logout'])->name("logout");
 

@@ -25,6 +25,7 @@ export default function SkillsCard() {
                 <AddSkill trigger="+" skillsRefreshFn={refreshHandler} type="create" />
             </div>
             {skills.length > 0 && <SkillCard skills={skills} skillsRefreshFn={refreshHandler} />}
+            {skills.length < 1 && <p className="text-center text-lg">😢 No Skills To Show. Click '+' To Add Skill</p>}
         </Card>
     );
 }

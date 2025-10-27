@@ -16,7 +16,7 @@ export default function CompanyIntro({ companyData, isFollower }: { companyData:
     return (
         <>
             <Card className="gap-1 border border-gray-200 py-0 shadow-transparent">
-                <Card className="flex flex-row gap-3 border-0 px-6 shadow-transparent">
+                <Card className="flex flex-col items-center gap-3 border-0 px-6 text-center shadow-transparent md:flex-row">
                     <img
                         src={`/storage/${companyData.image_path ?? 'companies/default.png'}`}
                         alt={companyData.name}
@@ -37,7 +37,7 @@ export default function CompanyIntro({ companyData, isFollower }: { companyData:
                         </CardContent>
                     </Card>
                 </Card>
-                <Card className="my-0 flex flex-row gap-3 rounded-sm border-0 bg-stone-200/60 px-2 shadow-transparent">
+                <Card className="my-0 flex flex-col gap-3 rounded-sm border-0 bg-stone-200/60 px-2 shadow-transparent md:flex-row">
                     <Button
                         className="cursor-pointer rounded-lg border border-primary bg-transparent px-7 py-5 text-center text-primary transition-colors delay-75 duration-300 hover:text-white"
                         onClick={() => handleFollower(`${companyData.id}`)}

@@ -30,8 +30,8 @@ class CandidateProfileRequest extends FormRequest {
             //
             "email" => ['required', Rule::email()->rfcCompliant()->preventSpoofing()],
             "password" => ['required', 'min:5'],
-            "first_name" => ['required', 'min:5'],
-            "last_name" => ['required', 'min:5'],
+            "first_name" => ['required', 'min:3'],
+            "last_name" => ['required', 'min:3'],
             "gender_id" => ['required', 'size:1'],
             "marital_status_id" => ['required', 'size:1'],
             "nationality_id" => ['required'],

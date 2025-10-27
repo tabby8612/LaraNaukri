@@ -1,14 +1,22 @@
 import { router, usePage } from '@inertiajs/react';
 import { DialogDescription } from '@radix-ui/react-dialog';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Button } from '../UnusedUI/button';
 import { Dialog, DialogContent, DialogOverlay, DialogTitle, DialogTrigger } from '../UnusedUI/dialog';
 
 export default function UnlockConfirmation({ trigger, candidateID }: { trigger?: string | ReactNode; candidateID: string }) {
     const { message } = usePage<{ message: string }>().props;
 
+    console.log(message);
+
     const [closeDialog, setCloseDialog] = useState(false);
     const [unlockedMessage, setUnlockMesasge] = useState(message);
+
+    useEffect(() => {
+        if (!message) return;
+
+        setUnlockMesasge(message);
+    }, [message]);
 
     function unlockHandler() {
         router.post(

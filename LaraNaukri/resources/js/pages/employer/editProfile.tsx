@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/UnusedUI/button';
 import AppEmployerLayout from '@/layouts/app/app-employer-layout';
 import { Company } from '@/types/employer';
 import { useForm, usePage } from '@inertiajs/react';
+import { Loader } from 'lucide-react';
 import { FormEvent, useEffect, useState } from 'react';
 
 const ownership = ['Sole Proprietorship', 'Public', 'Private', 'Government', 'NGO'];
@@ -38,7 +39,7 @@ export default function EditProfile() {
     const companySizeArr = Array.from({ length: companySize.length }).map((_, index) => ({ id: companySize[index], name: companySize[index] }));
     const establishedInArr = Array.from({ length: 100 }).map((_, index) => ({ id: `${time - index}`, name: `${time - index}` }));
 
-    const { data, setData, post, errors, hasErrors } = useForm({
+    const { data, setData, post, errors, hasErrors, processing } = useForm({
         user_id: company.user.id,
         email: company.user.email ?? '',
         password: '',
@@ -65,9 +66,6 @@ export default function EditProfile() {
         hr_designation: company.hr_designation ?? '',
         reg_number: company.reg_number ?? '',
     });
-
-    console.log(errors);
-    console.log(data.description);
 
     function submitHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -114,7 +112,7 @@ export default function EditProfile() {
                 </div>
 
                 <h1 className="mt-5 font-montserrat text-2xl font-bold">Company Information</h1>
-                <div className="flex w-1/2 gap-6">
+                <div className="flex gap-6 md:w-1/2">
                     <CustomUploadField label="Company Logo" name="image_path" profileImage={company.image_path ?? null} setData={setData} />
                 </div>
                 <div className="mt-5 w-full">
@@ -295,7 +293,10 @@ export default function EditProfile() {
                         onChange={(e) => setData('reg_number', e.target.value)}
                     />
                 </div>
-                <Button className="mt-5 w-full cursor-pointer font-montserrat font-bold text-white uppercase">Update Profile and Save</Button>
+                <Button className="mt-5 flex w-full cursor-pointer gap-2 font-montserrat font-bold text-white uppercase" disabled={processing}>
+                    {processing && <Loader className="animate-spin" />}
+                    Update Profile and Save
+                </Button>
             </form>
         </AppEmployerLayout>
     );

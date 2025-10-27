@@ -37,10 +37,16 @@ export default function PublicProfileQualifications({ skills, languages, experie
             </section>
             <section className="my-7">
                 <h1 className="font-montserrat text-2xl font-bold">Portfilio</h1>
-                <div className="grid grid-cols-3 gap-4">
-                    {projects.map((project) => (
-                        <PortfilioProject project={project} key={project.id} refreshProjectsFn={() => {}} showEditOptions={false} />
-                    ))}
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                    {projects.length > 1 ? (
+                        projects.map((project) => (
+                            <PortfilioProject project={project} key={project.id} refreshProjectsFn={() => {}} showEditOptions={false} />
+                        ))
+                    ) : (
+                        <div className="">
+                            <p>😢 No Project Added</p>
+                        </div>
+                    )}
                 </div>
                 <hr className="mx-auto my-7 w-11/12 border-gray-300" />
             </section>

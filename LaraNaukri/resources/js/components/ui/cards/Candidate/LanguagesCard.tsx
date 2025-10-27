@@ -24,7 +24,8 @@ export default function LanguagesCard() {
                 <h1 className="font-montserrat text-2xl font-bold">Languages</h1>
                 <AddLanguage trigger="+" type="create" refreshFn={refreshHandler} />
             </div>
-            {languages && <LanguageCard languages={languages} refreshFn={refreshHandler} />}
+            {languages.length > 0 && <LanguageCard languages={languages} refreshFn={refreshHandler} />}
+            {languages.length < 1 && <p className="text-center text-lg">😢 No Languages To Show. Click '+' To Add Language</p>}
         </Card>
     );
 }

@@ -250,12 +250,15 @@ class CompanyController extends Controller {
         return Inertia::render("employer/user-profile", compact("candidate", "hasUnlocked"));
     }
 
-    public function unlockUser(Candidate $candidate) {
+    public function unlockUser(string $candidateID) {
+        $candidate = Candidate::query()->where('id', $candidateID)->firstOrFail();
+
         $reachCVQuota = $this->paymentHistoryServices->reachCVQuota(Auth::id());
 
         if ($reachCVQuota) return back()->with("message", "You have used your CV Quota");
 
         $company = Company::where('user_id', Auth::id())->first();
+
         $company->candidatesUnlocked()->attach($candidate->id);
 
         $this->paymentHistoryServices->increseCVQuota(Auth::id());

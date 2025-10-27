@@ -9,14 +9,14 @@ export default function IntroCard({ candidate }: { candidate: Candidate }) {
             <div className="flex h-full items-center gap-5">
                 <img
                     src={`/storage/${candidate.image_path ? candidate.image_path : '/user_images/default.png'}`}
-                    alt={candidate.name}
+                    alt={candidate.first_name}
                     className="h-20 w-30 rounded-lg"
                 />
                 <div>
-                    <h1 className="font-montserrat text-2xl font-bold text-primary">{candidate.name}</h1>
+                    <h1 className="font-montserrat text-2xl font-bold text-primary">{`${candidate.first_name} ${candidate.last_name}`}</h1>
                     <div className="mt-2 flex items-center gap-3">
                         <Location className="text-gray-500" />
-                        <p className="text-gray-500">{candidate.address}</p>
+                        <p className="text-gray-500">{candidate.country?.name ?? 'Not Set'}</p>
                     </div>
                     <div className="flex items-center gap-3">
                         <Phone className="text-gray-500" />

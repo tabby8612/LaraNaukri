@@ -24,39 +24,43 @@ export default function JobsAlert() {
                     }
                 />
             </section>
-            <table className="mt-4 w-full">
-                <thead className="px-4">
-                    <tr className="bg-primary py-3 font-bold text-white">
-                        <td className="rounded-l-lg px-3 py-1">Alert Title</td>
-                        <td className="px-3">Location</td>
-                        <td className="px-3">Created On</td>
-                        <td className="rounded-r-lg px-3">Action</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {alerts.length > 0 &&
-                        alerts.map((alert) => (
-                            <tr className="odd:bg-green-100" key={alert.id}>
-                                <td className="px-3 py-1">{alert.name}</td>
-                                <td className="px-3">{alert.city?.name ? `${alert.city.name}, ${alert.country?.name}` : alert.country?.name}</td>
-                                <td className="px-3">{alert.created_at}</td>
-                                <td className="px-3 py-0.5 align-middle font-semibold text-red-500">
-                                    <DeleteConfirmation
-                                        trigger={
-                                            <p className="flex items-center gap-2 text-red-500">
-                                                <Trash2 className="size-3" />
-                                                <span className="cursor-pointer text-sm hover:underline">Delete</span>
-                                            </p>
-                                        }
-                                        deleteFn={() => {
-                                            deleteHandler(alert.id);
-                                        }}
-                                    />
-                                </td>
-                            </tr>
-                        ))}
-                </tbody>
-            </table>
+            {alerts.length > 1 ? (
+                <table className="mt-4 w-full">
+                    <thead className="px-4">
+                        <tr className="bg-primary py-3 font-bold text-white">
+                            <td className="rounded-l-lg px-3 py-1">Alert Title</td>
+                            <td className="px-3">Location</td>
+                            <td className="px-3">Created On</td>
+                            <td className="rounded-r-lg px-3">Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {alerts.length > 0 &&
+                            alerts.map((alert) => (
+                                <tr className="odd:bg-green-100" key={alert.id}>
+                                    <td className="px-3 py-1">{alert.name}</td>
+                                    <td className="px-3">{alert.city?.name ? `${alert.city.name}, ${alert.country?.name}` : alert.country?.name}</td>
+                                    <td className="px-3">{alert.created_at}</td>
+                                    <td className="px-3 py-0.5 align-middle font-semibold text-red-500">
+                                        <DeleteConfirmation
+                                            trigger={
+                                                <p className="flex items-center gap-2 text-red-500">
+                                                    <Trash2 className="size-3" />
+                                                    <span className="cursor-pointer text-sm hover:underline">Delete</span>
+                                                </p>
+                                            }
+                                            deleteFn={() => {
+                                                deleteHandler(alert.id);
+                                            }}
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
+                    </tbody>
+                </table>
+            ) : (
+                <div className="mt-3 text-center text-lg">😢 No Alert Have Been Created Yet</div>
+            )}
         </AppCandidateLayout>
     );
 }

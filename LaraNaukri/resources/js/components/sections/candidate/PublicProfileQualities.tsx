@@ -30,7 +30,7 @@ export default function PublicProfileQualities({
     return (
         <Card className="mt-5 gap-2 border-gray-300 p-10 shadow-none">
             <h1 className="font-montserrat text-2xl font-bold text-primary">Candidate Details</h1>
-            <section className="grid grid-cols-2">
+            <section className="mx-auto grid grid-cols-2 items-center justify-between gap-6">
                 <CharacteristicBadge badge={<VerifiedIcon className="size-7 text-primary" />} name="Verified" value={verified ? 'Yes' : 'No'} />
                 <CharacteristicBadge
                     badge={<Handshake className="size-7 text-primary" />}

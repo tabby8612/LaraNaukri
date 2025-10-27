@@ -55,8 +55,8 @@ export default function SearchTalent() {
         <AppLayout page="talents">
             <Head title="Search Talent" />
             <SearchTalentHero />
-            <section className="mx-auto flex w-[95%] p-10">
-                <div id="search-filter" className="mr-6 w-1/4">
+            <section className="mx-auto flex w-[95%] flex-col p-10 md:flex-row">
+                <div id="search-filter" className="mr-6 w-full md:w-1/4">
                     <CandidateSearchFilter widgetTitle="Country" data={groupByCountry} onChangeFn={(val) => handleChange('country_id', val)} />
                     <CandidateSearchFilter widgetTitle="State" data={groupByState} onChangeFn={(val) => handleChange('state_id', val)} />
                     <CandidateSearchFilter widgetTitle="City" data={groupByCity} onChangeFn={(val) => handleChange('city_id', val)} />
@@ -72,7 +72,7 @@ export default function SearchTalent() {
                     />
                     <CandidateSearchFilter widgetTitle="Gender" data={groupByGender} onChangeFn={(val) => handleChange('gender_id', val)} />
                     <form onSubmit={(e) => handleSubmit(e)}>
-                        <button className="flex cursor-pointer items-center justify-center gap-3 bg-primary px-3 py-3 text-lg font-semibold text-white">
+                        <button className="my-3 flex w-full cursor-pointer items-center justify-center gap-3 bg-primary px-3 py-3 text-lg font-semibold text-white">
                             <SearchCheckIcon />
                             <p className="">Search Candidate</p>
                         </button>

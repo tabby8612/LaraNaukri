@@ -21,7 +21,7 @@ export default function EmployerNavLinks({ page = 'dashboard' }: { page: string 
     }>().props;
 
     return (
-        <ul className="ml-2">
+        <ul className="ml-2 grid grid-cols-2 md:grid-cols-1">
             <a href={route('employer.dashboard')}>
                 <li className="group mt-4 flex items-center gap-2 hover:cursor-pointer">
                     <BaselineDashboard className={`size-5 group-hover:text-primary ${page === 'dashboard' ? 'text-primary' : 'text-gray-500'}`} />

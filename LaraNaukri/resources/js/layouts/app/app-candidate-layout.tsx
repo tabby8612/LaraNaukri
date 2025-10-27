@@ -14,13 +14,13 @@ export default function AppCandidateLayout({
     return (
         <AppLayout page="">
             <Searchjobhero displaySearch={displaySearch} titleText={titleText} />
-            <section className="mx-auto flex w-11/12 gap-1 p-7">
-                <div id="candidate-sidebar" className="w-[28%] p-4">
+            <section className="mx-auto flex flex-col gap-1 p-7 md:w-11/12 md:flex-row">
+                <div id="candidate-sidebar" className="w-full p-4 md:w-[28%]">
                     <CandidateSidebarHeader />
                     <OpenToWork />
                     <CandidateNavLinks page={page} />
                 </div>
-                <div id="candidate-content" className="w-[72%] p-4">
+                <div id="candidate-content" className="p-4 md:w-[72%]">
                     {children}
                 </div>
             </section>

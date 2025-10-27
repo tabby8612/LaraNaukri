@@ -4,7 +4,7 @@ import { Input } from '../ui/UnusedUI/input';
 
 export default function ContactForm() {
     return (
-        <div id="contact-form" className="w-2/3 p-6">
+        <div id="contact-form" className="w-full p-6 md:w-2/3">
             <p className="font-montserrat text-lg font-bold tracking-wider text-primary">Send us an email</p>
             <h1 className="font-montserrat text-4xl font-bold tracking-wider">Feel free to write</h1>
 

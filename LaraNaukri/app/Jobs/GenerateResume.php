@@ -30,6 +30,10 @@ class GenerateResume implements ShouldQueue {
         $fullPath = "app/public/candidates/cvs/{$this->candidateID}.pdf";
         $relativePath = "candidates/cvs/{$this->candidateID}.pdf";
 
+        Candidate::where("id", "=", $this->candidateID)->update([
+            "resume_path" => null
+        ]);
+
         Browsershot::html($this->html)
             ->emulateMedia('screen')
             ->showBackground()

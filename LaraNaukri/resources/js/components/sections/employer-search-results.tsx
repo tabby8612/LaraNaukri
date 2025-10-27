@@ -11,7 +11,7 @@ export default function EmployerSearchResults({ companies }: { companies: Compan
                 Showing Employers: 1 - {companies.length} Total {companies.length}
             </p>
 
-            <div className="my-7 grid grid-cols-3 gap-5">
+            <div className="my-7 grid gap-5 md:grid-cols-3">
                 {companies.map((company) => (
                     <EmployerCard
                         imageUrl={company.image_path}

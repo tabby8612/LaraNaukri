@@ -15,6 +15,8 @@ class Candidate extends Model {
     //     "user_id", "first_name"
     // ];
 
+
+
     protected $guarded = [];
 
     //--- Relationships
