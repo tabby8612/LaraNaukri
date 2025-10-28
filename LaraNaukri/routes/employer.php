@@ -18,7 +18,7 @@ Route::prefix("employer")->name("employer.")->middleware("IsEmployer")->group(fu
 
 
     Route::get("post-job", [JobController::class, 'create'])->name('postJob');
-    Route::post("post-job", [JobController::class, 'store'])->name('postJob');
+    Route::post("post-job", [JobController::class, 'store'])->name('storeJob');
 
 
     Route::get("manage-jobs", [CompanyController::class, 'manageJobs'])->name('manageJobs');
@@ -28,7 +28,7 @@ Route::prefix("employer")->name("employer.")->middleware("IsEmployer")->group(fu
 
 
     Route::get("edit-job/{job}", [CompanyJobController::class, 'edit'])->name('editJob');
-    Route::put("edit-job/{job}", [CompanyJobController::class, 'update'])->name('editJob');
+    Route::put("edit-job/{job}", [CompanyJobController::class, 'update'])->name('updateJob');
 
     Route::get("delete-job/{job}", [CompanyJobController::class, 'destroy'])->name('deleteJob');
 

@@ -5,10 +5,12 @@ import LanguagesCard from '@/components/ui/cards/Candidate/LanguagesCard';
 import ProjectsCard from '@/components/ui/cards/Candidate/ProjectsCard';
 import SkillsCard from '@/components/ui/cards/Candidate/SkillsCard';
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
+import { Head } from '@inertiajs/react';
 
 export default function BuildResume() {
     return (
         <AppCandidateLayout page="build-resume" displaySearch={false} titleText="Build Resume">
+            <Head title="Build Resume" />
             <h1 className="font-montserrat text-2xl font-semibold">Build Your Resume</h1>
             <CVCard />
             <ProjectsCard />

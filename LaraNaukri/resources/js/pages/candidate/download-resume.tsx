@@ -8,32 +8,16 @@ import PersonalDetails from '@/components/ui/cards/Candidate/PersonalDetails';
 import SkillsDetails from '@/components/ui/cards/Candidate/SkillsDetails';
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
 import { Candidate } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { DownloadIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { toast, Toaster } from 'sonner';
 
 export default function DownloadResume() {
     const { candidate } = usePage<{ candidate: Candidate }>().props;
-    const [resumeMessage, setResumeMessage] = useState('');
-
-    useEffect(() => {
-        async function getUnReadNotification() {
-            const response = await fetch(route('candidate.get.notification'));
-            const data = await response.json();
-
-            console.log(data.message);
-            setResumeMessage(data.message);
-            toast.success(data.message);
-        }
-
-        getUnReadNotification();
-    }, []);
 
     return (
         <AppCandidateLayout titleText="Download Resume" page="download-cv" displaySearch={false}>
-            <Toaster richColors position="top-right" />
-            {candidate.resume_path ? (
+            <Head title="Download Your Resume" />
+            {candidate.resume_path && (
                 <div className="flex justify-end px-3">
                     <a
                         className="flex h-11 w-44 cursor-pointer items-center justify-center gap-3 rounded-lg bg-primary py-5 font-bold tracking-widest text-white shadow-lg disabled:bg-gray-400"
@@ -43,10 +27,6 @@ export default function DownloadResume() {
                         <DownloadIcon />
                         <p>Download</p>
                     </a>
-                </div>
-            ) : (
-                <div className="flex justify-end px-3">
-                    <p>{resumeMessage}</p>
                 </div>
             )}
 

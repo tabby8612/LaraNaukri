@@ -76,11 +76,11 @@ export default function PostJob() {
         }));
 
         if (type === 'edit') {
-            post(route('employer.editJob', job.id), {
+            post(route('employer.updateJob', job.id), {
                 onSuccess: () => setSuccessMessage('Updated Successfully'),
             });
         } else {
-            post(route('employer.postJob'));
+            post(route('employer.storeJob'));
         }
     }
 

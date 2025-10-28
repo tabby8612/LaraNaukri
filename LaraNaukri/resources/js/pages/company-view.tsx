@@ -26,7 +26,7 @@ export default function CompanyView() {
             <section className="mx-auto mt-18 flex w-10/12 flex-col gap-10 md:flex-row">
                 <div className="md:w-7/12">
                     <CompanyIntro companyData={companyData} isFollower={isFollower} />
-                    <DescriptionCard type="Company" description={companyData.description} />
+                    <DescriptionCard type="Company" description={companyData.description ?? 'Description not set'} />
                 </div>
 
                 <div className="md:w-5/12">
@@ -35,10 +35,18 @@ export default function CompanyView() {
                         <CardContent>
                             <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
                                 <CompanyCharacteristic Icon={VerifiedIcon} name="Verified" value="Yes" />
-                                <CompanyCharacteristic Icon={Users} name="Company Size" value={companyData.company_size} />
-                                <CompanyCharacteristic Icon={CakeIcon} name="Founded In" value={companyData.founded?.split('-')[0] ?? ''} />
-                                <CompanyCharacteristic Icon={Building2Icon} name="Organization Type" value={companyData.organization_type} />
-                                <CompanyCharacteristic Icon={Landmark} name="Total Offices" value={`${companyData.total_offices}`} />
+                                <CompanyCharacteristic Icon={Users} name="Company Size" value={companyData.company_size ?? 'Not Set'} />
+                                <CompanyCharacteristic Icon={CakeIcon} name="Founded In" value={companyData.founded?.split('-')[0] ?? 'Not Set'} />
+                                <CompanyCharacteristic
+                                    Icon={Building2Icon}
+                                    name="Organization Type"
+                                    value={companyData.organization_type ?? 'Organization Type Not Set'}
+                                />
+                                <CompanyCharacteristic
+                                    Icon={Landmark}
+                                    name="Total Offices"
+                                    value={`${companyData.total_offices ?? 'Total Office Not Yet'}`}
+                                />
                                 <CompanyCharacteristic Icon={BriefcaseBusinessIcon} name="Opened Jobs" value={`${openJobs.length}`} />
                             </div>
                         </CardContent>
@@ -51,25 +59,29 @@ export default function CompanyView() {
             </section>
             <section className="mx-auto mt-7 w-10/12 gap-10">
                 <h1 className="my-7 font-montserrat text-2xl font-bold">Current Openings</h1>
-                <div className="my-7 grid grid-cols-1 gap-3 md:grid-cols-4">
-                    {openJobs.map((job) => (
-                        <FeaturedJobCard
-                            companyImageURL={`${companyData.image_path}`}
-                            jobSlug={job.slug}
-                            companyName={companyData.name}
-                            location={job.location}
-                            postedDate={job.created_at}
-                            title={job.title}
-                            type={job.type}
-                            salary={job.salary_to}
-                            key={job.id}
-                            JobID={job.id!}
-                            featured={job.featured}
-                            companyID={`${companyData.id}`}
-                            companySlug={companyData.slug}
-                        />
-                    ))}
-                </div>
+                {openJobs.length > 1 ? (
+                    <div className="my-7 grid grid-cols-1 gap-3 md:grid-cols-4">
+                        {openJobs.map((job) => (
+                            <FeaturedJobCard
+                                companyImageURL={`${companyData.image_path}`}
+                                jobSlug={job.slug}
+                                companyName={companyData.name}
+                                location={job.location}
+                                postedDate={job.created_at}
+                                title={job.title}
+                                type={job.type}
+                                salary={job.salary_to}
+                                key={job.id}
+                                JobID={job.id!}
+                                featured={job.featured}
+                                companyID={`${companyData.id}`}
+                                companySlug={companyData.slug}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="my-5 p-2">😢 No Current Open Job</div>
+                )}
             </section>
         </AppLayout>
     );

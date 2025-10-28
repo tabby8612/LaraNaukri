@@ -7,8 +7,6 @@ import { Dialog, DialogContent, DialogOverlay, DialogTitle, DialogTrigger } from
 export default function UnlockConfirmation({ trigger, candidateID }: { trigger?: string | ReactNode; candidateID: string }) {
     const { message } = usePage<{ message: string }>().props;
 
-    console.log(message);
-
     const [closeDialog, setCloseDialog] = useState(false);
     const [unlockedMessage, setUnlockMesasge] = useState(message);
 

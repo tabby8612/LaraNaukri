@@ -26,7 +26,7 @@ export default function AnalyzeResume() {
 
         setIsThinking(true);
 
-        post(route('candidate.analyze.resume'), {
+        post(route('candidate.post.analyze.resume'), {
             preserveScroll: true,
             preserveState: true,
             onFinish: () => setIsThinking(false),

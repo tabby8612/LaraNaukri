@@ -42,7 +42,7 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
 
     //-- AI Resume Analyze
     Route::get('analyze-resume', [AIController::class, 'AIResumeAnalyzer'])->name('analyze.resume');
-    Route::post('analyze-resume', [AIController::class, 'analyzeResume'])->name('analyze.resume');
+    Route::post('analyze-resume', [AIController::class, 'analyzeResume'])->name('post.analyze.resume');
     Route::get('analyze-resume-results', fn() => Inertia::render('candidate/analyze-resume-results'));
 
     //-- AI Career Coach
@@ -82,7 +82,7 @@ Route::prefix("candidate")->name("candidate.")->middleware("IsCandidate")->group
     Route::delete("languages-delete/{candidateLanguage}", [CandidateLanguageController::class, "languagedelete"])->name("languageDelete");
 
 
-    //-- Resume Show
+    //-- Generate Resume
     Route::get("download-resume", [CandidateController::class, "downloadResume"])->name("downloadResume");
     Route::get("view-resume", [CandidateController::class, "viewResume"])->name("viewResume");
 

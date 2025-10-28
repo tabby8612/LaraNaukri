@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidate;
 use App\Models\CandidateSkill;
+use App\Service\ResumeGenerationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CandidateSkillController extends Controller {
     //
+
+    public function __construct(protected ResumeGenerationService $resumeGenerationService) {
+    }
 
     /**
      * Display a listing of the resource.
@@ -40,6 +44,9 @@ class CandidateSkillController extends Controller {
             "candidate_id" => $candidateID
         ]);
 
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
+
         return;
     }
 
@@ -54,11 +61,17 @@ class CandidateSkillController extends Controller {
         $candidateSkill->experience_id = $request->experience_id;
         $candidateSkill->save();
 
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
+
         return;
     }
 
     public function delete(CandidateSkill $candidateSkill) {
         $candidateSkill->delete();
+
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
 
     }
 

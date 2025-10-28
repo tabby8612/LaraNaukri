@@ -3,6 +3,8 @@ import UnlockConfirmation from '@/components/ui/cards/UnlockConfirmation';
 import { Button } from '@/components/ui/UnusedUI/button';
 import { Location } from '@/SVGs/Location';
 import { User } from '@/SVGs/User';
+import { Candidate, Company, User as UserType } from '@/types';
+import { usePage } from '@inertiajs/react';
 import { Download, Monitor, Send } from 'lucide-react';
 
 type Props = {
@@ -20,6 +22,14 @@ type Props = {
     hasUnlocked?: boolean;
 };
 
+type CustomProps = {
+    auth: {
+        user: UserType | null;
+        candidate: Candidate | null;
+        employer: Company | null;
+    };
+};
+
 export default function PublicProfileIntro({
     cover_path,
     profile_path,
@@ -34,6 +44,8 @@ export default function PublicProfileIntro({
     hasUnlocked = false,
     id = '',
 }: Props) {
+    const { auth } = usePage<CustomProps>().props;
+    console.log(auth);
     return (
         <>
             <Card className="rounded-2xl border-gray-300 py-0 shadow-none">
@@ -58,8 +70,42 @@ export default function PublicProfileIntro({
                         </div>
                     </div>
                 </div>
-                {cv_path ? (
-                    hasUnlocked ? (
+                {auth.employer &&
+                    (cv_path ? (
+                        hasUnlocked ? (
+                            <div className="flex gap-3 rounded-b-2xl bg-green-100 py-4 pl-7">
+                                <a href={`/storage/${cv_path}`} download={true}>
+                                    <Button className="hoverEffect flex cursor-pointer items-center gap-2 rounded-xl border-2 border-primary bg-transparent px-11 py-5 text-lg text-primary hover:bg-primary hover:text-white">
+                                        <Download className="size-5" />
+                                        Download CV
+                                    </Button>
+                                </a>
+                                {showMessageBtn && (
+                                    <a href={route('employer.messages')}>
+                                        <Button className="hoverEffect flex cursor-pointer items-center gap-2 rounded-xl border-2 border-primary bg-transparent px-11 py-5 text-lg text-primary hover:bg-primary hover:text-white">
+                                            <Send className="size-5" />
+                                            Send Message
+                                        </Button>
+                                    </a>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="flex items-start gap-3 rounded-b-2xl bg-green-100 py-4 pl-7">
+                                <p className="text-primary">Unlock User To View Resume and Send Message </p>
+                                <UnlockConfirmation
+                                    trigger={<a className="cursor-pointer rounded bg-primary p-2 text-[14px] text-white">Unlock Now</a>}
+                                    candidateID={id}
+                                />
+                            </div>
+                        )
+                    ) : (
+                        <div className="flex gap-3 rounded-b-2xl bg-green-100 py-4 pl-7">
+                            <p className="text-red-700">User has not completed his/her profile</p>
+                        </div>
+                    ))}
+
+                {auth.candidate &&
+                    (cv_path ? (
                         <div className="flex gap-3 rounded-b-2xl bg-green-100 py-4 pl-7">
                             <a href={`/storage/${cv_path}`} download={true}>
                                 <Button className="hoverEffect flex cursor-pointer items-center gap-2 rounded-xl border-2 border-primary bg-transparent px-11 py-5 text-lg text-primary hover:bg-primary hover:text-white">
@@ -67,29 +113,12 @@ export default function PublicProfileIntro({
                                     Download CV
                                 </Button>
                             </a>
-                            {showMessageBtn && (
-                                <a href={route('employer.messages')}>
-                                    <Button className="hoverEffect flex cursor-pointer items-center gap-2 rounded-xl border-2 border-primary bg-transparent px-11 py-5 text-lg text-primary hover:bg-primary hover:text-white">
-                                        <Send className="size-5" />
-                                        Send Message
-                                    </Button>
-                                </a>
-                            )}
                         </div>
                     ) : (
-                        <div className="flex items-start gap-3 rounded-b-2xl bg-green-100 py-4 pl-7">
-                            <p className="text-primary">Unlock User To View Resume and Send Message </p>
-                            <UnlockConfirmation
-                                trigger={<a className="cursor-pointer rounded bg-primary p-2 text-[14px] text-white">Unlock Now</a>}
-                                candidateID={id}
-                            />
+                        <div className="flex gap-3 rounded-b-2xl bg-green-100 py-4 pl-7">
+                            <p className="text-red-700">Complete Profile To Download CV</p>
                         </div>
-                    )
-                ) : (
-                    <div className="flex gap-3 rounded-b-2xl bg-green-100 py-4 pl-7">
-                        <p className="text-red-700">User has not completed his/her profile</p>
-                    </div>
-                )}
+                    ))}
             </Card>
             <section className="my-7">
                 <h1 className="font-montserrat text-2xl font-bold">About Me</h1>

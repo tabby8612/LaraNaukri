@@ -15,8 +15,6 @@ export default function CompanyMessages() {
     const MessageRef = useRef<HTMLTextAreaElement>(null);
     const ChatAreaRef = useRef<HTMLDivElement>(null);
 
-    console.log(candidatesUnlocked);
-
     const { auth } = usePage<{ auth: { user: User } }>().props;
     const { user } = auth;
     const senderID = user.id;

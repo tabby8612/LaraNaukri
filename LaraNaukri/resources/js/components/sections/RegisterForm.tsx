@@ -30,7 +30,7 @@ export default function RegisterForm({ type = 'candidate' }: Props) {
     function submitHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        if (type === 'candidate') post(route('candidate.register'));
+        if (type === 'candidate') post(route('candidate.store'));
         if (type === 'employer') post(route('employer.register'));
     }
 

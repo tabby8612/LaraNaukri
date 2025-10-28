@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CandidateExperienceRequest;
 use App\Models\CandidateExperience;
+use App\Service\ResumeGenerationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CandidateExperienceController extends Controller {
+
+    public function __construct(protected ResumeGenerationService $resumeGenerationService) {
+
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -53,6 +59,9 @@ class CandidateExperienceController extends Controller {
         $candidateExperience->description = $validated["description"];
         $candidateExperience->save();
 
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
+
         return;
 
     }
@@ -92,6 +101,9 @@ class CandidateExperienceController extends Controller {
         $candidateExperience->description = $validated["description"];
         $candidateExperience->save();
 
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
+
         return;
 
     }
@@ -102,5 +114,8 @@ class CandidateExperienceController extends Controller {
     public function destroy(CandidateExperience $candidateExperience) {
         //
         $candidateExperience->delete();
+
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
     }
 }

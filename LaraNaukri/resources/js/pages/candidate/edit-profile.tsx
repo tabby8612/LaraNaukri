@@ -26,6 +26,7 @@ export default function EditProfile() {
         password: '',
         first_name: candidate.first_name,
         last_name: candidate.last_name,
+        profession: candidate.profession,
         gender_id: candidate.gender?.id,
         marital_status_id: candidate.marital_status_id,
         nationality_id: candidate.nationality_id,
@@ -116,6 +117,7 @@ export default function EditProfile() {
                     is_subscribed={data.is_subscribed}
                     salary_from={data.salary_from}
                     salary_to={data.salary_to}
+                    profession={data.profession}
                     setData={setData}
                 />
 

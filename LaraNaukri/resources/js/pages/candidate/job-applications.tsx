@@ -5,7 +5,6 @@ import { usePage } from '@inertiajs/react';
 
 export default function JobApplications() {
     const { applications } = usePage<{ applications: Application[] }>().props;
-    console.log(applications);
 
     return (
         <AppCandidateLayout displaySearch={false} page="my-job-application" titleText="My Job Application">

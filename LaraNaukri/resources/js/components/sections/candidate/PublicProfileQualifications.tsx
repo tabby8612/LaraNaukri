@@ -43,8 +43,8 @@ export default function PublicProfileQualifications({ skills, languages, experie
                             <PortfilioProject project={project} key={project.id} refreshProjectsFn={() => {}} showEditOptions={false} />
                         ))
                     ) : (
-                        <div className="">
-                            <p>😢 No Project Added</p>
+                        <div className="col-span-full text-center">
+                            <p>😢 No Project Added. Start Adding Them To Show Here</p>
                         </div>
                     )}
                 </div>

@@ -32,6 +32,7 @@ class CandidateProfileRequest extends FormRequest {
             "password" => ['required', 'min:5'],
             "first_name" => ['required', 'min:3'],
             "last_name" => ['required', 'min:3'],
+            "profession" => ['required', 'min:3'],
             "gender_id" => ['required', 'size:1'],
             "marital_status_id" => ['required', 'size:1'],
             "nationality_id" => ['required'],

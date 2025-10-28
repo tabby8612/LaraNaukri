@@ -6,7 +6,7 @@ import CustomUploadField from '@/components/ui/cards/CustomUploadField';
 import { Button } from '@/components/ui/UnusedUI/button';
 import AppEmployerLayout from '@/layouts/app/app-employer-layout';
 import { Company } from '@/types/employer';
-import { useForm, usePage } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { Loader } from 'lucide-react';
 import { FormEvent, useEffect, useState } from 'react';
 
@@ -75,6 +75,7 @@ export default function EditProfile() {
 
     return (
         <AppEmployerLayout displaySearch={false} page="editProfile" titleText="Edit Profile">
+            <Head title="Edit Company Details" />
             {successMessage && <p className="my-4 rounded bg-primary p-3 text-white">{successMessage}</p>}
             {hasErrors && (
                 <div className="my-3 text-red-400">

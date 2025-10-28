@@ -11,20 +11,23 @@ use App\Models\ChatMessage;
 use App\Models\PaymentHistory;
 use App\Models\User;
 use App\Notifications\CandidateProfileUpdated;
+use App\Notifications\ResumeGenerated;
 use App\Service\CandidateService;
+use App\Service\ResumeGenerationService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class CandidateController extends Controller {
     //
 
-    public function __construct(protected CandidateService $candidateService) {
+    public function __construct(protected CandidateService $candidateService, protected ResumeGenerationService $resumeGenerationService) {
     }
 
     public function featuredCandidate() {
@@ -113,6 +116,9 @@ class CandidateController extends Controller {
 
         $this->candidateService->updateCandidate($userID, $validated);
 
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
+
         return to_route("candidate.editProfile");
     }
 
@@ -123,6 +129,9 @@ class CandidateController extends Controller {
         ]);
 
         $this->candidateService->updateCandidate(Auth::id(), $validated);
+
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
 
         return to_route("candidate.editProfile");
 
@@ -145,20 +154,6 @@ class CandidateController extends Controller {
 
         //-- Calculating Age
         $candidate["age"] = round(Carbon::parse($candidate["date_of_birth"])->diffInYears(now()), 1);
-
-
-        //-- Generating PDF through Browsershot Using Queue
-        if (isset($candidate["phone"]) && isset($candidate["mobile"]) && isset($candidate["address"]) && isset($candidate["summary"])) {
-            /**
-             * @var User
-             */
-            $user = Auth::user();
-            $user->notify(new CandidateProfileUpdated('We Are Creating Your Resume'));
-
-            $html = view("resume", compact("candidate"))->render();
-
-            GenerateResume::dispatch($html, $candidate['id']);
-        }
 
         return Inertia::render("candidate/download-resume", [
             "candidate" => $candidate

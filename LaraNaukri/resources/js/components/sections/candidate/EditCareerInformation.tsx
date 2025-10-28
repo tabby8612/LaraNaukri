@@ -11,6 +11,7 @@ type Props = {
     salary_from: number;
     salary_to: number;
     is_subscribed: boolean;
+    profession: string;
     setData: (att: string, val: string) => void;
 };
 
@@ -22,6 +23,7 @@ export default function EditCareerInformation({
     salary_from,
     salary_to,
     is_subscribed,
+    profession,
     setData,
 }: Props) {
     return (
@@ -46,6 +48,15 @@ export default function EditCareerInformation({
                 />
             </div>
             <div className="mt-3 flex gap-3">
+                <CustomInputField
+                    label="Profession"
+                    name="profession"
+                    type="text"
+                    placeholder="Enter Your Profession or Title"
+                    value={profession}
+                    onChange={(e) => setData('profession', e.target.value)}
+                />
+
                 <CustomSelectField
                     label="Select Industry"
                     name="industry_id"

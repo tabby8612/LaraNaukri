@@ -3,8 +3,12 @@
 namespace App\Jobs;
 
 use App\Models\Candidate;
+use App\Models\User;
+use App\Notifications\ResumeGenerated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Spatie\Browsershot\Browsershot;
 
 class GenerateResume implements ShouldQueue {
@@ -46,6 +50,8 @@ class GenerateResume implements ShouldQueue {
         $updateCandidate->update([
             "resume_path" => $relativePath
         ]);
+
+        return;
 
     }
 }

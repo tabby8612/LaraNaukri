@@ -14,7 +14,7 @@ export default function SearchTalentHero() {
     function searchHandler(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        post(route('search.talent'));
+        post(route('get.search.talent'));
     }
 
     return (

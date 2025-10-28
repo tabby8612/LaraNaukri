@@ -4,7 +4,6 @@ import { usePage } from '@inertiajs/react';
 
 export default function PurchasedJobPackages() {
     const { purchaseJobPackages } = usePage<{ purchaseJobPackages: PaymentHistory[] }>().props;
-    console.log(purchaseJobPackages);
 
     return (
         <AppEmployerLayout displaySearch={false} page="paymentHistory" titleText="Payment History">
@@ -34,7 +33,7 @@ export default function PurchasedJobPackages() {
                     </tbody>
                 </table>
             )}
-            {purchaseJobPackages.length < 1 && <div className="text-center text-lg">😢 You've made no purchase</div>}
+            {purchaseJobPackages.length < 1 && <div className="text-center text-lg">😢 You've made no job package purchase</div>}
         </AppEmployerLayout>
     );
 }

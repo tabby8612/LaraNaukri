@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EducationRequest;
 use App\Models\Candidate;
 use App\Models\Education;
+use App\Service\ResumeGenerationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,11 @@ use Illuminate\Support\Facades\Auth;
 use function Pest\Laravel\json;
 
 class EducationController extends Controller {
+
+    public function __construct(protected ResumeGenerationService $resumeGenerationService) {
+
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -50,6 +56,9 @@ class EducationController extends Controller {
         $subjectIds = collect($subjects)->pluck("id");
         $newEducation->subjects()->attach($subjectIds);
 
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
+
 
         return back();
     }
@@ -84,6 +93,9 @@ class EducationController extends Controller {
 
         $education->update($validated);
 
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
+
         return back();
     }
 
@@ -96,5 +108,8 @@ class EducationController extends Controller {
         $education->subjects()->detach($subjectIds);
 
         $education->delete();
+
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
     }
 }

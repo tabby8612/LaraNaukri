@@ -29,7 +29,7 @@ Route::get("/job/{slug}", [JobController::class, "show"])->name("job.view");
 
 // ----------- Candidate Routes
 Route::get("/search-talent", [CandidateSearchController::class, 'index'])->name("search.talent");
-Route::post("/search-talent", [CandidateSearchController::class, 'searchTalent'])->name("search.talent");
+Route::post("/search-talent", [CandidateSearchController::class, 'searchTalent'])->name("get.search.talent");
 Route::get("/filter-talent", [CandidateSearchController::class, 'filterTalent'])->name("filter.talent");
 
 Route::get("/job-seekers", [CandidateSearchController::class, 'index'])->name("job.seekers");
@@ -67,7 +67,7 @@ Route::get("/blog/category/{id}", [BlogCategoriesController::class, "show"])->na
 Route::get("/candidate-login", fn() => Inertia::render("candidate-login"))->name("candidate.login");
 Route::get("/candidate-register", fn() => Inertia::render("candidate-register"))->name("candidate.register");
 Route::post("/candidate-verify", [UserController::class, "verify"])->name("candidate.verify");
-Route::post("/candidate-register", [UserController::class, "storeCandidate"])->name("candidate.register");
+Route::post("/candidate-register", [UserController::class, "storeCandidate"])->name("candidate.store");
 
 Route::get("/company-login", fn() => Inertia::render("employer/company-login"))->name("company.login");
 Route::get("/company-register", fn() => Inertia::render("employer/company-register"))->name("company.register");

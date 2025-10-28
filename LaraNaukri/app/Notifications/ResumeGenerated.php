@@ -2,19 +2,21 @@
 
 namespace App\Notifications;
 
+use App\Models\Candidate;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
 
-class CandidateProfileUpdated extends Notification {
+class ResumeGenerated extends Notification implements ShouldQueue {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(protected string $message) {
+    public function __construct(protected Candidate $candidate) {
         //
     }
 
@@ -24,7 +26,7 @@ class CandidateProfileUpdated extends Notification {
      * @return array<int, string>
      */
     public function via(object $notifiable): array {
-        return ['database'];
+        return ['broadcast'];
     }
 
     /**
@@ -37,6 +39,22 @@ class CandidateProfileUpdated extends Notification {
             ->line('Thank you for using our application!');
     }
 
+    public function toBroadcast(object $notifiable): BroadcastMessage {
+        Log::info('📡 Broadcasting ResumeGenerated for user ' . $notifiable->id, [
+            'resume_path' => $this->candidate->resume_path,
+            'notifible_Obj' => $notifiable
+        ]);
+
+        return new BroadcastMessage([
+            'message' => 'Resume Has Been Generated',
+            'resume_path' => $this->candidate->resume_path,
+        ]);
+    }
+
+    public function broadcastType(): string {
+        return 'broadcast.message';
+    }
+
     /**
      * Get the array representation of the notification.
      *
@@ -45,11 +63,8 @@ class CandidateProfileUpdated extends Notification {
     public function toArray(object $notifiable): array {
         return [
             //
-            'message' => $this->message
+            'message' => 'Resume Has Been Generated',
+            'resume_path' => $this->candidate->resume_path
         ];
-    }
-
-    public function databaseType(object $notifiable): string {
-        return 'Resume Is Being Generated';
     }
 }
