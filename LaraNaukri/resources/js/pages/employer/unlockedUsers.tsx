@@ -1,13 +1,14 @@
 import FeaturedCandidateCard from '@/components/ui/cards/FeaturedCandidateCard';
 import AppEmployerLayout from '@/layouts/app/app-employer-layout';
 import { Candidate } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 export default function UnlockedUsers() {
     const { unlockedCandidates } = usePage<{ unlockedCandidates: Candidate[] }>().props;
 
     return (
         <AppEmployerLayout displaySearch={false} page="unlockedUsers" titleText="Unlocked Seekers">
+            <Head title="Unlocked Users" />
             {unlockedCandidates.length > 0 ? (
                 <section className="grid grid-cols-1 gap-10 md:grid-cols-3">
                     {unlockedCandidates.map((unlockedCandidate) => (

@@ -15,9 +15,15 @@ export default function Footer() {
                         <li>
                             <a href={route('contact')}>Contact Us</a>
                         </li>
-                        <li>FAQs</li>
-                        <li>About Us</li>
-                        <li>Terms of Use</li>
+                        <li>
+                            <a href={route('faqs')}>FAQs</a>
+                        </li>
+                        <li>
+                            <a href={route('aboutUS')}>About Us</a>
+                        </li>
+                        <li>
+                            <a href={route('terms')}>Terms of Use</a>
+                        </li>
                     </ul>
                 </div>
                 <div id="footerfunctionarea">

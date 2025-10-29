@@ -1,13 +1,14 @@
 import EmployerCard from '@/components/ui/cards/EmployerCard';
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
 import { Company } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 export default function MyFollowings() {
     const { companies } = usePage<{ companies: Company[] }>().props;
 
     return (
         <AppCandidateLayout displaySearch={false} page="my-followings" titleText="Followings">
+            <Head title="Followings" />
             {companies.length > 0 ? (
                 <section className="grid grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-3">
                     {companies.length > 0 &&

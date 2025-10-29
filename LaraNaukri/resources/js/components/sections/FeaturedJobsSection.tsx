@@ -23,6 +23,7 @@ export default function FeaturedJobsSection({ jobs }: { jobs: FilteredJobs[] }) 
                         salary={job.salary_to}
                         companyID={`${job.companies.id}`}
                         companySlug={job.companies.slug}
+                        jobSlug={job.slug}
                     />
                 ))}
             </div>

@@ -23,7 +23,7 @@ export default function BlogCardWithFullImage({ imageUrl, category, description,
             </a>
             <p className="text-gray-600">
                 Category:{' '}
-                <a href={`http://google.com/${category.id}`} className="text-primary">
+                <a href={route('blog.category.view', category.id)} className="text-primary">
                     {category.name}
                 </a>
             </p>

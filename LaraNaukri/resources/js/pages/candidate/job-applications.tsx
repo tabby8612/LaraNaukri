@@ -1,13 +1,14 @@
 import FeaturedJobCard from '@/components/ui/cards/FeaturedJobCard';
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
 import { Application } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 export default function JobApplications() {
     const { applications } = usePage<{ applications: Application[] }>().props;
 
     return (
         <AppCandidateLayout displaySearch={false} page="my-job-application" titleText="My Job Application">
+            <Head title="Job Applications" />
             <section className="">
                 <h1 className="font-montserrat text-2xl font-bold">Applied Jobs</h1>
                 <div className="mt-10">

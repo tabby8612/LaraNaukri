@@ -208,7 +208,7 @@ class JobController extends Controller {
     public function show(Request $request) {
         // dd($request->all());
 
-        $relations = ["category", "companies:id,name,image_path,slug", "city", "skills", "experience:id,name", "career:id,name"];
+        $relations = ["category", "companies:id,name,image_path,slug,description", "city", "skills", "experience:id,name", "career:id,name"];
 
         $job = $this->jobService->getJobWithSlug($request->slug, $relations);
 

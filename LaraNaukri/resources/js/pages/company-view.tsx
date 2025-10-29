@@ -1,3 +1,4 @@
+import GoogleMap from '@/components/sections/GoogleMap';
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/card';
 import CompanyCharacteristic from '@/components/ui/cards/Characteristic';
 import CompanyIntro from '@/components/ui/cards/CompanyIntro';
@@ -53,13 +54,15 @@ export default function CompanyView() {
                     </Card>
 
                     <Card className="mt-5 border-stone-200 px-6">
-                        <CardDescription>Map Not Loaded</CardDescription>
+                        <CardDescription>
+                            <GoogleMap place={companyData.location} />
+                        </CardDescription>
                     </Card>
                 </div>
             </section>
             <section className="mx-auto mt-7 w-10/12 gap-10">
                 <h1 className="my-7 font-montserrat text-2xl font-bold">Current Openings</h1>
-                {openJobs.length > 1 ? (
+                {openJobs.length > 0 ? (
                     <div className="my-7 grid grid-cols-1 gap-3 md:grid-cols-4">
                         {openJobs.map((job) => (
                             <FeaturedJobCard

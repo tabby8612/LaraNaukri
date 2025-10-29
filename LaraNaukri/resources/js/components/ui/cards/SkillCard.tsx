@@ -11,13 +11,11 @@ export default function SkillCard({ skills }: { skills: string[] }) {
                 </div>
             </CardTitle>
             <CardDescription>
-                <ul className="flex gap-2">
-                    {skills.map((skill, index) => (
-                        <li className="cursor-text rounded-lg bg-stone-200 px-3 py-2 font-semibold" key={index}>
-                            {skill}
-                        </li>
-                    ))}
-                </ul>
+                {skills.map((skill, index) => (
+                    <span className="cursor-text rounded-lg bg-stone-200 px-3 py-2 font-semibold" key={index}>
+                        {skill}
+                    </span>
+                ))}
             </CardDescription>
         </Card>
     );

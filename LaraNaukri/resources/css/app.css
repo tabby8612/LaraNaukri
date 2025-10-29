@@ -185,3 +185,27 @@
 .fi-sidebar-nav {
     @apply bg-gray-700 text-white
 }
+
+[data-slot="card-description"]>div h1 {
+    @apply py-3 text-2xl
+}
+
+[data-slot="card-description"]>div ul {
+    @apply pl-8 list-disc my-4
+}
+
+[data-slot="card-description"] h1 {
+    @apply py-3 text-2xl
+}
+
+[data-slot="card-description"] ul {
+    @apply pl-8 list-disc my-4
+}
+
+.headingGap h1, .headingGap h2 {
+    @apply my-3 text-xl
+}
+
+.headingGap hr {
+    @apply hidden
+}

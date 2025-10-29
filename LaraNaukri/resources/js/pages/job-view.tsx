@@ -1,3 +1,4 @@
+import GoogleMap from '@/components/sections/GoogleMap';
 import Searchjobhero from '@/components/sections/searchjobhero';
 import { Card, CardContent } from '@/components/ui/card';
 import ApplyJob from '@/components/ui/cards/ApplyJob';
@@ -33,7 +34,7 @@ export default function JobView() {
             <Searchjobhero />
 
             <main className="mx-auto my-10 flex size-10/12 justify-between">
-                <div>
+                <div className="">
                     <h1 className="font-montserrat text-xl font-semibold">{selectedJob.title}</h1>
                     <p className="mt-2 text-stone-400">Date Posted: {selectedJob.created_at}</p>
                     <p className="mt-2 font-semibold text-stone-500">
@@ -64,8 +65,8 @@ export default function JobView() {
                 </div>
             </main>
 
-            <section className="mx-auto my-10 flex size-10/12 justify-between gap-7">
-                <div className="w-7/12">
+            <section className="mx-auto my-10 flex size-10/12 flex-col justify-between gap-7 md:flex-row">
+                <div className="md:w-7/12">
                     <JobIntroCard jobData={selectedJob} isFavorite={isFavorite} />
 
                     <DescriptionCard type="Job" description={selectedJob.description} />
@@ -74,10 +75,10 @@ export default function JobView() {
 
                     <SkillCard skills={selectedJob.skills.map((skill) => skill.name)} />
                 </div>
-                <div className="w-5/12">
+                <div className="md:w-5/12">
                     <CompanyOverviewCard
                         companyID={`${selectedJob.companies!.id}`}
-                        description={selectedJob.companies!.name}
+                        description={selectedJob.companies!.description ?? ''}
                         imageURL={`/storage/${selectedJob.companies!.image_path}`}
                         location={selectedJob.location}
                         name={selectedJob.companies!.name}
@@ -85,7 +86,9 @@ export default function JobView() {
                         companySlug={selectedJob.companies.slug}
                     />
                     <Card className="my-7 border border-stone-200">
-                        <CardContent>Map Goes Here</CardContent>
+                        <CardContent>
+                            <GoogleMap place={selectedJob.city?.name ?? 'United States of America'} />
+                        </CardContent>
                     </Card>
                 </div>
             </section>

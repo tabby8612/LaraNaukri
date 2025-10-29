@@ -1,5 +1,5 @@
 import { Email } from '@/SVGs/Mail';
-import { FilteredJobs } from '@/types';
+import { Auth, FilteredJobs } from '@/types';
 import { Button } from '@headlessui/react';
 import { router, usePage } from '@inertiajs/react';
 import {
@@ -21,7 +21,7 @@ import { Toaster } from '../sonner';
 import Characteristic from './Characteristic';
 
 export default function JobIntroCard({ jobData, isFavorite }: { jobData: FilteredJobs; isFavorite: boolean }) {
-    const { message } = usePage<{ message: string }>().props;
+    const { message, auth } = usePage<{ message: string; auth: Auth }>().props;
 
     const JobCharacteristics = [
         {
@@ -90,40 +90,42 @@ export default function JobIntroCard({ jobData, isFavorite }: { jobData: Filtere
                     ))}
                 </div>
             </CardContent>
-            <div className="mt-2 flex gap-5 rounded-b-xl bg-stone-100 px-6 py-4">
-                <a
-                    href={route('email.friend', {
-                        slug: jobData.slug,
-                    })}
-                >
-                    <Button className="group h-fit cursor-pointer rounded-2xl border border-primary bg-transparent px-7 py-3 transition-colors delay-75 duration-300 hover:bg-primary">
-                        <div className="flex items-center gap-2 text-primary transition-colors delay-100 duration-300 group-hover:text-white">
-                            <Email />
-                            <p>Email To Friend</p>
+            {auth.candidate && (
+                <div className="mt-2 flex flex-col gap-5 rounded-b-xl bg-stone-100 px-6 py-4 md:flex-row">
+                    <a
+                        href={route('email.friend', {
+                            slug: jobData.slug,
+                        })}
+                    >
+                        <Button className="group h-fit cursor-pointer rounded-2xl border border-primary bg-transparent px-7 py-3 transition-colors delay-75 duration-300 hover:bg-primary">
+                            <div className="flex items-center gap-2 text-primary transition-colors delay-100 duration-300 group-hover:text-white">
+                                <Email />
+                                <p>Email To Friend</p>
+                            </div>
+                        </Button>
+                    </a>
+                    <Button
+                        className="group h-fit w-fit cursor-pointer rounded-2xl border border-primary bg-transparent px-7 py-3 transition-colors delay-75 duration-300 hover:bg-primary"
+                        onClick={() => handleFavoriteJob(jobData.id)}
+                    >
+                        <div className="flex items-center gap-2 text-primary transition-colors delay-75 duration-300 group-hover:text-white">
+                            <p>{isFavorite ? 'Remove From' : 'Add To'} Favorites</p>
                         </div>
                     </Button>
-                </a>
-                <Button
-                    className="group h-fit cursor-pointer rounded-2xl border border-primary bg-transparent px-7 py-3 transition-colors delay-75 duration-300 hover:bg-primary"
-                    onClick={() => handleFavoriteJob(jobData.id)}
-                >
-                    <div className="flex items-center gap-2 text-primary transition-colors delay-75 duration-300 group-hover:text-white">
-                        <p>{isFavorite ? 'Remove From' : 'Add To'} Favorites</p>
-                    </div>
-                </Button>
-                <a
-                    href={route('report.abuse', {
-                        slug: jobData.slug,
-                    })}
-                >
-                    <Button className="group h-fit cursor-pointer rounded-2xl border border-red-500 bg-transparent px-7 py-3 transition-colors delay-75 duration-300 hover:bg-red-500">
-                        <div className="flex items-center gap-2 text-red-500 transition-colors duration-300 group-hover:text-white">
-                            <TriangleAlert fill="red" stroke="white" className="border-red-500 text-white" />
-                            <p>Report Abuse</p>
-                        </div>
-                    </Button>
-                </a>
-            </div>
+                    <a
+                        href={route('report.abuse', {
+                            slug: jobData.slug,
+                        })}
+                    >
+                        <Button className="group h-fit cursor-pointer rounded-2xl border border-red-500 bg-transparent px-7 py-3 transition-colors delay-75 duration-300 hover:bg-red-500">
+                            <div className="flex items-center gap-2 text-red-500 transition-colors duration-300 group-hover:text-white">
+                                <TriangleAlert fill="red" stroke="white" className="border-red-500 text-white" />
+                                <p>Report Abuse</p>
+                            </div>
+                        </Button>
+                    </a>
+                </div>
+            )}
         </Card>
     );
 }

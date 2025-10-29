@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogOverlay, DialogPortal, Dialo
 import CustomDatePicker from './CustomDatePicker';
 import CustomInputField from './CustomInputField';
 import CustomRadioGroup from './CustomRadioGroup';
-import CustomTextArea from './CustomTextArea';
+import CustomRichTextEditor from './CustomRichTextEditor';
 
 type Props = {
     trigger?: string | ReactNode;
@@ -30,7 +30,7 @@ export default function UploadProject({ trigger, project, type = 'create', refre
         start_date: project?.start_date ? project.start_date : '',
         end_date: project?.end_date ? project.end_date : '',
         description: project?.description ? project.description : '',
-        ongoing: project?.ongoing ? project.ongoing : false,
+        ongoing: project?.ongoing ? project.ongoing : 0,
         _method: type === 'update' ? 'PUT' : 'POST', // Laravel wants image in multiform but interia PUT method can't send it so we added _method in post method
     });
 
@@ -150,17 +150,25 @@ export default function UploadProject({ trigger, project, type = 'create', refre
                                         </div>
                                     </div>
                                     <div>
-                                        <CustomRadioGroup label="Is Project OnGoing" options={['Yes', 'No']} />
+                                        <CustomRadioGroup
+                                            label="Is Project OnGoing"
+                                            options={['No', 'Yes']}
+                                            layout="horizontal"
+                                            selectedOption={data.ongoing}
+                                            onChangeFn={(selectedOption) => setData('ongoing', selectedOption)}
+                                        />
                                         {errors.ongoing && <div className="mt-0 gap-0 text-red-500">{errors.ongoing}</div>}
                                     </div>
 
                                     <div>
-                                        <CustomTextArea
+                                        <CustomRichTextEditor
                                             label="Project Description"
                                             name="project-description"
+                                            isrequired
                                             value={data.description}
-                                            onChange={(e) => setData('description', e.target.value)}
+                                            onUpdateFn={(content) => setData('description', content)}
                                         />
+
                                         {errors.description && <div className="mt-0 gap-0 text-red-500">{errors.description}</div>}
                                     </div>
 

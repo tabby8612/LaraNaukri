@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CMS;
 use App\Models\Country;
+use App\Models\FAQ;
 use App\Models\Job;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -50,4 +52,29 @@ class HomeController extends Controller {
 
         return response()->json($cities);
     }
+
+    public function termsOfUse() {
+        $termsOfUse = CMS::query()
+            ->where('title', 'like', '%terms%')
+            ->first()
+            ->toArray();
+
+        return Inertia::render('terms-of-use', compact('termsOfUse'));
+    }
+
+    public function aboutUS() {
+        $aboutUS = CMS::query()
+            ->where('title', 'like', '%about%')
+            ->first()
+            ->toArray();
+
+        return Inertia::render('about-us', compact('aboutUS'));
+    }
+    public function FAQs() {
+        $faqs = FAQ::query()->get()->toArray();
+
+        return Inertia::render('faqs', compact('faqs'));
+    }
+
+
 }

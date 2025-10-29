@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
-import { useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle, Sparkles, Upload } from 'lucide-react';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
@@ -35,6 +35,7 @@ export default function AnalyzeResume() {
 
     return (
         <AppCandidateLayout page="resume-analyzer" displaySearch={false} titleText="Build Resume">
+            <Head title="AI Resume Analyzer" />
             <h1 className="text-center font-montserrat text-4xl font-bold">AI Resume Analyzer</h1>
             <p className="text-center">The AI-powered resume review platform for unbiased feedback and expert tips</p>
 

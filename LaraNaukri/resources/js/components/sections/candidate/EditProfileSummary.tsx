@@ -1,4 +1,4 @@
-import CustomTextArea from '@/components/ui/cards/CustomTextArea';
+import CustomRichTextEditor from '@/components/ui/cards/CustomRichTextEditor';
 import { Button } from '@/components/ui/UnusedUI/button';
 import { useForm } from '@inertiajs/react';
 import { ArrowRightCircle } from 'lucide-react';
@@ -13,7 +13,6 @@ export default function EditProfileSummary({ summary }: { summary: string }) {
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        console.log(`Summary Submitted`);
 
         post(route('candidate.updateProfileSummary'), {
             preserveScroll: true,
@@ -34,7 +33,14 @@ export default function EditProfileSummary({ summary }: { summary: string }) {
             )}
 
             <h1 className="font-montserrat text-2xl font-bold">Summary</h1>
-            <CustomTextArea label="Summary" name="summary" value={data.summary} onChange={(e) => setData('summary', e.target.value)} />
+            <CustomRichTextEditor
+                label="Summary"
+                name="summary"
+                value={data.summary}
+                onUpdateFn={(content) => setData('summary', content)}
+                isrequired
+            />
+
             <Button
                 className={`mt-3 flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border-primary bg-primary py-3 font-montserrat font-bold text-white uppercase`}
             >

@@ -94,6 +94,7 @@ class CompanyController extends Controller {
     }
 
     public function index(Request $request) {
+
         $filters = $request->only(["name", "country", "city", "industries"]);
 
         $companiesQuery = Company::with("industry")->withCount("jobs");

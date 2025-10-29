@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/UnusedUI/button';
 import AppEmployerLayout from '@/layouts/app/app-employer-layout';
 import { Item, Job } from '@/types';
 import { Head, useForm, usePage } from '@inertiajs/react';
-import { ArrowRightCircle } from 'lucide-react';
+import { ArrowRightCircle, Loader } from 'lucide-react';
 import { FormEvent, useState } from 'react';
 
 type CustomPageProps = {
@@ -28,7 +28,7 @@ export default function PostJob() {
 
     // console.log(job);
 
-    const { data, setData, post, transform, errors } = useForm({
+    const { data, setData, post, transform, errors, processing } = useForm({
         title: job?.title ?? '',
         description: job?.description ?? '',
         benefits: job?.benefits ?? '',
@@ -316,7 +316,8 @@ export default function PostJob() {
                     )}
                 </div>
 
-                <Button className="flex h-11 cursor-pointer gap-2 text-lg text-white">
+                <Button className="flex h-11 cursor-pointer gap-2 text-lg text-white" disabled={processing}>
+                    {processing && <Loader className="animate-spin" />}
                     <p>Submit Job</p>
                     <ArrowRightCircle className="size-5" />
                 </Button>

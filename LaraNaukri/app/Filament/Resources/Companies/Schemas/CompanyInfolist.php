@@ -29,7 +29,7 @@ class CompanyInfolist {
                             ->getStateUsing(fn($record) => asset('storage/' . $record->image_path))
                             ->defaultImageUrl('/storage/app/public/default.png')
                             ->hiddenLabel(true)
-                            ->imageWidth(100)
+                            ->imageWidth(200)
 
                         ,
 
@@ -75,12 +75,14 @@ class CompanyInfolist {
                                 ->icon(Heroicon::Envelope)
                                 ->extraAttributes(["class" => 'mt-2'])
                                 ->hiddenLabel(true)
+                                ->limit(23)
                                 ->iconColor('primary'),
 
                             TextEntry::make("url")
                                 ->icon(Heroicon::GlobeAlt)
                                 ->extraAttributes(["class" => 'mt-2'])
                                 ->hiddenLabel(true)
+                                ->limit(23)
                                 ->iconColor('primary'),
                         ])->gap(0),
 

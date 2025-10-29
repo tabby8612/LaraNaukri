@@ -94,6 +94,10 @@ Route::get("/report-abuse/{slug}", function () {
     return Inertia::render("report-abuse");
 })->name("report.abuse");
 
+Route::get('terms-of-use', [HomeController::class, 'termsOfUse'])->name('terms');
+Route::get('about-us', [HomeController::class, 'aboutUS'])->name('aboutUS');
+Route::get('faqs', [HomeController::class, 'FAQs'])->name('faqs');
+
 Route::get('get-logo-favicon', [HomeController::class, 'getLogoFavicon'])->name('get.logo.favicon');
 
 

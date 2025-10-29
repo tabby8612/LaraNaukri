@@ -2,7 +2,7 @@ import CategoryWidget from '@/components/ui/cards/CategoryWidget';
 import SearchWidget from '@/components/ui/cards/SearchWidget';
 import AppLayout from '@/layouts/app/app-layout';
 import { BlogPost } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 type BlogPostProps = {
     blogPost: BlogPost;
@@ -13,6 +13,7 @@ export default function BlogPostView() {
 
     return (
         <AppLayout page="blog">
+            <Head title={blogPost.title} />
             <div className="flex flex-col items-center justify-center bg-green-50 py-10">
                 <h1 className="font-montserrat text-4xl font-bold">{blogPost.title}</h1>
             </div>
@@ -22,7 +23,7 @@ export default function BlogPostView() {
                     <img src={`/storage/${blogPost.featured_image_path}`} alt={blogPost.title} className="my-2 size-11/12" />
                     <p className="my-7">
                         Category:{' '}
-                        <a href="" className="text-primary">
+                        <a href={route('blog.category.view', blogPost.blogcategory.id)} className="text-primary">
                             {blogPost.blogcategory.name}
                         </a>
                     </p>

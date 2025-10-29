@@ -1,7 +1,7 @@
 import FeaturedJobCard from '@/components/ui/cards/FeaturedJobCard';
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
 import { FilteredJobs } from '@/types';
-import { router, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 
 export default function FavoriteJobs() {
     const { favoriteJobs } = usePage<{ favoriteJobs: FilteredJobs[] }>().props;
@@ -12,6 +12,7 @@ export default function FavoriteJobs() {
 
     return (
         <AppCandidateLayout page="my-favorite-jobs" titleText="Favorite Jobs" displaySearch={false}>
+            <Head title="Favorite Jobs" />
             {favoriteJobs.length > 0 ? (
                 <section className="grid grid-cols-2 gap-10">
                     {favoriteJobs.length > 0 &&

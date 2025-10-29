@@ -1,12 +1,13 @@
 import AppEmployerLayout from '@/layouts/app/app-employer-layout';
 import { PaymentHistory } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 export default function PurchasedJobPackages() {
     const { purchaseJobPackages } = usePage<{ purchaseJobPackages: PaymentHistory[] }>().props;
 
     return (
         <AppEmployerLayout displaySearch={false} page="paymentHistory" titleText="Payment History">
+            <Head title="Payment History" />
             {purchaseJobPackages.length > 0 && (
                 <table className="w-full">
                     <thead className="bg-primary">

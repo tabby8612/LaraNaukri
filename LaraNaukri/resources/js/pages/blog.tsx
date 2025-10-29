@@ -3,7 +3,7 @@ import CategoryWidget from '@/components/ui/cards/CategoryWidget';
 import SearchWidget from '@/components/ui/cards/SearchWidget';
 import AppLayout from '@/layouts/app/app-layout';
 import { BlogPost } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 type BlogPostsProps = {
     blogposts: BlogPost[];
@@ -15,6 +15,7 @@ export default function Blog() {
 
     return (
         <AppLayout page="blog">
+            <Head title="Blog Posts On LaraNaukri" />
             <div className="flex flex-col items-center justify-center bg-green-50 py-10">
                 <h1 className="font-montserrat text-4xl font-bold">Blog</h1>
                 {searchText && <h2 className="mt-3 font-montserrat text-2xl font-bold">Showing blogs for: {searchText}</h2>}

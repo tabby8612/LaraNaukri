@@ -73,7 +73,8 @@ export default function DownloadResume() {
                     <div className="p-4">
                         <h1 className="font-montserrat text-2xl font-bold">Objective</h1>
                         <hr className="my-2" />
-                        <p>{candidate.summary ?? '😢 Not Set'}</p>
+                        <div dangerouslySetInnerHTML={{ __html: candidate.summary ?? '😢 Not Set' }} />
+
                         <div className="mt-5">
                             <h1 className="font-montserrat text-2xl font-bold">Experiences</h1>
                             <hr className="my-2" />

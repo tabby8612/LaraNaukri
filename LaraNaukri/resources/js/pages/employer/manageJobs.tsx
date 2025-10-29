@@ -2,13 +2,14 @@ import FeaturedJobCard from '@/components/ui/cards/FeaturedJobCard';
 import AppEmployerLayout from '@/layouts/app/app-employer-layout';
 import { Job } from '@/types';
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 export default function ManageJobs() {
     const { activeJobs, expiredJobs } = usePage<{ activeJobs: Job[]; expiredJobs: Job[] }>().props;
 
     return (
         <AppEmployerLayout displaySearch={false} page="manageJobs" titleText="Manage Jobs">
+            <Head title="Manage Jobs" />
             <TabGroup>
                 <TabList className={'py-6'}>
                     <Tab

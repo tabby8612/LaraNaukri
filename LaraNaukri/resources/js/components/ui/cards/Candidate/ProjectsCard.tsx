@@ -15,6 +15,7 @@ export default function ProjectsCard() {
             {
                 preserveScroll: true,
                 preserveState: true,
+                showProgress: false,
             },
         );
     }

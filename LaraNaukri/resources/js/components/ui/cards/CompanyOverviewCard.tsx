@@ -18,7 +18,7 @@ export default function CompanyOverviewCard({ imageURL, name, location, openJobs
                     <AlignLeft className="size-8 text-gray-400" />
                     <h1 className="text-2xl font-semibold text-primary">Company Overview</h1>
                 </div>
-                <div className="mx-auto flex gap-3 px-6">
+                <div className="mx-auto flex flex-col gap-3 px-6 md:flex-row">
                     <img src={imageURL} alt="connect people" className="size-24 rounded-xl" />
                     <div>
                         <h1 className="text-lg font-semibold">{name}</h1>
@@ -33,19 +33,22 @@ export default function CompanyOverviewCard({ imageURL, name, location, openJobs
                         </a>
                     </div>
                 </div>
-                <hr className="mx-auto my-7 w-11/12 rounded-2xl border border-gray-400/50" />
 
-                <p className="mx-auto px-4">
-                    {description}{' '}
+                <hr className="mx-auto my-7 w-11/12 rounded-2xl border border-gray-400/50" />
+                <div className="">
+                    <p
+                        className="mx-auto px-4"
+                        dangerouslySetInnerHTML={{ __html: description.length > 150 ? description.slice(0, 150).concat('...') : description }}
+                    />
                     <a
                         href={route('company.view', {
                             slug: companySlug,
                         })}
-                        className="text-primary"
+                        className="mx-auto px-4 text-primary"
                     >
                         Read More
                     </a>
-                </p>
+                </div>
             </CardContent>
         </Card>
     );

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Service\ResumeGenerationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -10,6 +11,9 @@ use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class ProjectController extends Controller {
+
+    public function __construct(protected ResumeGenerationService $resumeGenerationService) {
+    }
     /**
      * Display a listing of the resource.
      */
@@ -60,6 +64,9 @@ class ProjectController extends Controller {
         $project->image_path = $imagePath;
         $project->save();
 
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
+
         return;
 
 
@@ -93,7 +100,7 @@ class ProjectController extends Controller {
             "start_date" => ["required", "min:5"],
             "end_date" => ["required", "min:5"],
             "description" => ["required", "min:5"],
-            // "ongoing" => ["required", Rule::in(["0", "1"])],
+            "ongoing" => ["required", Rule::in(["0", "1"])],
             "image_path" => ["required", "image", "max:5000"]
         ]);
 
@@ -112,6 +119,9 @@ class ProjectController extends Controller {
         $project->image_path = $imagePath;
         $project->save();
 
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
+
         return to_route("candidate.buildResume");
 
     }
@@ -125,6 +135,10 @@ class ProjectController extends Controller {
 
         Storage::disk("public")->delete($project->image_path);
         $project->delete();
+
+        //-- Generating PDF through Browsershot Using Queue
+        $this->resumeGenerationService->generateResumePDF();
+
         return;
 
     }

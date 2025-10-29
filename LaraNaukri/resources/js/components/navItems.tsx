@@ -5,7 +5,6 @@ import { Speed } from '@/SVGs/Speedometer';
 import { User } from '@/SVGs/User';
 import { Candidate, Company } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { LanguagesIcon } from 'lucide-react';
 import { useState } from 'react';
 import LoginDialog from './ui/cards/LoginDialog';
 
@@ -209,8 +208,6 @@ export default function NavItems({ page, navType }: { page: string; navType: 'ho
                     <li className="rounded-md bg-primary px-4 py-1.5 text-white">{<LoginDialog type="register" />}</li>
                 </div>
             )}
-
-            <li>{<LanguagesIcon className="rounded-full border-2 border-gray-400" />}</li>
         </ul>
     );
 }

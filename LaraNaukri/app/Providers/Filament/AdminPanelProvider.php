@@ -29,6 +29,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 use function Filament\Support\original_request;
@@ -69,7 +70,8 @@ class AdminPanelProvider extends PanelProvider {
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->sidebarCollapsibleOnDesktop()
-            ->brandLogo('http://127.0.0.1:5173/storage/app/public/LaraNaukri%20Logo.png')
+            // ->brandLogo('http://127.0.0.1:5173/storage/app/public/LaraNaukri%20Logo.png')
+            ->brandLogo(Storage::url('LaraNaukri Logo.png'))
             ->brandLogoHeight('40px')
             ->globalSearch(false)
             ->databaseNotifications()

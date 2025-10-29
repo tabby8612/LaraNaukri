@@ -1,5 +1,6 @@
 import ContactForm from '@/components/sections/contact-form';
 import ContactInfo from '@/components/sections/contact-info';
+import GoogleMap from '@/components/sections/GoogleMap';
 import AppLayout from '@/layouts/app/app-layout';
 
 export default function Contact() {
@@ -13,13 +14,7 @@ export default function Contact() {
                 <ContactForm />
             </section>
             <div className="relative my-10 flex size-full w-full flex-col items-center justify-center">
-                {/* put map here, I tried leaflet but it is not rending properly due to SSR limitions
-                then I insalled react-google-map-api but it required google api and for this Pakistani debit card not working
-                also I have put Google Map code in cards folder */}
-                <iframe
-                    src="https://maps.google.it/maps?q=651+N+Broad+St%2C+Suite+201%2C+Middletown%2C+Zip+Code+19709%2C+New+Castle%2C+Delaware%2C+USA&amp;output=embed"
-                    allowFullScreen={true}
-                ></iframe>
+                <GoogleMap place="651 N Broad St, Suite 201, Middletown, Zip Code 19709, New Castle, Delaware, USA" />
             </div>
         </AppLayout>
     );

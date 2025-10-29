@@ -2,7 +2,7 @@ import AddAlert from '@/components/ui/cards/AddAlert';
 import DeleteConfirmation from '@/components/ui/cards/DeleteConfirmation';
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
 import { Alert } from '@/types';
-import { router, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 
 export default function JobsAlert() {
@@ -14,6 +14,7 @@ export default function JobsAlert() {
 
     return (
         <AppCandidateLayout displaySearch={false} page="my-job-alert" titleText="Jobs Alert">
+            <Head title="Job Alerts" />
             <section className="flex items-center justify-between">
                 <h1 className="mt-2 font-montserrat text-2xl font-bold">Manage Jobs Alert</h1>
                 <AddAlert

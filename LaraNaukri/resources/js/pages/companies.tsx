@@ -2,7 +2,7 @@ import EmployerSearchFilters from '@/components/sections/employer-search-filters
 import EmployerSearchResults from '@/components/sections/employer-search-results';
 import AppLayout from '@/layouts/app/app-layout';
 import { Company, Industry } from '@/types';
-import { router, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 
 type CompaniesDataProps = {
     companiesData: Company[];
@@ -22,7 +22,7 @@ export default function Companies() {
         const keyword = inputEl.value;
         const country = countryEl.value;
         const city = cityEl.value;
-        const industries = Array.from(industriesBtns).map((industryBTN) => industryBTN.dataset.filter);
+        const industries = Array.from(industriesBtns).map((industryBTN) => industryBTN.id);
 
         router.get(route('companies'), {
             name: keyword,
@@ -34,6 +34,7 @@ export default function Companies() {
 
     return (
         <AppLayout page="companies">
+            <Head title="Search Top Companies on LaraNaukri" />
             <div className="flex flex-col items-center justify-center bg-primary/8 py-10">
                 <h1 className="font-montserrat text-2xl font-semibold">Get hired in most high rated companies.</h1>
             </div>

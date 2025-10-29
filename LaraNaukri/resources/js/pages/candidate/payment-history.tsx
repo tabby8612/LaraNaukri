@@ -1,12 +1,13 @@
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
 import { PaymentHistory } from '@/types';
-import { usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 export default function CandidatePaymentHistory() {
     const { paymentHistories } = usePage<{ paymentHistories: PaymentHistory[] }>().props;
 
     return (
         <AppCandidateLayout displaySearch={false} page="payment-history" titleText="Payment History">
+            <Head title="Payment History" />
             {paymentHistories.length > 0 ? (
                 <table className="w-full">
                     <thead className="bg-primary">

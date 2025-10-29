@@ -24,7 +24,7 @@ export default function RelatedJobs({ categoryID }: { categoryID: string }) {
     return (
         <>
             <h1 className="my-3 text-xl font-semibold">Related Jobs</h1>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
                 {relatedJobs &&
                     relatedJobs.map((job) => (
                         <FeaturedJobCard

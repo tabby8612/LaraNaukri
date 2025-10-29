@@ -33,9 +33,7 @@ class JobsTable {
                     ->sortable()->searchable(isIndividual: true),
                 TextColumn::make('title')
                     ->searchable(isIndividual: true),
-                TextColumn::make('description')
-                    ->html()
-                    ->formatStateUsing(fn($state) => Str::of($state)->words('5')),
+
                 TextColumn::make('city.name'),
                 TextColumn::make('slug'),
             ])

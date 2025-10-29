@@ -66,7 +66,7 @@
             <div class="p-4">
                 <h1 class="font-montserrat text-2xl font-bold">Objective</h1>
                 <hr class="my-2" />
-                <p>{{ $candidate['summary'] }}</p>
+                <p>{!! $candidate['summary'] !!}</p>
                 <div class="mt-5">
                     <h1 class="font-montserrat text-2xl font-bold">Experiences</h1>
                     <hr class="my-2" />

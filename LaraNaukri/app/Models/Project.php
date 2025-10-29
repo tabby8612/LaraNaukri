@@ -14,10 +14,6 @@ class Project extends Model {
         return $this->belongsTo(Candidate::class);
     }
 
-    protected function casts(): array {
-        return [
-            'ongoing' => 'boolean',
-        ];
-    }
+
 
 }

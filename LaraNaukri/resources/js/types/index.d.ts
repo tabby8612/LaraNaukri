@@ -2,7 +2,9 @@ import { LucideIcon } from 'lucide-react';
 import type { Config } from 'ziggy-js';
 
 export interface Auth {
-    user: User;
+    user: User | null;
+    candidate: Candidate | null;
+    employer: Company | null;
 }
 
 export interface BreadcrumbItem {
@@ -42,6 +44,27 @@ export interface User {
     [key: string]: unknown; // This allows for additional properties...
 }
 
+export type Terms = {
+    title: string;
+    id: string;
+    description: string;
+    slug: string;
+    seo_title: string;
+};
+
+export type About = {
+    title: string;
+    id: string;
+    description: string;
+    slug: string;
+    seo_title: string;
+};
+
+export type FAQ = {
+    id: string;
+    question: string;
+    answer: string;
+};
 export type Company = {
     id: number;
     user_id: string;
@@ -292,7 +315,7 @@ type Project = {
     name: string;
     url: string;
     image_path: string;
-    ongoing: boolean;
+    ongoing: number;
     start_date: string;
     end_date: string;
     description: string;

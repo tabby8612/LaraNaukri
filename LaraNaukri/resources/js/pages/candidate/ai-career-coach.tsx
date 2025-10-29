@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import AppCandidateLayout from '@/layouts/app/app-candidate-layout';
-import { useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { Loader2, Send } from 'lucide-react';
 import { FormEvent, useState } from 'react';
 
@@ -70,6 +70,7 @@ export default function AICareerCoach() {
 
     return (
         <AppCandidateLayout displaySearch={false} page="ai-career-coach" titleText="AI Career Coach">
+            <Head title="AI Career Coach" />
             <h1 className="mt-3 text-center font-montserrat text-2xl font-bold text-primary">Start Asking Question From Your AI Career Coach</h1>
             <section className="mt-3 min-h-[70vh] bg-green-50 p-3">
                 {messages.length > 0 ? (

@@ -16,7 +16,7 @@ export default function DescriptionCard({ type, description }: Props) {
                 </div>
             </CardTitle>
             <CardDescription>
-                <div dangerouslySetInnerHTML={{ __html: description }}></div>
+                <div className="headingGap" dangerouslySetInnerHTML={{ __html: description }}></div>
             </CardDescription>
         </Card>
     );

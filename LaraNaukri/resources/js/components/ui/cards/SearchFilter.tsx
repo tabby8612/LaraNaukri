@@ -1,26 +1,27 @@
+import { FilteredJobs } from '@/types';
 import { useState } from 'react';
 import FilterItem from './FilterItem';
-import { FilteredJobs } from '@/types';
-
 
 type FilterProps = {
     widgetTitle: string;
     data: FilteredJobs[];
     filterKey: keyof FilteredJobs;
-}
+};
 
 export default function SearchFilter({ widgetTitle, data, filterKey }: FilterProps) {
     const [showAll, setShowAll] = useState(false);
 
     function getFilterData(data: FilteredJobs[], key: typeof filterKey) {
-        const filteredData = data.reduce((acc, currObj) => {
-            const filterKeyValue = String(currObj[key]);
+        const filteredData = data.reduce(
+            (acc, currObj) => {
+                const filterKeyValue = String(currObj[key]);
 
-            acc[filterKeyValue] = !acc[filterKeyValue] ? 1 : ++acc[filterKeyValue];
+                acc[filterKeyValue] = !acc[filterKeyValue] ? 1 : ++acc[filterKeyValue];
 
-            return acc;
-
-        }, {} as Record<string, number>)
+                return acc;
+            },
+            {} as Record<string, number>,
+        );
 
         return filteredData;
     }
@@ -35,14 +36,11 @@ export default function SearchFilter({ widgetTitle, data, filterKey }: FilterPro
         listItems = Object.entries(filteredData);
     }
 
-
     return (
         <div className="mt-3">
             <h1 className="my-5 font-semibold">{`Jobs By ${widgetTitle}`.toLocaleUpperCase()}</h1>
 
-            {filteredData && listItems.map((item) => (
-                <FilterItem name={item[0]} count={item[1]} key={item[0]} columnName={filterKey} />
-            ))}
+            {filteredData && listItems.map((item) => <FilterItem name={item[0]} count={item[1]} key={item[0]} columnName={filterKey} />)}
             {filteredData && Object.entries(filteredData).length > 3 && (
                 <p className="cursor-pointer font-semibold text-primary" onClick={() => setShowAll(!showAll)}>
                     View {showAll ? 'Less' : 'More'}
@@ -53,5 +51,3 @@ export default function SearchFilter({ widgetTitle, data, filterKey }: FilterPro
         </div>
     );
 }
-
-
