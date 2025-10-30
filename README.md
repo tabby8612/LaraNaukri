@@ -7,7 +7,6 @@
 
 ---
 
-![Homepage](LaraNaukri/LaraNaukri/screenshot/homepage.png)
 ![Homepage](LaraNaukri/screenshot/homepage.png)
 
 **Laranaukri** is a modern, mobile-friendly, and AI-powered Job Portal System built with **Laravel 12**, **Inertia.js**, **React 18+**, and **Filament 4**.
@@ -35,7 +34,7 @@ It delivers a full recruitment ecosystem for **Job Seekers**, **Job Providers**,
 
 ### 👨‍💼 Job Seeker
 
-![Candidate Dashboard](/LaraNaukri/LaraNaukri/screenshot/candidate_dashboard.png)
+![Candidate Dashboard](LaraNaukri/screenshot/candidate_dashboard.png)
 
 Manage all details of job seekers — including professional profiles, education, skills, and resumes.  
 Job seekers can build dynamic profiles and manage every career detail easily.
@@ -54,13 +53,13 @@ Job seekers can build dynamic profiles and manage every career detail easily.
 
 **10-min Candidate Dashboard Walkthrough**
 
-[![Candidate Dashboard Tour](/LaraNaukri/LaraNaukri/screenshot/Candidate_dashboard_walkthrough.png)](https://www.youtube.com/watch?v=qbbXcB5Y5sU)
+[![Candidate Dashboard Tour](LaraNaukri/screenshot/Candidate_dashboard_walkthrough.png)](https://www.youtube.com/watch?v=qbbXcB5Y5sU)
 
 ---
 
 ### 🏢 Job Provider / Company
 
-![Company Dashboard](/LaraNaukri/LaraNaukri/screenshot/employer_dashboard.png)
+![Company Dashboard](LaraNaukri/screenshot/employer_dashboard.png)
 
 Employers can efficiently manage job postings and candidates using a comprehensive dashboard.
 
@@ -77,13 +76,13 @@ Employers can efficiently manage job postings and candidates using a comprehensi
 
 **10-min Employer Dashboard Walkthrough**
 
-[![Employer Dashboard Tour](/LaraNaukri/LaraNaukri/screenshot/Employer_dashboard_walkthrough.png)](https://www.youtube.com/watch?v=oLeBFrUnpPc)
+[![Employer Dashboard Tour](LaraNaukri/screenshot/Employer_dashboard_walkthrough.png)](https://www.youtube.com/watch?v=oLeBFrUnpPc)
 
 ---
 
 ### 🧑‍💻 Administrator
 
-![Admin Dashboard](/LaraNaukri/LaraNaukri/screenshot/admin_dashboard.png)
+![Admin Dashboard](LaraNaukri/screenshot/admin_dashboard.png)
 
 The **Filament Admin Panel** offers a sleek and powerful backend for full platform management.
 
@@ -100,13 +99,13 @@ The **Filament Admin Panel** offers a sleek and powerful backend for full platfo
 
 **10-min Admin Dashboard Walkthrough**
 
-[![Admin Dashboard Tour](/LaraNaukri/LaraNaukri/screenshot/Admin%20Dashboard%20Walkthrough.png)](https://www.youtube.com/watch?v=lGd-wwMdXpM)
+[![Admin Dashboard Tour](LaraNaukri/screenshot/Admin%20Dashboard%20Walkthrough.png)](https://www.youtube.com/watch?v=lGd-wwMdXpM)
 
 ---
 
 ### 🔍 Job Search Module
 
-![Job Search](/LaraNaukri/LaraNaukri/screenshot/job_search.png)
+![Job Search](LaraNaukri/screenshot/job_search.png)
 
 Browse current vacancies with full job details such as company, skills, and experience required.  
 Includes advanced filters and sorting for a superior job search experience.
