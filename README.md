@@ -7,6 +7,8 @@
 
 ---
 
+![Homepage](/LaraNaukri/LaraNaukri/screenshot/homepage.png)
+
 **Laranaukri** is a modern, mobile-friendly, and AI-powered Job Portal System built with **Laravel 12**, **Inertia.js**, **React 18+**, and **Filament 4**.
 
 It delivers a full recruitment ecosystem for **Job Seekers**, **Job Providers**, and **Administrators** — enhanced by **AI-driven automation**, a **responsive mobile-friendly design**, and a **powerful Filament admin interface**.
@@ -32,6 +34,8 @@ It delivers a full recruitment ecosystem for **Job Seekers**, **Job Providers**,
 
 ### 👨‍💼 Job Seeker
 
+![Candidate Dashboard](/LaraNaukri/LaraNaukri/screenshot/candidate_dashboard.png)
+
 Manage all details of job seekers — including professional profiles, education, skills, and resumes.  
 Job seekers can build dynamic profiles and manage every career detail easily.
 
@@ -47,9 +51,15 @@ Job seekers can build dynamic profiles and manage every career detail easily.
 - View and follow companies
 - Messaging between seekers and employers
 
+**10-min Candidate Dashboard Walkthrough**
+
+[![Candidate Dashboard Tour](/LaraNaukri/LaraNaukri/screenshot/Candidate_dashboard_walkthrough.png)](https://www.youtube.com/watch?v=qbbXcB5Y5sU)
+
 ---
 
 ### 🏢 Job Provider / Company
+
+![Company Dashboard](/LaraNaukri/LaraNaukri/screenshot/employer_dashboard.png)
 
 Employers can efficiently manage job postings and candidates using a comprehensive dashboard.
 
@@ -64,9 +74,15 @@ Employers can efficiently manage job postings and candidates using a comprehensi
 - View detailed candidate profiles and download resumes
 - Manage company followers and communication
 
+**10-min Employer Dashboard Walkthrough**
+
+[![Employer Dashboard Tour](/LaraNaukri/LaraNaukri/screenshot/Employer_dashboard_walkthrough.png)](https://www.youtube.com/watch?v=oLeBFrUnpPc)
+
 ---
 
 ### 🧑‍💻 Administrator
+
+![Admin Dashboard](/LaraNaukri/LaraNaukri/screenshot/admin_dashboard.png)
 
 The **Filament Admin Panel** offers a sleek and powerful backend for full platform management.
 
@@ -81,9 +97,15 @@ The **Filament Admin Panel** offers a sleek and powerful backend for full platfo
 - Configure employer and seeker packages
 - Update global site settings and appearance
 
+**10-min Admin Dashboard Walkthrough**
+
+[![Admin Dashboard Tour](/LaraNaukri/LaraNaukri/screenshot/Admin%20Dashboard%20Walkthrough.png)](https://www.youtube.com/watch?v=lGd-wwMdXpM)
+
 ---
 
 ### 🔍 Job Search Module
+
+![Job Search](/LaraNaukri/LaraNaukri/screenshot/job_search.png)
 
 Browse current vacancies with full job details such as company, skills, and experience required.  
 Includes advanced filters and sorting for a superior job search experience.
@@ -209,27 +231,19 @@ Ensure you have:
 
 ## Folder Structure
 
-laranaukri/
-
-├── app/ # Laravel backend (models, controllers, jobs, etc.)
-
-├── database/ # Migrations and seeders
-
-├── public/ # Public assets
-
-├── resources/
-
-│ ├── js/ # React + Inertia frontend components
-
-│ ├── views/ # Blade views (Filament + layouts)
-
-│ └── css/ # Tailwind styles
-
-├── routes/ # Web, API, and Filament routes
-
-├── storage/ # File uploads and cache
-
-└── .env.example # Environment configuration example
+```bash
+    laranaukri/
+        ├── app/ # Laravel backend (models, controllers, jobs, etc.)
+        ├── database/ # Migrations and seeders
+        ├── public/ # Public assets
+        ├── resources/
+            │ ├── js/ # React + Inertia frontend components
+            │ ├── views/ # Blade views (Filament + layouts)
+            │ └── css/ # Tailwind styles
+        ├── routes/ # Web, API, and Filament routes
+        ├── storage/ # File uploads and cache
+        └── .env.example # Environment configuration example
+```
 
 ## Author
 
