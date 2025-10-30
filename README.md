@@ -7,7 +7,8 @@
 
 ---
 
-![Homepage](/LaraNaukri/LaraNaukri/screenshot/homepage.png)
+![Homepage](LaraNaukri/LaraNaukri/screenshot/homepage.png)
+![Homepage](LaraNaukri/screenshot/homepage.png)
 
 **Laranaukri** is a modern, mobile-friendly, and AI-powered Job Portal System built with **Laravel 12**, **Inertia.js**, **React 18+**, and **Filament 4**.
 
