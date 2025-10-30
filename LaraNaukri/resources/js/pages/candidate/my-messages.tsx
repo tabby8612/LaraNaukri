@@ -83,7 +83,7 @@ export default function MyMessages() {
     return (
         <AppCandidateLayout displaySearch={false} page="messages" titleText="My Messages">
             <Head title="Seeker Messages" />
-            <h1 className="font-montserrat text-2xl font-bold">Seeker Messages</h1>
+            <h1 className="font-montserrat text-lg font-bold md:text-2xl">Seeker Messages</h1>
             <section className="flex h-[500px]">
                 <div className="w-[30%] bg-gray-200/40" onClick={() => setSelectedUser('')}>
                     {companiesUnlocked.length > 0 &&
@@ -111,13 +111,15 @@ export default function MyMessages() {
                                         key={message.id}
                                     >
                                         <div
-                                            className={`${message.sender_id === senderID ? 'bg-green-600' : 'bg-gray-500'} flex w-fit items-center gap-1 rounded-full px-4 py-1 text-sm text-white`}
+                                            className={`${message.sender_id === senderID ? 'bg-green-600' : 'bg-gray-500'} flex w-10/12 items-center justify-between gap-1 rounded-full px-4 py-1 text-[0.8em] text-white md:w-fit md:text-sm`}
                                         >
                                             <p>{message.message}</p>
-                                            <span className="pl-9 text-xs"> {message.created_at}</span>
-                                            {message.sender_id === senderID && (
-                                                <CheckCheck className={`size-4 self-end ${message.status === 'read' && 'text-sky-400'}`} />
-                                            )}
+                                            <div className="flex gap-2">
+                                                <span className="pl-9 text-xs"> {message.created_at}</span>
+                                                {message.sender_id === senderID && (
+                                                    <CheckCheck className={`size-4 self-end ${message.status === 'read' && 'text-sky-400'}`} />
+                                                )}
+                                            </div>
                                         </div>
                                     </Card>
                                 ))}

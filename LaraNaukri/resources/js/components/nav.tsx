@@ -35,6 +35,7 @@ export default function Nav({ page }: { page: string }) {
         }
 
         function handleResize() {
+            console.log(window.screen.width);
             if (window.screen.width < 1000) {
                 setIsMobNav(true);
             } else {
@@ -43,7 +44,11 @@ export default function Nav({ page }: { page: string }) {
         }
 
         document.addEventListener('scroll', handleScroll);
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', () => {
+            console.log(`resizing`);
+            console.log(window.screen.width);
+            return window.screen.width < 1000 ? setIsMobNav(true) : setIsMobNav(false);
+        });
         window.addEventListener('load', handleResize);
         // document.addEventListener('resize', handleResize);
 
@@ -74,6 +79,10 @@ export default function Nav({ page }: { page: string }) {
                     <a href={route('home')}>
                         <img src={site_logo} alt="LaraNaukri" className="h-10" />
                     </a>
+                </div>
+
+                <div onClick={() => setIsMobAside(!isMobAside)} className="cursor-pointer md:hidden md:size-0">
+                    <Menu />
                 </div>
 
                 {isMobNav ? (
